@@ -1,7 +1,6 @@
 var db = firebase.firestore();
 console.log(db);
 
-
 var signup = document.getElementById('signup');
 
 signup.addEventListener('submit', async(e) => {
