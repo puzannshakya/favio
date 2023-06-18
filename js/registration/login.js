@@ -8,7 +8,7 @@ signin.addEventListener('click', async(e) => {
     firebase.auth().signInWithEmailAndPassword(signInEmail, signInPassword)
     .then((userCredential) => {
        sessionStorage.setItem("uid",userCredential.user.uid);
-       window.location.href = "./../pages/home.html";
+       window.location.href = "./../../pages/delivery_request_seeker.html";
         const user = userCredential.user;
         alert("You have signed in successfully!");
     })

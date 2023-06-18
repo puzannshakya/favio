@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favio</title>
+</head>
+<body>
+
+    <!DOCTYPE html>
+<html>
+<head>
+    <title>Sign Up Form</title>
+</head>
+<body>
+    <h2>Sign Up</h2>
+    <form id="signup" method="POST">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <label for="phone">Phone:</label>
+        <input type="tel" id="phone" name="phone" required><br><br>
+
+        <label for="dob">Date of Birth:</label>
+        <input type="date" id="dob" name="dob" required><br><br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+
+        <label for="confirm-password">Confirm Password:</label>
+        <input type="password" id="confirm-password" name="confirm-password" required><br><br>
+
+        <label for="driver">Driver:</label>
+        <input type="radio" id="driver-yes" name="driver" value="yes" required>Yes
+        <input type="radio" id="driver-no" name="driver" value="no" required>No<br><br>
+
+        <input type="submit" value="Sign Up" >
+    </form>
+
+
+</body>
+
+    <!-- firebase CDN -->
+<script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-app.js"></script> 
+<script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-firestore.js"></script>  
+
+<!-- firebase files -->
+<script src="./js/firebase-config.js"></script>
+<script src="./js/main.js"></script>
+</html>
+
