@@ -1,64 +1,100 @@
-var db = firebase.firestore();
+const db = firebase.firestore();
 console.log(db);
 
-var signup = document.getElementById('signup');
+const signupForm = document.getElementById('signup');
+signupForm.addEventListener('submit', handleSignup);
 
-signup.addEventListener('submit', async(e) => {
+async function handleSignup(e) {
     e.preventDefault();
 
-    var name = document.getElementById('name').value;
-    var email = document.getElementById('email').value;
-    var phone = document.getElementById('phone').value;
-    var dob = document.getElementById('dob').value;
-    var password = document.getElementById('password').value;
-    var isDriver = document.querySelector('input[name="driver"]:checked');
-    var confirmPassword = document.getElementById('confirm-password').value;
-    if (password == confirmPassword) {
-       
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+    const dob = document.getElementById('dob').value;
+    const dobDate = new Date(dob).getFullYear();
+    const today = new Date().getFullYear();
+    const age = today - dobDate;
 
-        firebase.auth().createUserWithEmailAndPassword(email,password)
-            
-            .then((userCredential) => {
-                const doc_ref = firebase.firestore().collection("users_tests").doc();
-                const documentId= doc_ref.id;
-                doc_ref.set({
-                    id:doc_ref.id,
-                    user_name: name,
-                    email: email,
-                    phone: phone,
-                    dob: dob,
-                    isDriver: isDriver.value,
-                    userId: userCredential.user.uid
-                }).then(() => {
-                    navigateToNextPage(documentId);
-                }).catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                console.log(errorCode + errorMessage)
-            });
+    const password = document.getElementById('password').value;
+    const isDriver = document.querySelector('input[name="driver"]:checked');
+    const confirmPassword = document.getElementById('confirm-password').value;
 
-                    console.log(doc_ref.id);
-
-                  const userId = userCredential.user.uid;
-              
-                sessionStorage.setItem("uid",userCredential.user.uid);
-                         
-                alert("Your account has been created!");
-                
-            }).catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                console.log(errorCode + errorMessage)
-            })
-        }
-    else {
-        console.log("error");
+    if (!checkPasswordMatch(password, confirmPassword)) {
+        alert("The password you have entered doesn't match");
+        return;
     }
-});
 
+    if (!checkEmailFormat(email)) {
+        alert("Invalid email format");
+        return;
+    }
 
+    if (!checkAgeEligibility(isDriver, age)) {
+        alert("You are not eligible");
+        return;
+    }
+
+    try {
+        const existingEmail = await checkExistingEmail(email);
+        if (existingEmail) {
+            alert('Email already exists');
+            return;
+        }
+
+        const userCredential = await createUserWithEmailAndPassword(email, password);
+
+        const documentId = await createUserDocument(name, email, phone, dob, isDriver.value, userCredential.user.uid);
+
+        console.log(documentId);
+
+        sessionStorage.setItem("uid", userCredential.user.uid);
+
+        navigateToNextPage(documentId);
+
+        alert("Your account has been created!");
+    } catch (error) {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode + errorMessage);
+    }
+}
+
+function checkPasswordMatch(password, confirmPassword) {
+    return password === confirmPassword;
+}
+
+function checkEmailFormat(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+function checkAgeEligibility(isDriver, age) {
+    return isDriver && age >= 18 || !isDriver && age >= 12;
+}
+
+async function checkExistingEmail(email) {
+    const existingEmail = await firebase.auth().fetchSignInMethodsForEmail(email);
+    return existingEmail.length > 0;
+}
+
+async function createUserWithEmailAndPassword(email, password) {
+    return firebase.auth().createUserWithEmailAndPassword(email, password);
+}
+
+async function createUserDocument(name, email, phone, dob, isDriverValue, userId) {
+    const docRef = firebase.firestore().collection("users_tests").doc();
+    await docRef.set({
+        id: docRef.id,
+        user_name: name,
+        email: email,
+        phone: phone,
+        dob: dob,
+        isDriver: isDriverValue,
+        userId: userId
+    });
+    return docRef.id;
+}
 
 function navigateToNextPage(documentId) {
     window.location.href = '../login-payment.html?documentId=' + documentId;
 }
-
