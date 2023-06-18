@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favio</title>
+</head>
+<body>
+
+    <!DOCTYPE html>
+<html>
+<head>
+    <title>Sign Up Form</title>
+</head>
+<body>
+    <h2>Payment</h2>
+    <form id="login_payment" method="POST">
+        <label for="payment_method">Driver:</label>
+        <input type="radio" id="payment_method" name="payment_method" value="credit" required>Credit Card
+        <input type="radio" id="payment_method" name="payment_method" value="debit" required>Debit Card<br><br>
+
+        <label for="card_number">Card No. :</label>
+        <input type="number" id="card_number" name="card_number" required><br><br>
+
+        <label for="card_holder_name">Holder Name :</label>
+        <input type="text" id="card_holder_name" name="card_holder_name" required><br><br>
+
+        <label for="expiry_date">Expire Date :</label>
+        <input type="text" id="expiry_date" name="expiry_date" required><br><br>
+
+        <label for="cvc">CVC :</label>
+        <input type="text" id="cvc" name="cvc" required><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+</body>
+
+    <!-- firebase CDN -->
+<script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-app.js"></script> 
+<script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-firestore.js"></script>  
+
+<!-- firebase files -->
+<script src="./js/firebase-config.js"></script>
+<script src="./js/login-payment.js"></script>
+</html>
+
