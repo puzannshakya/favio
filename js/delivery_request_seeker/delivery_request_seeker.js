@@ -76,3 +76,14 @@ var autocomplete1 = new google.maps.places.Autocomplete(input1, options);
 
 var input2 = document.getElementById("to");
 var autocomplete2 = new google.maps.places.Autocomplete(input2, options);
+
+
+var products = document.getElementsByClassName('pac-item');
+
+alert(products[0].value);
+
+products[0].addEventListener('click', async (e) => {
+    e.preventDefault();
+alert("hello");
+
+});

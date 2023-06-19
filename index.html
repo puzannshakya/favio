@@ -4,28 +4,77 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link rel="stylesheet" href="./css/registration/login.css">
 </head>
 <body>
-     
-    <h2>Sign Up</h2>
-    <form>
+
+    <div class="wrapper">
+
+        <div class="login-banner">
+            <div class="flex">
+                <div class="logo-banner site-logo">
+                    <img src="./img/Favio.png" alt="">
+                    <p>Delivering a sustainable future, one ride at a time.</p>
+                </div>
+            </div>
+            <div class="circles">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+
+        <div class="form">
+
+            <div class="flex-form">
+
+                <h1>Hola!</h1>
+
+                <form>
+
+                    <div>
+                        <div class="form-food">
+                            <!-- <label for="username">Food Name</label> -->
+                            <input type="text" id="email" name="email"  placeholder="Please enter your Email" required/>
+                        </div>
+
+                        <div class="form-food">
+                            <!-- <label for="username">Food Name</label> -->
+                            <input type="password" id="password" name="password"  placeholder="Please enter your password" required/>
+                        </div>
+
+                    </div>
+
+                    <div>
+
+                        <input type="button" value="Login" id="signin">
+                        <input type="button" value="signup" id="signup">
+
+                        <a href="#">Forgot Password</a>
+
+                        <p>
+                            By proceeding, you consent to get calls or SMS messages, including by automated
+                            means, from Favio.
+                            This site is protected by <a href="#">Privacy Policy</a> and <a href="#">Terms of Service</a>
+                            apply.
+                        </p>
+
+                    </div>
 
 
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br><br>
+                </form>
+            </div>
+        </div>
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required><br><br>
+    </div>
 
-
-        <input type="button" value="Login" id="signin">
-        <input type="button" value="signup" id="signup">
-    </form>
-</form>
-
-
-     
-    
 </body>
 <!-- firebase CDN -->
 <script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-app.js"></script> 
