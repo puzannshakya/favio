@@ -1,5 +1,50 @@
-//javascript.js
-//set map options
+/**
+ * read the current geolocation position & handling
+it, when it fails. 
+*/
+if ( navigator.geolocation ) {
+navigator.geolocation.getCurrentPosition(
+( position ) => { // success callback is passed a GeoLocationPosition
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+console.log( "latitude = " + latitude );
+console.log( "longitude = " + longitude );
+// Make a request to the Google Maps Geocoding API
+const geocodingUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyDFyOKnoicCueguKZctIMwiDDD-bZ35VMA`;
+
+  
+fetch(geocodingUrl)
+  .then(response => response.json())
+  .then(data => {
+    if (data.status === 'OK') {
+      const formattedAddress = data.results[0].formatted_address;
+        //Putting the formatted address in the input text box of origin
+        from.value = formattedAddress;
+      console.log('Formatted Address:', formattedAddress);
+    } else {
+      console.log('Geocoding API request failed.');
+    }
+  })
+  .catch(error => {
+    console.log('Error:', error);
+  });
+
+
+
+
+},
+( error ) => { // failure callback is passed an error object
+console.log( error );
+if ( error.code == error.PERMISSION_DENIED ) {
+window.alert( "geolocation permission denied" );
+}
+});
+} else { // no geolocation in navigator. in case running in an old browser
+console.log( "Geolocation is not supported by this browser." );
+}
+
+
+
 var myLatLng = { lat: 49.2820, lng: -123.1171 };
 var mapOptions = {
     center: myLatLng,
