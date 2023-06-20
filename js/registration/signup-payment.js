@@ -24,7 +24,15 @@ login_payment.addEventListener('submit', async (e) => {
             cvc
         });
         alert("User information updated successfully!");
+
+        navigateToNextPage();
+        
     } catch (error) {
         console.log("Error updating user information:", error);
     }
 });
+
+
+function navigateToNextPage() {
+    window.location.href = './select-vechicle-driver.html';
+}
