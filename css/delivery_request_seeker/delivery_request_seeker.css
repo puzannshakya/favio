@@ -196,7 +196,7 @@ button {
 }
 
 .button-confirmation {
-    position: fixed;
+    /* position: fixed; */
     bottom: 0;
     left: 0;
     width: 50%;
