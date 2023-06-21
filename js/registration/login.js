@@ -8,6 +8,7 @@ signin.addEventListener('click', async(e) => {
     .then((userCredential) => {
         alert("You have signed in successfully!");
        sessionStorage.setItem("uid",userCredential.user.uid);
+     
        window.location.href = "./../../pages/delivery_request_seeker/delivery_request_seeker.html";
        
     })

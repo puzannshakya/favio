@@ -90,7 +90,7 @@ async function createUserDocument(name, email, phone, dob, isDriverValue, userId
         phone: phone,
         dob: dob,
         isDriver: isDriverValue,
-        userId: userId
+        userId: docRef.id
     });
     return docRef.id;
 }

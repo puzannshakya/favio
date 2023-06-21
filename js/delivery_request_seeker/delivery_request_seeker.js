@@ -1,3 +1,30 @@
+let uid = (sessionStorage.getItem("uid"));
+let user_name;
+if(uid == null){
+  uid = 'jIqGYzdFTxUz5IVrFPGo';
+}
+
+getUserData();
+
+async function getUserData(){
+  //delete this after testing
+
+      
+   let docData =  await firebase.firestore().collection("users_tests").doc(uid).get();
+    if(docData.exists){
+      user_name = docData.data().user_name;
+      console.log(user_name);
+    }
+    else{
+      console.log("No Such document");
+    }
+  
+ 
+}
+
+
+/****** Loading Map Part and origin and destination */
+
 /**
  * read the current geolocation position & handling
 it, when it fails. 
@@ -28,9 +55,6 @@ fetch(geocodingUrl)
   .catch(error => {
     console.log('Error:', error);
   });
-
-
-
 
 },
 ( error ) => { // failure callback is passed an error object
@@ -123,12 +147,123 @@ var input2 = document.getElementById("to");
 var autocomplete2 = new google.maps.places.Autocomplete(input2, options);
 
 
-var products = document.getElementsByClassName('pac-item');
+/****** Ending of Loading Map Part and origin and destination */
 
-alert(products[0].value);
 
-products[0].addEventListener('click', async (e) => {
-    e.preventDefault();
-alert("hello");
+/****************** Loading Courier Options *************/
+var db = firebase.firestore();
 
+db.collection("courier-option").get().then(function(query) {
+    var data = [];
+    query.forEach(function(doc) {
+        
+        console.log(doc);
+        console.log(doc.data());
+        console.log(doc.data()['courier-options-name']);
+
+        data.push(doc.data());
+    });
+    generateContent(data);
+}).catch(function(error) {
+    console.log("Error getting documents: ", error);
 });
+
+function selectObject(array, propertyName, value) {
+    return array.find(function(object) {
+      return object[propertyName] === value;
+    });
+}
+
+function generateContent(data) {
+    const option_name_from_db =  ['Walk', 'Bikes or Scooters', 'Cars', 'Transit'];
+    const option_img_name =  ['walk', 'bike', 'car', 'transportation'];
+
+    const courier_option = document.getElementById('courier-option');
+    // subject
+    const courier_option_head = document.createElement("h2");
+    courier_option_head.textContent = "Courier Options";
+    courier_option.appendChild(courier_option_head);
+
+    option_name_from_db.forEach((option, index) => {
+        const courier_item = selectObject(data, 'courier-options-name', option);
+        const div = document.createElement("div");
+        div.innerHTML = `
+            <div class="form-courier-options">
+                <div class="options">
+                    <a href="#">
+                        <div class="courier-icon" >
+                            <img src="./../../img/${option_img_name[index]}.svg" alt="${option}-img">
+                        </div>
+                        <div class="form-option">
+                            <h3>${option}</h3>
+                            <div class="courier-info">
+                                <p>0kg - ${courier_item['weight-limit']}kg <br> ${courier_item['size-limit']} X ${courier_item['size-limit']} X ${courier_item['size-limit']} Centimeters</p>
+                                <p>Cheapest and most sustainable delivery option: earn points every time you
+                                    use sustainable delivery
+                                <p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        `;
+        courier_option.appendChild(div); 
+});
+}
+
+
+
+/****************** Ending of Loading Courier Options *************/
+
+
+
+
+/******************** Saving the Delivery Request to Db **********/
+
+
+
+async function saveDeliveryRequest(){
+ let originInput = from.value;
+ let destinationInput= to.value;
+ let originLatitude;
+ let originLongitude;
+ let destinationLatitude;
+ let destinationLongitude;
+ console.log(`originInput:${originInput}`);
+ console.log(`destinationInput:${destinationInput}`);
+
+ const docRef = firebase.firestore().collection("delivery_request_tests").doc();
+    await docRef.set({
+      deliveryRequestId: docRef.id,
+      userId: uid,
+      delivery_requested_by : user_name,
+      origin_name : originInput,
+      destination_name : destinationInput,
+
+
+    });
+
+
+ // Make a request to the Google Maps Geocoding API
+const geocodingUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(originInput)}&key=YOUR_API_KEY`;
+
+fetch(geocodingUrl)
+  .then(response => response.json())
+  .then(data => {
+    if (data.status === 'OK') {
+      const location = data.results[0].geometry.location;
+      originLatitude = location.lat;
+      originLongitude = location.lng;
+      console.log('Latitude:', latitude);
+      console.log('Longitude:', longitude);
+
+      
+    } else {
+      console.log('Geocoding API request failed.');
+    }
+  })
+  .catch(error => {
+    console.log('Error:', error);
+  });
+}
+
