@@ -245,6 +245,7 @@ function generateContent(data) {
 
 
 async function saveDeliveryRequest(){
+  alert("saveDeliveryRequest");
  let originInput = from.value;
  let destinationInput= to.value;
  let originLatitude;
@@ -261,23 +262,56 @@ async function saveDeliveryRequest(){
       delivery_requested_by : user_name,
       origin_name : originInput,
       destination_name : destinationInput,
+      created_at : new Date().toISOString(),
 
 
     });
 
 
- // Make a request to the Google Maps Geocoding API
-const geocodingUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(originInput)}&key=YOUR_API_KEY`;
+ // Make a request to the Google Maps Geocoding API for Origin
+const geocodingUrlOrigin = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(originInput)}&key=AIzaSyDFyOKnoicCueguKZctIMwiDDD-bZ35VMA`;
 
-fetch(geocodingUrl)
+fetch(geocodingUrlOrigin)
   .then(response => response.json())
   .then(data => {
     if (data.status === 'OK') {
       const location = data.results[0].geometry.location;
       originLatitude = location.lat;
       originLongitude = location.lng;
-      console.log('Latitude:', latitude);
-      console.log('Longitude:', longitude);
+      console.log('Latitude:', originLatitude);
+      console.log('Longitude:', originLongitude);
+       docRef.update({
+        origin_geolocation: new firebase.firestore.GeoPoint(originLatitude, originLongitude)
+  
+  
+      });
+
+      
+    } else {
+      console.log('Geocoding API request failed.');
+    }
+  })
+  .catch(error => {
+    console.log('Error:', error);
+  });
+
+  // Make a request to the Google Maps Geocoding API for Origin
+const geocodingUrlDestination = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(destinationInput)}&key=AIzaSyDFyOKnoicCueguKZctIMwiDDD-bZ35VMA`;
+
+fetch(geocodingUrlOrigin)
+  .then(response => response.json())
+  .then(data => {
+    if (data.status === 'OK') {
+      const location = data.results[0].geometry.location;
+      destinationLatitude = location.lat;
+      destinationLongitude = location.lng;
+      console.log('Latitude:', destinationLatitude);
+      console.log('Longitude:', destinationLongitude);
+       docRef.update({
+        destination_geolocation: new firebase.firestore.GeoPoint(destinationLatitude, destinationLongitude)
+  
+  
+      });
 
       
     } else {
