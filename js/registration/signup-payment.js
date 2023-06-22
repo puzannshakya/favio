@@ -6,6 +6,7 @@ login_payment.addEventListener('submit', async (e) => {
     const params = new URLSearchParams(window.location.search);
     const documentId = params.get('documentId');
     const uid =   sessionStorage.getItem("uid");
+    sessionStorage.setItem("documentId", documentId);
     console.log(uid);
     console.log("documentId:", documentId); 
 
@@ -34,5 +35,5 @@ login_payment.addEventListener('submit', async (e) => {
 
 
 function navigateToNextPage() {
-    window.location.href = './select-vechicle-driver.html';
+    window.location.href = './select-vehicle-driver.html';
 }
