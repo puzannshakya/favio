@@ -229,11 +229,11 @@ function generateContent(data) {
       description.textContent = "Cheapest and most sustainable delivery option: earn points every time you use sustainable delivery.";
       courierInfoText.appendChild(description);
   });
-  const submitButton = document.createElement("button");
-  submitButton.type = "submit";
-  submitButton.id = "submit-courier";
-  submitButton.textContent = "Select courier";
-  courier_form.appendChild(submitButton);
+  // const submitButton = document.createElement("button");
+  // submitButton.type = "submit";
+  // submitButton.id = "submit-courier";
+  // submitButton.textContent = "Select courier";
+  // courier_form.appendChild(submitButton);
 }
 /****************** Ending of Loading Courier Options *************/
 
