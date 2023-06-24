@@ -3,9 +3,10 @@ let user_name;
 if(userDocId == null){
   userDocId = 'jIqGYzdFTxUz5IVrFPGo';
 }
-
 let selectedVehicle = "Car";
-let selectedVehicleRadio = document.getElementById('');
+
+
+// selectedVehicleRadio.checked = true;
 
 getUserData();
 
@@ -98,10 +99,36 @@ directionsDisplay.setMap(map);
 function calcRoute() {
     alert("hello");
     //create request
+    const checkedVechicleRadio = document.querySelector('input[name="courier-option-radio"]:checked');
+    console.log(checkedVechicleRadio.value);
+     let travelMode = google.maps.TravelMode.DRIVING;
+
+     switch(checkedVechicleRadio.value){
+      case "Walk":
+        alert("walk selected");
+        travelMode = google.maps.TravelMode.WALKING;
+      break;
+
+      case "Bikes or Scooters":
+        alert("Bikes or Scooters selected");
+        travelMode = google.maps.TravelMode.TWO_WHEELER;
+      break;
+
+      case "Cars":
+        alert("Cars selected");
+        travelMode = google.maps.TravelMode.DRIVING;
+      break;
+
+      case "Transit":
+        alert("Transit selected");
+        travelMode = google.maps.TravelMode.TRANSIT;
+      break;
+     }
+     console.log(travelMode);
     var request = {
         origin: document.getElementById("from").value,
         destination: document.getElementById("to").value,
-        travelMode: google.maps.TravelMode.DRIVING, //WALKING, BYCYCLING, TRANSIT
+        travelMode: travelMode, //WALKING, BYCYCLING, TRANSIT
         unitSystem: google.maps.UnitSystem.IMPERIAL
     }
 
@@ -171,6 +198,11 @@ db.collection("courier-option").get().then(function(query) {
         data.push(doc.data());
     });
     generateContent(data);
+   
+    let radioCars = document.getElementById('radioCars');
+    radioCars.checked = true;
+
+   
 }).catch(function(error) {
     console.log("Error getting documents: ", error);
 });
@@ -180,6 +212,7 @@ function selectObject(array, propertyName, value) {
       return object[propertyName] === value;
     });
 }
+
 
 function generateContent(data) {
   const option_name_from_db = ['Walk', 'Bikes or Scooters', 'Cars', 'Transit'];
@@ -201,13 +234,15 @@ function generateContent(data) {
 
       const radioInput = document.createElement("input");
       radioInput.type = "radio";
-      radioInput.id = `radio-${option}`;
+      radioInput.id = `radio${option}`;
       radioInput.name = "courier-option-radio";
+      radioInput.talk = "courier-option-radio";
+      radioInput.onchange = calcRoute;
       radioInput.value = option;
       radioContainer.appendChild(radioInput);
 
       const radioLabel = document.createElement("label");
-      radioLabel.htmlFor = `radio-${option}`;
+      radioLabel.htmlFor = `radio${option}`;
       radioLabel.textContent = option;
       radioContainer.appendChild(radioLabel);
 
@@ -246,7 +281,6 @@ function generateContent(data) {
 
 
 
-
 /******************** Saving the Delivery Request to Db **********/
 
 
@@ -265,7 +299,7 @@ async function saveDeliveryRequest(){
  const docRef = firebase.firestore().collection("delivery_request_tests").doc();
     await docRef.set({
       deliveryRequestId: docRef.id,
-      userDocId: userDocId,
+      seekerDocId: userDocId,
       delivery_requested_by : user_name,
       origin_name : originInput,
       destination_name : destinationInput,
