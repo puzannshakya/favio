@@ -42,14 +42,18 @@ async function handleSignup(e) {
         }
 
         const userCredential = await createUserWithEmailAndPassword(email, password);
+        const isDriverFlag = isDriver.value === "yes" ? true : false;
+        console.log(`isDriver:${isDriver}`);
+        console.log(`isDriverFlag:${isDriverFlag}`);
 
-        const documentId = await createUserDocument(name, email, phone, dob, isDriver.value, userCredential.user.uid);
+        const userDocId = await createUserDocument(name, email, phone, dob, isDriverFlag, userCredential.user.uid);
 
-        console.log(documentId);
+        console.log(userDocId);
 
-        sessionStorage.setItem("uid", userCredential.user.uid);
+        sessionStorage.setItem("userDocId",userDocId);
+        sessionStorage.setItem("isDriver",isDriverFlag);
 
-        navigateToNextPage(documentId);
+        navigateToNextPage();
 
         alert("Your account has been created!");
     } catch (error) {
@@ -95,6 +99,6 @@ async function createUserDocument(name, email, phone, dob, isDriverValue, userId
     return docRef.id;
 }
 
-function navigateToNextPage(documentId) {
-    window.location.href = './../../pages/registration/signup-payment.html?documentId=' + documentId;
+function navigateToNextPage() {
+    window.location.href = './../../pages/registration/signup-payment.html';
 }

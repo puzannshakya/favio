@@ -1,13 +1,12 @@
 const select_option_driver = document.getElementById('select-option-driver');
-console.log(sessionStorage.getItem("uid"));
-console.log(sessionStorage.getItem("documentId"));
+console.log(sessionStorage.getItem("userDocId"));
 
 select_option_driver.addEventListener('click', async (e) => {
     e.preventDefault();
     const selected_vehicle = document.querySelector('input[name="vehicle"]:checked');
     console.log(selected_vehicle.value)
     //  const documentId = 'L4ZlXvu0t8aycD4GOzi8';
-    const documentId = sessionStorage.getItem("documentId");
+    const documentId = sessionStorage.getItem("userDocId");
 
 
 

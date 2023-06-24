@@ -3,12 +3,13 @@ const login_payment = document.getElementById('login_payment');
 login_payment.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const params = new URLSearchParams(window.location.search);
-    const documentId = params.get('documentId');
-    const uid =   sessionStorage.getItem("uid");
-    sessionStorage.setItem("documentId", documentId);
-    console.log(uid);
-    console.log("documentId:", documentId); 
+    const userDocId =   sessionStorage.getItem("userDocId");
+    const isDriver = Boolean(sessionStorage.getItem("isDriver"));
+
+    console.log(userDocId);
+    console.log(isDriver);
+    
+
 
     const payment_method = document.getElementById('payment_method').value;
     const card_number = document.getElementById('card_number').value;
@@ -17,7 +18,7 @@ login_payment.addEventListener('submit', async (e) => {
     const cvc = document.getElementById('cvc').value;
 
     try {
-        await firebase.firestore().collection("users_tests").doc(documentId).update({
+        await firebase.firestore().collection("users_tests").doc(userDocId).update({
             payment_method,
             card_number,
             card_holder_name,
@@ -26,7 +27,7 @@ login_payment.addEventListener('submit', async (e) => {
         });
         alert("User information updated successfully!");
 
-        navigateToNextPage();
+        navigateToNextPage(isDriver);
         
     } catch (error) {
         console.log("Error updating user information:", error);
@@ -34,6 +35,12 @@ login_payment.addEventListener('submit', async (e) => {
 });
 
 
-function navigateToNextPage() {
-    window.location.href = './select-vehicle-driver.html';
+function navigateToNextPage(isDriver) {
+    console.log(isDriver);
+    if(isDriver){
+        window.location.href = './select-vehicle-driver.html';
+    }else{
+        window.location.href = './../../index.html';
+    }
+  
 }
