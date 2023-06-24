@@ -1,16 +1,19 @@
-let uid = (sessionStorage.getItem("uid"));
+let userDocId = (sessionStorage.getItem("userDocId"));
 let user_name;
-if(uid == null){
-  uid = 'jIqGYzdFTxUz5IVrFPGo';
+if(userDocId == null){
+  userDocId = 'jIqGYzdFTxUz5IVrFPGo';
 }
+
+let selectedVehicle = "Car";
+let selectedVehicleRadio = document.getElementById('');
 
 getUserData();
 
 async function getUserData(){
   //delete this after testing
 
-      
-   let docData =  await firebase.firestore().collection("users_tests").doc(uid).get();
+    console.log(userDocId);
+   let docData =  await firebase.firestore().collection("users_tests").doc(userDocId).get();
     if(docData.exists){
       user_name = docData.data().user_name;
       console.log(user_name);
@@ -105,12 +108,16 @@ function calcRoute() {
     //pass the request to the route method
     directionsService.route(request, function (result, status) {
         if (status == google.maps.DirectionsStatus.OK) {
+         
 
             // //Get distance and time
             // const output = document.querySelector('#output');
             // output.innerHTML = "<div class='alert-info'>From: " + document.getElementById("from").value + ".<br />To: " + document.getElementById("to").value + ".<br /> Driving distance <i class='fas fa-road'></i> : " + result.routes[0].legs[0].distance.text + ".<br />Duration <i class='fas fa-hourglass-start'></i> : " + result.routes[0].legs[0].duration.text + ".</div>";
 
             //display route
+            estimatedDistance.innerHTML = result.routes[0].legs[0].distance.text;
+            estimatedTime.innerHTML = result.routes[0].legs[0].duration.text;
+
             directionsDisplay.setDirections(result);
         } else {
             //delete route from map
@@ -258,7 +265,7 @@ async function saveDeliveryRequest(){
  const docRef = firebase.firestore().collection("delivery_request_tests").doc();
     await docRef.set({
       deliveryRequestId: docRef.id,
-      userId: uid,
+      userDocId: userDocId,
       delivery_requested_by : user_name,
       origin_name : originInput,
       destination_name : destinationInput,

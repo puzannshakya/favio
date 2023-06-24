@@ -85,16 +85,16 @@ async function createUserWithEmailAndPassword(email, password) {
     return firebase.auth().createUserWithEmailAndPassword(email, password);
 }
 
-async function createUserDocument(name, email, phone, dob, isDriverValue, userId) {
-    const docRef = firebase.firestore().collection("users_tests").doc();
+async function createUserDocument(name, email, phone, dob, isDriverValue, uid) {
+    const docRef = firebase.firestore().collection("users_tests").doc(uid);
     await docRef.set({
-        id: docRef.id,
+        uid: uid,
         user_name: name,
         email: email,
         phone: phone,
         dob: dob,
         isDriver: isDriverValue,
-        userId: docRef.id
+        userDocId: docRef.id
     });
     return docRef.id;
 }

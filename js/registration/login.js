@@ -9,7 +9,7 @@ signin.addEventListener('click', async(e) => {
     firebase.auth().signInWithEmailAndPassword(signInEmail, signInPassword)
     .then((userCredential) => {
         alert("You have signed in successfully!");
-       sessionStorage.setItem("uid",userCredential.user.uid);
+       sessionStorage.setItem("userDocId",userCredential.user.uid);
        sessionStorage.setItem("isDriver",isDriver.value);
      
        if(isDriver.value === "yes"){
