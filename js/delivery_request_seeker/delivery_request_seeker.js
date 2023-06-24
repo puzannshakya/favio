@@ -1,5 +1,9 @@
 let userDocId = (sessionStorage.getItem("userDocId"));
 let user_name;
+let delivery_estimated_time;
+let delivery_total_fee;
+let delivery_distance;
+
 if(userDocId == null){
   userDocId = 'jIqGYzdFTxUz5IVrFPGo';
 }
@@ -142,8 +146,10 @@ function calcRoute() {
             // output.innerHTML = "<div class='alert-info'>From: " + document.getElementById("from").value + ".<br />To: " + document.getElementById("to").value + ".<br /> Driving distance <i class='fas fa-road'></i> : " + result.routes[0].legs[0].distance.text + ".<br />Duration <i class='fas fa-hourglass-start'></i> : " + result.routes[0].legs[0].duration.text + ".</div>";
 
             //display route
-            estimatedDistance.innerHTML = result.routes[0].legs[0].distance.text;
-            estimatedTime.innerHTML = result.routes[0].legs[0].duration.text;
+            delivery_distance = result.routes[0].legs[0].distance.text;
+            delivery_estimated_time = result.routes[0].legs[0].duration.text;
+            estimatedDistance.innerHTML = delivery_distance;
+            estimatedTime.innerHTML = delivery_estimated_time;
 
             directionsDisplay.setDirections(result);
         } else {
@@ -215,8 +221,11 @@ function selectObject(array, propertyName, value) {
 
 
 function generateContent(data) {
-  const option_name_from_db = ['Walk', 'Bikes or Scooters', 'Cars', 'Transit'];
-  const option_img_name = ['walk', 'bike', 'car', 'transportation'];
+  // const option_name_from_db = ['Walk', 'Bikes or Scooters', 'Cars', 'Transit'];
+  // const option_img_name = ['walk', 'bike', 'car', 'transportation'];
+
+  const option_name_from_db = [ 'Bikes or Scooters', 'Cars', 'Transit'];
+  const option_img_name = ['bike', 'car', 'transportation'];
 
   const courier_option = document.getElementById('courier-option');
   const courier_option_head = document.createElement("h2");
@@ -293,6 +302,7 @@ async function saveDeliveryRequest(){
  let originLongitude;
  let destinationLatitude;
  let destinationLongitude;
+ const checkedVechicleRadio = document.querySelector('input[name="courier-option-radio"]:checked');
  console.log(`originInput:${originInput}`);
  console.log(`destinationInput:${destinationInput}`);
 
@@ -303,6 +313,9 @@ async function saveDeliveryRequest(){
       delivery_requested_by : user_name,
       origin_name : originInput,
       destination_name : destinationInput,
+      selected_courier_options: checkedVechicleRadio.value,
+      delivery_distance:delivery_distance,
+      delivery_estimated_time:delivery_estimated_time,
       created_at : new Date().toISOString(),
 
 
@@ -358,6 +371,7 @@ fetch(geocodingUrlOrigin)
     } else {
       console.log('Geocoding API request failed.');
     }
+    alert("Request Created");
   })
   .catch(error => {
     console.log('Error:', error);
