@@ -51,7 +51,7 @@ async function handleSignup(e) {
         console.log(userDocId);
 
         sessionStorage.setItem("userDocId",userDocId);
-        sessionStorage.setItem("isDriver",isDriverFlag);
+        sessionStorage.setItem("isDriver",isDriver.value);
 
         navigateToNextPage();
 

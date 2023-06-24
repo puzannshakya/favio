@@ -4,7 +4,7 @@ login_payment.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const userDocId =   sessionStorage.getItem("userDocId");
-    const isDriver = Boolean(sessionStorage.getItem("isDriver"));
+    const isDriver = sessionStorage.getItem("isDriver");
 
     console.log(userDocId);
     console.log(isDriver);
@@ -37,7 +37,7 @@ login_payment.addEventListener('submit', async (e) => {
 
 function navigateToNextPage(isDriver) {
     console.log(isDriver);
-    if(isDriver){
+    if(isDriver === "yes"){
         window.location.href = './select-vehicle-driver.html';
     }else{
         window.location.href = './../../index.html';
