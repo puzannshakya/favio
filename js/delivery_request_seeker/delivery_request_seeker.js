@@ -3,11 +3,10 @@ let user_name;
 let delivery_estimated_time;
 let delivery_total_fee;
 let delivery_distance;
-var basePrice =2;
 var bookingFee = 2;
-var minimumFare =5;
+var minimumFare = 5;
 
-if(userDocId == null){
+if (userDocId == null) {
   userDocId = 'jIqGYzdFTxUz5IVrFPGo';
 }
 let selectedVehicle = "Car";
@@ -17,20 +16,20 @@ let selectedVehicle = "Car";
 
 getUserData();
 
-async function getUserData(){
+async function getUserData() {
   //delete this after testing
 
-    console.log(userDocId);
-   let docData =  await firebase.firestore().collection("users_tests").doc(userDocId).get();
-    if(docData.exists){
-      user_name = docData.data().user_name;
-      console.log(user_name);
-    }
-    else{
-      console.log("No Such document");
-    }
-  
- 
+  console.log(userDocId);
+  let docData = await firebase.firestore().collection("users_tests").doc(userDocId).get();
+  if (docData.exists) {
+    user_name = docData.data().user_name;
+    console.log(user_name);
+  }
+  else {
+    console.log("No Such document");
+  }
+
+
 }
 
 
@@ -40,52 +39,52 @@ async function getUserData(){
  * read the current geolocation position & handling
 it, when it fails. 
 */
-if ( navigator.geolocation ) {
-navigator.geolocation.getCurrentPosition(
-( position ) => { // success callback is passed a GeoLocationPosition
-    const latitude = position.coords.latitude;
-    const longitude = position.coords.longitude;
-console.log( "latitude = " + latitude );
-console.log( "longitude = " + longitude );
-// Make a request to the Google Maps Geocoding API
-const geocodingUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyDFyOKnoicCueguKZctIMwiDDD-bZ35VMA`;
+if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(
+    (position) => { // success callback is passed a GeoLocationPosition
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+      console.log("latitude = " + latitude);
+      console.log("longitude = " + longitude);
+      // Make a request to the Google Maps Geocoding API
+      const geocodingUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyDFyOKnoicCueguKZctIMwiDDD-bZ35VMA`;
 
-  
-fetch(geocodingUrl)
-  .then(response => response.json())
-  .then(data => {
-    if (data.status === 'OK') {
-      const formattedAddress = data.results[0].formatted_address;
-        //Putting the formatted address in the input text box of origin
-        from.value = formattedAddress;
-      console.log('Formatted Address:', formattedAddress);
-    } else {
-      console.log('Geocoding API request failed.');
-    }
-  })
-  .catch(error => {
-    console.log('Error:', error);
-  });
 
-},
-( error ) => { // failure callback is passed an error object
-console.log( error );
-if ( error.code == error.PERMISSION_DENIED ) {
-window.alert( "geolocation permission denied" );
-}
-});
+      fetch(geocodingUrl)
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === 'OK') {
+            const formattedAddress = data.results[0].formatted_address;
+            //Putting the formatted address in the input text box of origin
+            from.value = formattedAddress;
+            console.log('Formatted Address:', formattedAddress);
+          } else {
+            console.log('Geocoding API request failed.');
+          }
+        })
+        .catch(error => {
+          console.log('Error:', error);
+        });
+
+    },
+    (error) => { // failure callback is passed an error object
+      console.log(error);
+      if (error.code == error.PERMISSION_DENIED) {
+        window.alert("geolocation permission denied");
+      }
+    });
 } else { // no geolocation in navigator. in case running in an old browser
-console.log( "Geolocation is not supported by this browser." );
+  console.log("Geolocation is not supported by this browser.");
 }
 
 
 
 var myLatLng = { lat: 49.2820, lng: -123.1171 };
 var mapOptions = {
-    center: myLatLng,
-    zoom: 14,
-    mapTypeId: google.maps.MapTypeId.ROADMAP,
-    mapId: '8ee82cfaab8ad410'
+  center: myLatLng,
+  zoom: 14,
+  mapTypeId: google.maps.MapTypeId.ROADMAP,
+  mapId: '8ee82cfaab8ad410'
 
 };
 
@@ -104,80 +103,92 @@ directionsDisplay.setMap(map);
 
 //define calcRoute function
 function calcRoute() {
-    alert("hello");
-    //create request
-    const checkedVechicleRadio = document.querySelector('input[name="courier-option-radio"]:checked');
-    console.log(checkedVechicleRadio.value);
-     let travelMode = google.maps.TravelMode.DRIVING;
+  alert("hello");
+  //create request
+  const checkedVechicleRadio = document.querySelector('input[name="courier-option-radio"]:checked');
+  console.log(checkedVechicleRadio.value);
+  let travelMode = google.maps.TravelMode.DRIVING;
 
-     switch(checkedVechicleRadio.value){
-      case "Walk":
-        alert("walk selected");
-        travelMode = google.maps.TravelMode.WALKING;
+  switch (checkedVechicleRadio.value) {
+    case "Walk":
+      alert("walk selected");
+      travelMode = google.maps.TravelMode.WALKING;
       break;
 
-      case "Bikes or Scooters":
-        alert("Bikes or Scooters selected");
-        travelMode = google.maps.TravelMode.TWO_WHEELER;
+    case "Bikes or Scooters":
+      alert("Bikes or Scooters selected");
+      travelMode = google.maps.TravelMode.TWO_WHEELER;
       break;
 
-      case "Cars":
-        alert("Cars selected");
-        travelMode = google.maps.TravelMode.DRIVING;
+    case "Cars":
+      alert("Cars selected");
+      travelMode = google.maps.TravelMode.DRIVING;
       break;
 
-      case "Transit":
-        alert("Transit selected");
-        travelMode = google.maps.TravelMode.TRANSIT;
+    case "Transit":
+      alert("Transit selected");
+      travelMode = google.maps.TravelMode.TRANSIT;
       break;
-     }
-     console.log(travelMode);
-    var request = {
-        origin: document.getElementById("from").value,
-        destination: document.getElementById("to").value,
-        travelMode: travelMode, //WALKING, BYCYCLING, TRANSIT
-        unitSystem: google.maps.UnitSystem.IMPERIAL
-    }
+  }
+  console.log(travelMode);
+  var request = {
+    origin: document.getElementById("from").value,
+    destination: document.getElementById("to").value,
+    travelMode: travelMode, //WALKING, BYCYCLING, TRANSIT
+    unitSystem: google.maps.UnitSystem.IMPERIAL
+  }
 
-    //pass the request to the route method
-    directionsService.route(request, function (result, status) {
-        if (status == google.maps.DirectionsStatus.OK) {
-         
+  //pass the request to the route method
+  directionsService.route(request, function (result, status) {
+    if (status == google.maps.DirectionsStatus.OK) {
 
-            // //Get distance and time
-            // const output = document.querySelector('#output');
-            // output.innerHTML = "<div class='alert-info'>From: " + document.getElementById("from").value + ".<br />To: " + document.getElementById("to").value + ".<br /> Driving distance <i class='fas fa-road'></i> : " + result.routes[0].legs[0].distance.text + ".<br />Duration <i class='fas fa-hourglass-start'></i> : " + result.routes[0].legs[0].duration.text + ".</div>";
 
-            //display route
-            delivery_distance = result.routes[0].legs[0].distance.text;
-            delivery_estimated_time = result.routes[0].legs[0].duration.text;
-            estimatedDistance.innerHTML = delivery_distance;
-            estimatedTime.innerHTML = delivery_estimated_time;
-            const price = calculatePayment(request.travelMode,delivery_distance,delivery_estimated_time);
+      // //Get distance and time
+      // const output = document.querySelector('#output');
+      // output.innerHTML = "<div class='alert-info'>From: " + document.getElementById("from").value + ".<br />To: " + document.getElementById("to").value + ".<br /> Driving distance <i class='fas fa-road'></i> : " + result.routes[0].legs[0].distance.text + ".<br />Duration <i class='fas fa-hourglass-start'></i> : " + result.routes[0].legs[0].duration.text + ".</div>";
 
-            if( price.totalPrice < 10){
-              price.totalPrice + minimumFare;
-              estimatedTotal.innerHTML = `<ul class="FavioPriceUl"> <li> Base Price       ${basePrice} </li>
+      //display route
+      delivery_distance = result.routes[0].legs[0].distance.text;
+      delivery_estimated_time = result.routes[0].legs[0].duration.text;
+      estimatedDistance.innerHTML = delivery_distance;
+      estimatedTime.innerHTML = delivery_estimated_time;
+      const price = calculatePayment(request.travelMode, delivery_distance, delivery_estimated_time);
+
+      if (price.totalPrice < 10) {
+        price.totalPrice = price.totalPrice + minimumFare;
+        estimatedTotal.innerHTML = `${price.totalPrice}
+              
+              <ul class="FavioPriceUl"> <li> Base Price       ${price.basePrice} </li>
                                               <li>Minimum Fare       ${minimumFare}</li>
                                               <li>+ per Km            ${price.distanceMultiplier}</li>
                                               <li>+ per min           ${price.timeMultiplier}</li>
                                               <li> Booking Fee        ${bookingFee}</li> 
-                                              <li> total Fee          ${price.totalPrice}</li></ul>`         
-            }
-            
-            
+                                              </ul>`
+      }
+      else {
+        estimatedTotal.innerHTML = `${price.totalPrice}
+              
+              <ul class="FavioPriceUl"> <li> Base Price       ${price.basePrice} </li>
+                                              <li>+ per Km            ${price.distanceMultiplier}</li>
+                                              <li>+ per min           ${price.timeMultiplier}</li>
+                                              <li> Booking Fee        ${bookingFee}</li> 
+                                              </ul>`
 
-            directionsDisplay.setDirections(result);
-        } else {
-            //delete route from map
-            directionsDisplay.setDirections({ routes: [] });
-            //center map in London
-            map.setCenter(myLatLng);
+      }
 
-            //show error message
-            // output.innerHTML = "<div class='alert-danger'><i class='fas fa-exclamation-triangle'></i> Could not retrieve driving distance.</div>";
-        }
-    });
+
+
+      directionsDisplay.setDirections(result);
+    } else {
+      //delete route from map
+      directionsDisplay.setDirections({ routes: [] });
+      //center map in London
+      map.setCenter(myLatLng);
+
+      //show error message
+      // output.innerHTML = "<div class='alert-danger'><i class='fas fa-exclamation-triangle'></i> Could not retrieve driving distance.</div>";
+    }
+  });
 
 }
 
@@ -193,7 +204,7 @@ function calcRoute() {
 // }
 
 var options = {
-    types: []
+  types: []
 }
 
 var input1 = document.getElementById("from");
@@ -209,30 +220,30 @@ var autocomplete2 = new google.maps.places.Autocomplete(input2, options);
 /****************** Loading Courier Options *************/
 var db = firebase.firestore();
 
-db.collection("courier-option").get().then(function(query) {
-    var data = [];
-    query.forEach(function(doc) {
-        
-        console.log(doc);
-        console.log(doc.data());
-        console.log(doc.data()['courier-options-name']);
+db.collection("courier-option").get().then(function (query) {
+  var data = [];
+  query.forEach(function (doc) {
 
-        data.push(doc.data());
-    });
-    generateContent(data);
-   
-    let radioCars = document.getElementById('radioCars');
-    radioCars.checked = true;
+    console.log(doc);
+    console.log(doc.data());
+    console.log(doc.data()['courier-options-name']);
 
-   
-}).catch(function(error) {
-    console.log("Error getting documents: ", error);
+    data.push(doc.data());
+  });
+  generateContent(data);
+
+  let radioCars = document.getElementById('radioCars');
+  radioCars.checked = true;
+
+
+}).catch(function (error) {
+  console.log("Error getting documents: ", error);
 });
 
 function selectObject(array, propertyName, value) {
-    return array.find(function(object) {
-      return object[propertyName] === value;
-    });
+  return array.find(function (object) {
+    return object[propertyName] === value;
+  });
 }
 
 
@@ -240,7 +251,7 @@ function generateContent(data) {
   // const option_name_from_db = ['Walk', 'Bikes or Scooters', 'Cars', 'Transit'];
   // const option_img_name = ['walk', 'bike', 'car', 'transportation'];
 
-  const option_name_from_db = [ 'Bikes or Scooters', 'Cars', 'Transit'];
+  const option_name_from_db = ['Bikes or Scooters', 'Cars', 'Transit'];
   const option_img_name = ['bike', 'car', 'transportation'];
 
   const courier_option = document.getElementById('courier-option');
@@ -251,50 +262,50 @@ function generateContent(data) {
   courier_option.appendChild(courier_form);
 
   option_name_from_db.forEach((option, index) => {
-      const courier_item = selectObject(data, 'courier-options-name', option);
+    const courier_item = selectObject(data, 'courier-options-name', option);
 
-      const radioContainer = document.createElement("div");
-      radioContainer.classList.add("form-courier-options");
-      courier_form.appendChild(radioContainer);
+    const radioContainer = document.createElement("div");
+    radioContainer.classList.add("form-courier-options");
+    courier_form.appendChild(radioContainer);
 
-      const radioInput = document.createElement("input");
-      radioInput.type = "radio";
-      radioInput.id = `radio${option}`;
-      radioInput.name = "courier-option-radio";
-      radioInput.talk = "courier-option-radio";
-      radioInput.onchange = calcRoute;
-      radioInput.value = option;
-      radioContainer.appendChild(radioInput);
+    const radioInput = document.createElement("input");
+    radioInput.type = "radio";
+    radioInput.id = `radio${option}`;
+    radioInput.name = "courier-option-radio";
+    radioInput.talk = "courier-option-radio";
+    radioInput.onchange = calcRoute;
+    radioInput.value = option;
+    radioContainer.appendChild(radioInput);
 
-      const radioLabel = document.createElement("label");
-      radioLabel.htmlFor = `radio${option}`;
-      radioLabel.textContent = option;
-      radioContainer.appendChild(radioLabel);
+    const radioLabel = document.createElement("label");
+    radioLabel.htmlFor = `radio${option}`;
+    radioLabel.textContent = option;
+    radioContainer.appendChild(radioLabel);
 
-      const courierIcon = document.createElement("div");
-      courierIcon.classList.add("courier-icon");
-      radioContainer.appendChild(courierIcon);
+    const courierIcon = document.createElement("div");
+    courierIcon.classList.add("courier-icon");
+    radioContainer.appendChild(courierIcon);
 
-      const courierIconImg = document.createElement("img");
-      courierIconImg.src = `./../../img/${option_img_name[index]}.svg`;
-      courierIconImg.alt = `${option}-img`;
-      courierIcon.appendChild(courierIconImg);
+    const courierIconImg = document.createElement("img");
+    courierIconImg.src = `./../../img/${option_img_name[index]}.svg`;
+    courierIconImg.alt = `${option}-img`;
+    courierIcon.appendChild(courierIconImg);
 
-      const courierInfo = document.createElement("div");
-      courierInfo.classList.add("form-option");
-      radioContainer.appendChild(courierInfo);
+    const courierInfo = document.createElement("div");
+    courierInfo.classList.add("form-option");
+    radioContainer.appendChild(courierInfo);
 
-      const courierInfoText = document.createElement("div");
-      courierInfoText.classList.add("courier-info");
-      courierInfo.appendChild(courierInfoText);
+    const courierInfoText = document.createElement("div");
+    courierInfoText.classList.add("courier-info");
+    courierInfo.appendChild(courierInfoText);
 
-      const weightSizeLimits = document.createElement("p");
-      weightSizeLimits.innerHTML = `0kg - ${courier_item['weight-limit']}kg <br> ${courier_item['size-limit']} X ${courier_item['size-limit']} X ${courier_item['size-limit']} Centimeters`;
-      courierInfoText.appendChild(weightSizeLimits);
+    const weightSizeLimits = document.createElement("p");
+    weightSizeLimits.innerHTML = `0kg - ${courier_item['weight-limit']}kg <br> ${courier_item['size-limit']} X ${courier_item['size-limit']} X ${courier_item['size-limit']} Centimeters`;
+    courierInfoText.appendChild(weightSizeLimits);
 
-      const description = document.createElement("p");
-      description.textContent = "Cheapest and most sustainable delivery option: earn points every time you use sustainable delivery.";
-      courierInfoText.appendChild(description);
+    const description = document.createElement("p");
+    description.textContent = "Cheapest and most sustainable delivery option: earn points every time you use sustainable delivery.";
+    courierInfoText.appendChild(description);
   });
   // const submitButton = document.createElement("button");
   // submitButton.type = "submit";
@@ -310,126 +321,140 @@ function generateContent(data) {
 
 
 
-async function saveDeliveryRequest(){
+async function saveDeliveryRequest() {
   alert("saveDeliveryRequest");
- let originInput = from.value;
- let destinationInput= to.value;
- let originLatitude;
- let originLongitude;
- let destinationLatitude;
- let destinationLongitude;
- const checkedVechicleRadio = document.querySelector('input[name="courier-option-radio"]:checked');
- console.log(`originInput:${originInput}`);
- console.log(`destinationInput:${destinationInput}`);
+  let originInput = from.value;
+  let destinationInput = to.value;
+  let originLatitude;
+  let originLongitude;
+  let destinationLatitude;
+  let destinationLongitude;
+  const checkedVechicleRadio = document.querySelector('input[name="courier-option-radio"]:checked');
+  console.log(`originInput:${originInput}`);
+  console.log(`destinationInput:${destinationInput}`);
 
- const docRef = firebase.firestore().collection("delivery_request_tests").doc();
-    await docRef.set({
-      deliveryRequestId: docRef.id,
-      seekerDocId: userDocId,
-      delivery_requested_by : user_name,
-      origin_name : originInput,
-      destination_name : destinationInput,
-      selected_courier_options: checkedVechicleRadio.value,
-      delivery_distance:delivery_distance,
-      delivery_estimated_time:delivery_estimated_time,
-      created_at : new Date().toISOString(),
-
-
-    });
+  const docRef = firebase.firestore().collection("delivery_request_tests").doc();
+  await docRef.set({
+    deliveryRequestId: docRef.id,
+    seekerDocId: userDocId,
+    delivery_requested_by: user_name,
+    origin_name: originInput,
+    destination_name: destinationInput,
+    selected_courier_options: checkedVechicleRadio.value,
+    delivery_distance: delivery_distance,
+    delivery_estimated_time: delivery_estimated_time,
+    created_at: new Date().toISOString(),
 
 
- // Make a request to the Google Maps Geocoding API for Origin
-const geocodingUrlOrigin = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(originInput)}&key=AIzaSyDFyOKnoicCueguKZctIMwiDDD-bZ35VMA`;
-
-fetch(geocodingUrlOrigin)
-  .then(response => response.json())
-  .then(data => {
-    if (data.status === 'OK') {
-      const location = data.results[0].geometry.location;
-      originLatitude = location.lat;
-      originLongitude = location.lng;
-      console.log('Latitude:', originLatitude);
-      console.log('Longitude:', originLongitude);
-       docRef.update({
-        origin_geolocation: new firebase.firestore.GeoPoint(originLatitude, originLongitude)
-  
-  
-      });
-
-      
-    } else {
-      console.log('Geocoding API request failed.');
-    }
-  })
-  .catch(error => {
-    console.log('Error:', error);
   });
+
 
   // Make a request to the Google Maps Geocoding API for Origin
-const geocodingUrlDestination = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(destinationInput)}&key=AIzaSyDFyOKnoicCueguKZctIMwiDDD-bZ35VMA`;
+  const geocodingUrlOrigin = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(originInput)}&key=AIzaSyDFyOKnoicCueguKZctIMwiDDD-bZ35VMA`;
 
-fetch(geocodingUrlOrigin)
-  .then(response => response.json())
-  .then(data => {
-    if (data.status === 'OK') {
-      const location = data.results[0].geometry.location;
-      destinationLatitude = location.lat;
-      destinationLongitude = location.lng;
-      console.log('Latitude:', destinationLatitude);
-      console.log('Longitude:', destinationLongitude);
-       docRef.update({
-        destination_geolocation: new firebase.firestore.GeoPoint(destinationLatitude, destinationLongitude)
-  
-  
-      });
+  fetch(geocodingUrlOrigin)
+    .then(response => response.json())
+    .then(data => {
+      if (data.status === 'OK') {
+        const location = data.results[0].geometry.location;
+        originLatitude = location.lat;
+        originLongitude = location.lng;
+        console.log('Latitude:', originLatitude);
+        console.log('Longitude:', originLongitude);
+        docRef.update({
+          origin_geolocation: new firebase.firestore.GeoPoint(originLatitude, originLongitude)
 
-      
-    } else {
-      console.log('Geocoding API request failed.');
-    }
-    alert("Request Created");
-  })
-  .catch(error => {
-    console.log('Error:', error);
-  });
+
+        });
+
+
+      } else {
+        console.log('Geocoding API request failed.');
+      }
+    })
+    .catch(error => {
+      console.log('Error:', error);
+    });
+
+  // Make a request to the Google Maps Geocoding API for Origin
+  const geocodingUrlDestination = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(destinationInput)}&key=AIzaSyDFyOKnoicCueguKZctIMwiDDD-bZ35VMA`;
+
+  fetch(geocodingUrlOrigin)
+    .then(response => response.json())
+    .then(data => {
+      if (data.status === 'OK') {
+        const location = data.results[0].geometry.location;
+        destinationLatitude = location.lat;
+        destinationLongitude = location.lng;
+        console.log('Latitude:', destinationLatitude);
+        console.log('Longitude:', destinationLongitude);
+        docRef.update({
+          destination_geolocation: new firebase.firestore.GeoPoint(destinationLatitude, destinationLongitude)
+
+
+        });
+
+
+      } else {
+        console.log('Geocoding API request failed.');
+      }
+      alert("Request Created");
+    })
+    .catch(error => {
+      console.log('Error:', error);
+    });
 }
 
 
 function calculatePayment(travelMode, distance, time) {
-    let distanceMultiplier, timeMultiplier;
+  let distanceMultiplier, timeMultiplier, basePrice;
 
-    switch (travelMode) {
-      case "DRIVING":
-        distanceMultiplier = 0.20;
-        timeMultiplier = 0.08;
-        break;
-      case "TRANSIT":
-        distanceMultiplier = 0.50;
-        timeMultiplier = 0.10;
-        break;
-      case "TWO_WHEELER":
-        distanceMultiplier = 0.25;
-        timeMultiplier = 0.05;
-        break;
-      default:
-        console.log("error");
-        return null; // Or any other suitable error handling mechanism
-    }
-    const distanceFloat = parseFloat(distance) * distanceMultiplier;
-    const timeFloat = parseFloat(time);
-
-    const distancePrice = distanceMultiplier * distanceFloat;
-    const timePrice = timeMultiplier * timeFloat;
-    const totalPrice = this.basePrice + distancePrice + timePrice + this.bookingFee;
-
-    return {
-      distanceMultiplier: distanceMultiplier,
-      timeMultiplier: timeMultiplier,
-      distancePrice: distancePrice,
-      timePrice: timePrice,
-      totalPrice: totalPrice
-    };
+  switch (travelMode) {
+    case "DRIVING":
+      distanceMultiplier = 0.20;
+      timeMultiplier = 0.08;
+      basePrice = 5;
+      break;
+    case "TRANSIT":
+      distanceMultiplier = 0.50;
+      timeMultiplier = 0.10;
+      basePrice = 4;
+      break;
+    case "TWO_WHEELER":
+      distanceMultiplier = 0.25;
+      timeMultiplier = 0.05;
+      basePrice = 2;
+      break;
+    default:
+      console.log("error");
+      return null; // Or any other suitable error handling mechanism
   }
 
-  
+  const distancePrice = calculateDistancePrice(distance, distanceMultiplier);
+  const timePrice = calculateTimePrice(time, timeMultiplier);
+  const totalPrice = calculateTotalPrice(distancePrice, timePrice, basePrice, this.bookingFee);
 
+  return {
+    distanceMultiplier: distanceMultiplier,
+    timeMultiplier: timeMultiplier,
+    distancePrice: distancePrice,
+    timePrice: timePrice,
+    totalPrice: totalPrice,
+    basePrice: basePrice
+  };
+
+
+}
+function calculateDistancePrice(distance, distanceMultiplier) {
+  const distanceFloat = parseFloat(distance) * 1.60934;
+  return distanceMultiplier * distanceFloat;
+}
+
+function calculateTimePrice(time, timeMultiplier) {
+  const timeFloat = parseFloat(time);
+  return timeMultiplier * timeFloat;
+}
+
+function calculateTotalPrice(distancePrice, timePrice, basePrice, bookingFee) {
+  return basePrice + distancePrice + timePrice + bookingFee;
+}
