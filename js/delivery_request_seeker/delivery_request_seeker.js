@@ -154,7 +154,17 @@ function calcRoute() {
             estimatedDistance.innerHTML = delivery_distance;
             estimatedTime.innerHTML = delivery_estimated_time;
             const price = calculatePayment(request.travelMode,delivery_distance,delivery_estimated_time);
-            estimatedTotal.innerHTML = price;
+
+            if( price.totalPrice < 10){
+              price.totalPrice + minimumFare;
+              estimatedTotal.innerHTML = `<ul class="FavioPriceUl"> <li> Base Price       ${basePrice} </li>
+                                              <li>Minimum Fare       ${minimumFare}</li>
+                                              <li>+ per Km            ${price.distanceMultiplier}</li>
+                                              <li>+ per min           ${price.timeMultiplier}</li>
+                                              <li> Booking Fee        ${bookingFee}</li> 
+                                              <li> total Fee          ${price.totalPrice}</li></ul>`         
+            }
+            
             
 
             directionsDisplay.setDirections(result);
@@ -384,30 +394,42 @@ fetch(geocodingUrlOrigin)
   });
 }
 
-function calculatePayment(travelMode,distance,time){
-  let distancefloat = parseFloat(distance)* 1.60934;
-  let timefloat = parseFloat(time);
-  var totalPrice=0;
-    if(travelMode=="DRIVING"){
-      totalPrice= basePrice+( 0.20 * distancefloat)+(0.08 * timefloat) + bookingFee
+
+function calculatePayment(travelMode, distance, time) {
+    let distanceMultiplier, timeMultiplier;
+
+    switch (travelMode) {
+      case "DRIVING":
+        distanceMultiplier = 0.20;
+        timeMultiplier = 0.08;
+        break;
+      case "TRANSIT":
+        distanceMultiplier = 0.50;
+        timeMultiplier = 0.10;
+        break;
+      case "TWO_WHEELER":
+        distanceMultiplier = 0.25;
+        timeMultiplier = 0.05;
+        break;
+      default:
+        console.log("error");
+        return null; // Or any other suitable error handling mechanism
     }
-    else if(travelMode=="TRANSIT"){
-      totalPrice= basePrice+(0.50*distancefloat)+(0.10*timefloat) + bookingFee
-  
-    }
-    else if( travelMode=='TWO_WHEELER'){
-      totalPrice= basePrice+(0.25*distancefloat)+(0.05*timefloat) + bookingFee
-  }
-  else{
-    console.log("error")
+    const distanceFloat = parseFloat(distance) * distanceMultiplier;
+    const timeFloat = parseFloat(time);
+
+    const distancePrice = distanceMultiplier * distanceFloat;
+    const timePrice = timeMultiplier * timeFloat;
+    const totalPrice = this.basePrice + distancePrice + timePrice + this.bookingFee;
+
+    return {
+      distanceMultiplier: distanceMultiplier,
+      timeMultiplier: timeMultiplier,
+      distancePrice: distancePrice,
+      timePrice: timePrice,
+      totalPrice: totalPrice
+    };
   }
 
-  if( totalPrice < 10){
-    totalPrice + minimumFare;
-  }
-
-  return totalPrice;
-  
-  }
   
 
