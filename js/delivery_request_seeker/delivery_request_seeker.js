@@ -3,6 +3,9 @@ let user_name;
 let delivery_estimated_time;
 let delivery_total_fee;
 let delivery_distance;
+var basePrice =2;
+var bookingFee = 2;
+var minimumFare =5;
 
 if(userDocId == null){
   userDocId = 'jIqGYzdFTxUz5IVrFPGo';
@@ -150,6 +153,9 @@ function calcRoute() {
             delivery_estimated_time = result.routes[0].legs[0].duration.text;
             estimatedDistance.innerHTML = delivery_distance;
             estimatedTime.innerHTML = delivery_estimated_time;
+            const price = calculatePayment(request.travelMode,delivery_distance,delivery_estimated_time);
+            estimatedTotal.innerHTML = price;
+            
 
             directionsDisplay.setDirections(result);
         } else {
@@ -377,4 +383,31 @@ fetch(geocodingUrlOrigin)
     console.log('Error:', error);
   });
 }
+
+function calculatePayment(travelMode,distance,time){
+  let distancefloat = parseFloat(distance)* 1.60934;
+  let timefloat = parseFloat(time);
+  var totalPrice=0;
+    if(travelMode=="DRIVING"){
+      totalPrice= basePrice+( 0.20 * distancefloat)+(0.08 * timefloat) + bookingFee
+    }
+    else if(travelMode=="TRANSIT"){
+      totalPrice= basePrice+(0.50*distancefloat)+(0.10*timefloat) + bookingFee
+  
+    }
+    else if( travelMode=='TWO_WHEELER'){
+      totalPrice= basePrice+(0.25*distancefloat)+(0.05*timefloat) + bookingFee
+  }
+  else{
+    console.log("error")
+  }
+
+  if( totalPrice < 10){
+    totalPrice + minimumFare;
+  }
+
+  return totalPrice;
+  
+  }
+  
 
