@@ -224,18 +224,21 @@ favioAvailabilityCheckBox.addEventListener('change', (e) => {
     }
 });
 
-
+// Hide the change-request element initially
+const changeRequest = document.getElementById("change-request");
 
 function updateRequestSectionVisibility(driverAvailability) {
     const requestSection = document.getElementById('request');
     const googleMap = document.getElementById("googleMap");
-    
+   
     if (driverAvailability) {
         requestSection.style.display = 'block';
         googleMap.style.display = "block";
+        changeRequest.style.display = "flex";
     } else {
         requestSection.style.display = 'none';
         googleMap.style.display = "none";
+        changeRequest.style.display = "none";
     }
 }
 
