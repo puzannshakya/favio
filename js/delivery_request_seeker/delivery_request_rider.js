@@ -1,22 +1,26 @@
+let userDocId = (sessionStorage.getItem("userDocId"));
+let isDriver = (sessionStorage.getItem("isDriver"));
+
+
 var db = firebase.firestore();
 
-db.collection("delivery_request_tests").get().then(function(query) {
+db.collection("delivery_request_tests").get().then(function (query) {
     var data = [];
-    query.forEach(function(doc) {
-        
+    query.forEach(function (doc) {
+
         console.log(doc);
         console.log(doc.data());
 
         data.push(doc.data());
     });
     generateContent(data);
-}).catch(function(error) {
+}).catch(function (error) {
     console.log("Error getting documents: ", error);
 });
 
 function selectObject(array, propertyName, value) {
-    return array.find(function(object) {
-      return object[propertyName] === value;
+    return array.find(function (object) {
+        return object[propertyName] === value;
     });
 }
 
@@ -26,9 +30,9 @@ const allPages = document.querySelectorAll("div.page");
 navigateToPage();
 window.addEventListener("hashchange", navigateToPage);
 function navigateToPage(event) {
-    const pageId = location.hash? location.hash : '#request';
-    for(let page of allPages) {
-        if (pageId === '#'+page.id) {
+    const pageId = location.hash ? location.hash : '#request';
+    for (let page of allPages) {
+        if (pageId === '#' + page.id) {
             page.style.display = "block";
         } else {
             page.style.display = "none";
@@ -40,14 +44,13 @@ function navigateToPage(event) {
 
 
 function filterDataByUserDocId(data, userDocId) {
-    return data.filter(function(object) {
+    return data.filter(function (object) {
         return object.seekerDocId === userDocId;
     });
 }
 
 
 // fix this
-const userDocId = "ZqrR2gICV2cuT2DCAJIStDE4YEi1";
 
 function generateContent(data, user_id) {
     const request = document.getElementById('request');
@@ -56,8 +59,8 @@ function generateContent(data, user_id) {
 
     console.log(filteredData, "from");
 
-    
-    
+
+
     filteredData.forEach((i) => {
         console.log(i)
         const requestlink = document.createElement("a"); // Change from div to a
@@ -71,7 +74,7 @@ function generateContent(data, user_id) {
         requestlink.appendChild(requestContainer);
 
         // div left: time, distance
-        const requestContainer1 = document.createElement("div"); 
+        const requestContainer1 = document.createElement("div");
         requestContainer.appendChild(requestContainer1);
         // fix
         // add img
@@ -84,9 +87,9 @@ function generateContent(data, user_id) {
         const requestDate = document.createElement("p");
         requestDate.innerHTML = i.created_at;
         requestContainer.appendChild(requestDate);
-        
+
         // div center: time, distance
-        const requestContainer2 = document.createElement("div"); 
+        const requestContainer2 = document.createElement("div");
         requestContainer.appendChild(requestContainer2);
         // origin
         const requestOrigin = document.createElement("p");
@@ -140,20 +143,42 @@ function generateContent(data, user_id) {
             // Close the dialog when clicking outside
             dialogCloseElement.addEventListener("click", function (event) {
                 alert("hello");
-                    dialog.close(); // Close the dialog
-                
+                dialog.close(); // Close the dialog
+
             });
-    })
+        })
 
 
-    // requestlink.addEventListener("click", function () {
-    //     const dialog = document.createElement("dialog");
-    //     const text = `<dialog open>This is an open dialog window</dialog>`;
-    //     request.appendChild(text);
+        // requestlink.addEventListener("click", function () {
+        //     const dialog = document.createElement("dialog");
+        //     const text = `<dialog open>This is an open dialog window</dialog>`;
+        //     request.appendChild(text);
 
-      
+
     });
 };
+
+const favioAvailabilityCheckBox = document.getElementById("Favio_availabilityCheckBox");
+
+
+favioAvailabilityCheckBox.addEventListener('change', (e) => {
+    e.preventDefault();
+    const docRef = firebase.firestore().collection("users_tests").doc(userDocId);
+     const driverAvailability = favioAvailabilityCheckBox.checked;
+    
+    if (isDriver) {
+        docRef.update({
+            driver_availability: driverAvailability
+        })
+        .then(() => {
+            alert("Driver availability updated successfully.");
+        })
+        .catch((error) => {
+            alert("Error updating driver availability:", error);
+        });
+    }
+});
+
 
 
 
