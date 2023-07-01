@@ -1,5 +1,11 @@
 let userDocId = (sessionStorage.getItem("userDocId"));
-let isDriver = (sessionStorage.getItem("isDriver"));
+let isDriverFlag = (sessionStorage.getItem("isDriver"));
+let isDriver =false;
+
+
+if(isDriverFlag === "yes"){
+    isDriver =true;
+}
 
 /******* driver: show up request > popup > confirm > update ********/
 // change div of section : request
@@ -187,7 +193,8 @@ async function updateDeliveryPickedUp(deliveryRequestId, user_name,userDocId) {
       await firebase.firestore().collection("delivery_request_tests").doc(deliveryRequestId).update({
         delivery_picked_up_flag: true,
         delivery_picked_up_by: user_name,
-        riderDocId : userDocId
+        riderDocId : userDocId,
+        delivery_completed_flag : false 
       });
       alert("Delivery request updated successfully!");
     } catch (error) {

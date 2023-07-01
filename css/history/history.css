@@ -1,0 +1,18 @@
+/* body{
+    background-color: red;
+} */
+
+
+ul{
+    list-style-type: none;
+}
+
+#showHistoryDiv h2,#showHistoryDiv p{
+    display: inline;
+}
+
+#showHistoryDiv li{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    column-gap: 2rem;
+}
