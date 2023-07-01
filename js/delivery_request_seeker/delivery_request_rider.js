@@ -1,38 +1,15 @@
 let userDocId = (sessionStorage.getItem("userDocId"));
 let isDriver = (sessionStorage.getItem("isDriver"));
 
-
-var db = firebase.firestore();
-
-db.collection("delivery_request_tests").get().then(function (query) {
-    var data = [];
-    query.forEach(function (doc) {
-
-        console.log(doc);
-        console.log(doc.data());
-
-        data.push(doc.data());
-    });
-    generateContent(data);
-}).catch(function (error) {
-    console.log("Error getting documents: ", error);
-});
-
-function selectObject(array, propertyName, value) {
-    return array.find(function (object) {
-        return object[propertyName] === value;
-    });
-}
-
-
-//// show div
+/******* driver: show up request > popup > confirm > update ********/
+// change div of section : request
 const allPages = document.querySelectorAll("div.page");
 navigateToPage();
 window.addEventListener("hashchange", navigateToPage);
 function navigateToPage(event) {
-    const pageId = location.hash ? location.hash : '#request';
-    for (let page of allPages) {
-        if (pageId === '#' + page.id) {
+    const pageId = location.hash? location.hash : '#request';
+    for(let page of allPages) {
+        if (pageId === '#'+page.id) {
             page.style.display = "block";
         } else {
             page.style.display = "none";
@@ -42,30 +19,76 @@ function navigateToPage(event) {
 }
 
 
+// query data
+var db = firebase.firestore();
 
-function filterDataByUserDocId(data, userDocId) {
-    return data.filter(function (object) {
-        return object.seekerDocId === userDocId;
-    });
+if (userDocId == null) {
+    userDocId = '7CAw8QAmzYgBou8dgYqKCzUTqaC2';
 }
 
+// driver_availability: users_tests
+db.collection("users_tests").get().then(function(query) {
+    var user_data = [];
+    query.forEach(function(doc) {
+        user_data.push(doc.data());
+    });
+    var filtered_data = user_data.filter(function(user) {
+        return user.userDocId === userDocId;
+    });
 
-// fix this
+    const user_name = filtered_data[0].user_name;
+    const driver_availability = filtered_data[0].driver_availability;
+    return {
+        user_name: user_name,
+        driver_availability: driver_availability
+    };
+}).then(function(userData) {
+    var data = [];
+    db.collection("delivery_request_tests").get().then(function(query) {
+        query.forEach(function(doc) {
+            data.push(doc.data());
+        });
+        generateContent(data, userDocId,userData.user_name, userData.driver_availability);
+    }).catch(function(error) {
+        console.log("Error getting documents: ", error);
+    });
+}).catch(function(error) {
+    console.log("Error getting documents: ", error);
+});
 
-function generateContent(data, user_id) {
+// popup
+const dialog = document.createElement("dialog");
+const dialogContent = document.createElement("p");  
+dialog.setAttribute('class', "modal");
+dialog.id = "modal";
+dialogContent.textContent = "This is an open dialog window";
+dialog.appendChild(dialogContent);
+
+const dialogButtonConfirm = document.createElement("button");
+dialogButtonConfirm.textContent = "Confirm";
+dialogButtonConfirm.id = "dialogButtonConfirmId";
+dialogButtonConfirm.setAttribute('class', "dialogConfirm");
+dialog.appendChild(dialogButtonConfirm);
+
+const dialogButtonClose = document.createElement("button");
+dialogButtonClose.textContent = "Cancel";
+dialogButtonClose.id = "dialogButtonCloseId";
+dialogButtonClose.setAttribute('class', "dialogClose");
+dialog.appendChild(dialogButtonClose);
+
+document.body.appendChild(dialog);
+
+
+
+function generateContent(data, userDocId, user_name,driver_availability) {
+    if (driver_availability == true){
+      
     const request = document.getElementById('request');
+    let clickedData; 
 
-    const filteredData = filterDataByUserDocId(data, userDocId);
-
-    console.log(filteredData, "from");
-
-
-
-    filteredData.forEach((i) => {
-        console.log(i)
-        const requestlink = document.createElement("a"); // Change from div to a
-        // add link to next page popup page
-        requestlink.href = "#"; // Set the URL or leave it as "#" if you want to handle it later
+    data.forEach((i) => {
+        const requestlink = document.createElement("a"); // 
+        requestlink.href = "#"; 
         requestlink.classList.add("request-link");
         request.appendChild(requestlink);
 
@@ -74,22 +97,22 @@ function generateContent(data, user_id) {
         requestlink.appendChild(requestContainer);
 
         // div left: time, distance
-        const requestContainer1 = document.createElement("div");
+        const requestContainer1 = document.createElement("div"); 
         requestContainer.appendChild(requestContainer1);
         // fix
         // add img
         const image = document.createElement("img");
-        image.src = "./../../img/bike.svg"; // Set the source path of the image
-        image.style.width = "200px"; // Set the width to 200px
-        image.style.height = "200px"; // Set the height 
+        image.src = "./../../img/bike.svg"; 
+        image.style.width = "200px"; 
+        image.style.height = "200px"; 
         requestContainer1.appendChild(image);
         //  date
         const requestDate = document.createElement("p");
         requestDate.innerHTML = i.created_at;
         requestContainer.appendChild(requestDate);
-
+        
         // div center: time, distance
-        const requestContainer2 = document.createElement("div");
+        const requestContainer2 = document.createElement("div"); 
         requestContainer.appendChild(requestContainer2);
         // origin
         const requestOrigin = document.createElement("p");
@@ -110,6 +133,7 @@ function generateContent(data, user_id) {
 
         // div right : request button, fee
         const requestContainer3 = document.createElement("div");
+        requestContainer3.setAttribute("data-value", data.indexOf(i));
         requestContainer.appendChild(requestContainer3);
         const requestbutton = document.createElement("button");
         requestbutton.textContent = "Requests"
@@ -121,50 +145,68 @@ function generateContent(data, user_id) {
         requestContainer3.appendChild(requestfee);
 
 
-        requestlink.addEventListener("click", function () {
-            const dialog = document.createElement("dialog");
-            const dialogContent = document.createElement("p");
-            dialogContent.textContent = "This is an open dialog window";
-            dialog.appendChild(dialogContent);
+        requestlink.addEventListener("click", function (event) {
+            event.preventDefault(); 
 
-            const dialogButtonClose = document.createElement("button");
-            dialogButtonClose.textContent = "Close";
-            dialogButtonClose.id = "dialogButtonCloseId";
-            dialog.appendChild(dialogButtonClose);
+            const clickedContainer3 = this.querySelector(".request-div div[data-value]"); 
+            const value = clickedContainer3.getAttribute("data-value");
+            clickedData = data[value];
 
+            dialog.showModal(); 
 
-            requestContainer.appendChild(dialog); // Append the dialog to the request container
-
-            dialog.showModal(); // Show the dialog
-
-
-            dialogCloseElement = document.getElementById('dialogButtonCloseId');
-
-            // Close the dialog when clicking outside
-            dialogCloseElement.addEventListener("click", function (event) {
-                alert("hello");
-                dialog.close(); // Close the dialog
-
-            });
-        })
-
-
-        // requestlink.addEventListener("click", function () {
-        //     const dialog = document.createElement("dialog");
-        //     const text = `<dialog open>This is an open dialog window</dialog>`;
-        //     request.appendChild(text);
-
-
+    })
+      
     });
-};
 
+    const closeModal = document.querySelector(".dialogClose");
+
+    closeModal.addEventListener("click", function (event) {
+      dialog.close();
+    });
+
+    // update in db
+    document.getElementById("dialogButtonConfirmId").addEventListener("click", async function () {
+        await updateDeliveryPickedUp(clickedData.deliveryRequestId, user_name, userDocId);
+        dialog.close();
+      });
+    
+    // Close dialog when clicking outside
+    window.addEventListener("click", function (event) {
+    if (event.target === dialog) {
+      dialog.close();
+    }
+  });
+} else {
+    return;
+}
+}
+
+
+async function updateDeliveryPickedUp(deliveryRequestId, user_name,userDocId) {
+    try {
+      await firebase.firestore().collection("delivery_request_tests").doc(deliveryRequestId).update({
+        delivery_picked_up_flag: true,
+        delivery_picked_up_by: user_name,
+        riderDocId : userDocId
+      });
+      alert("Delivery request updated successfully!");
+    } catch (error) {
+      alert("Error updating delivery request:", error);
+    }
+  }
+  
+
+
+
+
+/********** driver: update availability status ***********/
 const favioAvailabilityCheckBox = document.getElementById("Favio_availabilityCheckBox");
 
 
 favioAvailabilityCheckBox.addEventListener('change', (e) => {
     e.preventDefault();
     const docRef = firebase.firestore().collection("users_tests").doc(userDocId);
-     const driverAvailability = favioAvailabilityCheckBox.checked;
+    const driverAvailability = favioAvailabilityCheckBox.checked;
     
     if (isDriver) {
         docRef.update({
@@ -172,13 +214,50 @@ favioAvailabilityCheckBox.addEventListener('change', (e) => {
         })
         .then(() => {
             alert("Driver availability updated successfully.");
+            updateRequestSectionVisibility(driverAvailability);
         })
         .catch((error) => {
             alert("Error updating driver availability:", error);
         });
+        // Update visible immediately
+        updateRequestSectionVisibility(driverAvailability);
     }
 });
 
 
 
+function updateRequestSectionVisibility(driverAvailability) {
+    const requestSection = document.getElementById('request');
+    const googleMap = document.getElementById("googleMap");
+    
+    if (driverAvailability) {
+        requestSection.style.display = 'block';
+        googleMap.style.display = "block";
+    } else {
+        requestSection.style.display = 'none';
+        googleMap.style.display = "none";
+    }
+}
 
+
+/******************* map *******************/
+var myLatLng = { lat: 49.2820, lng: -123.1171 };
+var mapOptions = {
+  center: myLatLng,
+  zoom: 14,
+  mapTypeId: google.maps.MapTypeId.ROADMAP,
+  mapId: '8ee82cfaab8ad410'
+
+};
+
+//create map
+var map = new google.maps.Map(document.getElementById('googleMap'), mapOptions);
+
+//create a DirectionsService object to use the route method and get a result for our request
+var directionsService = new google.maps.DirectionsService();
+
+//create a DirectionsRenderer object which we will use to display the route
+var directionsDisplay = new google.maps.DirectionsRenderer();
+
+//bind the DirectionsRenderer to the map
+directionsDisplay.setMap(map);
