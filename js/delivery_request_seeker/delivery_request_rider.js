@@ -32,6 +32,8 @@ if (userDocId == null) {
     userDocId = '7CAw8QAmzYgBou8dgYqKCzUTqaC2';
 }
 
+let data;
+
 // driver_availability: users_tests
 db.collection("users_tests").get().then(function(query) {
     var user_data = [];
@@ -49,10 +51,11 @@ db.collection("users_tests").get().then(function(query) {
         driver_availability: driver_availability
     };
 }).then(function(userData) {
-    var data = [];
+    data = [];
     db.collection("delivery_request_tests").get().then(function(query) {
         query.forEach(function(doc) {
             data.push(doc.data());
+            return data;
         });
         generateContent(data, userDocId,userData.user_name, userData.driver_availability);
     }).catch(function(error) {
@@ -62,27 +65,63 @@ db.collection("users_tests").get().then(function(query) {
     console.log("Error getting documents: ", error);
 });
 
-// popup
-const dialog = document.createElement("dialog");
-const dialogContent = document.createElement("p");  
-dialog.setAttribute('class', "modal");
-dialog.id = "modal";
-dialogContent.textContent = "This is an open dialog window";
-dialog.appendChild(dialogContent);
+let dialogElement;
+function dialogData(data) {
+    // Code that relies on the data goes here
+    console.log(data);
+    console.log("test",data.delivery_requested_by);
 
-const dialogButtonConfirm = document.createElement("button");
-dialogButtonConfirm.textContent = "Confirm";
-dialogButtonConfirm.id = "dialogButtonConfirmId";
-dialogButtonConfirm.setAttribute('class', "dialogConfirm");
-dialog.appendChild(dialogButtonConfirm);
+    const dialog = document.createElement("dialog");
+    dialog.setAttribute('class', "modal");
+    dialog.id = "modal";
 
-const dialogButtonClose = document.createElement("button");
-dialogButtonClose.textContent = "Cancel";
-dialogButtonClose.id = "dialogButtonCloseId";
-dialogButtonClose.setAttribute('class', "dialogClose");
-dialog.appendChild(dialogButtonClose);
+    let requestDt = new Date(data.created_at);
 
-document.body.appendChild(dialog);
+    const dialogContent = document.createElement("div"); 
+    dialogContent.setAttribute('class', "dialogContent"); 
+    dialogContent.innerHTML = `
+        <p class="dialog-head">${data.delivery_requested_by} sent a request</p>
+        <img class="dialog-img" style="width:50px; height:50px;" src="./../../img/bike.svg">
+        <p class="dialog-date">${requestDt.getDate()} ${requestDt.toLocaleString('default', { month: 'long' })} ${requestDt.getFullYear()}</p>
+        <p class="dialog-time">${requestDt.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</p>
+        <p class="dialog-title">Pick-up Location: </p>
+        <p class="dialog-detail">${data.origin_name}</p>
+        <p class="dialog-title">Drop-off Location: </p>
+        <p class="dialog-detail">${data.destination_name}</p>
+        <p class="dialog-title">Package Details:</p>
+        <p class="dialog-detail">Size: ${data.size}cm</p>
+        <p class="dialog-detail">Weight: ${data.weight}kg</p>
+
+        <p class="dialog-title">Drop-off Method:</p>
+        <p class="dialog-detail">${data.selected_drop_off_option}</p>
+
+        <p class="dialog-title">Notes:</p>
+        <p class="dialog-detail">${data.note}</p>
+
+        <p class="dialog-title">Estimated Time:</p>
+        <p class="dialog-detail">${data.delivery_estimated_time}</p>
+
+        <p class="dialog-distance">${data.delivery_distance}km</p>
+        <p class="dialog-price">$ ${data.delivery_total_fee} CAD</p>
+        `;
+    dialog.appendChild(dialogContent);
+
+    const dialogButtonConfirm = document.createElement("button");
+    dialogButtonConfirm.textContent = "Confirm";
+    dialogButtonConfirm.id = "dialogButtonConfirmId";
+    dialogButtonConfirm.setAttribute('class', "dialogConfirm");
+    dialog.appendChild(dialogButtonConfirm);
+
+    const dialogButtonClose = document.createElement("button");
+    dialogButtonClose.textContent = "Cancel";
+    dialogButtonClose.id = "dialogButtonCloseId";
+    dialogButtonClose.setAttribute('class', "dialogClose");
+    dialog.appendChild(dialogButtonClose);
+    return dialog;
+  }
+
+
+
 
 
 
@@ -91,6 +130,7 @@ function generateContent(data, userDocId, user_name,driver_availability) {
       
     const request = document.getElementById('request');
     let clickedData; 
+
 
     data.forEach((i) => {
         const requestlink = document.createElement("a"); // 
@@ -151,6 +191,9 @@ function generateContent(data, userDocId, user_name,driver_availability) {
         requestContainer3.appendChild(requestfee);
 
 
+        const dialogElement = dialogData(i);
+        document.body.appendChild(dialogElement);
+
         requestlink.addEventListener("click", function (event) {
             event.preventDefault(); 
 
@@ -158,34 +201,42 @@ function generateContent(data, userDocId, user_name,driver_availability) {
             const value = clickedContainer3.getAttribute("data-value");
             clickedData = data[value];
 
-            dialog.showModal(); 
-
-    })
-      
-    });
-
-    const closeModal = document.querySelector(".dialogClose");
-
-    closeModal.addEventListener("click", function (event) {
-      dialog.close();
-    });
-
-    // update in db
-    document.getElementById("dialogButtonConfirmId").addEventListener("click", async function () {
-        await updateDeliveryPickedUp(clickedData.deliveryRequestId, user_name, userDocId);
-        dialog.close();
+        showDialog(dialogElement, clickedData, user_name, userDocId); 
       });
-    
-    // Close dialog when clicking outside
-    window.addEventListener("click", function (event) {
-    if (event.target === dialog) {
-      dialog.close();
+    });
+  } else {
+    return;
+  }
+}
+
+// Function to handle the dialog actions
+function showDialog(dialogElement, clickedData, user_name, userDocId) {
+  dialogElement.showModal();
+
+  const closeModal = dialogElement.querySelector(".dialogClose");
+  closeModal.addEventListener("click", function (event) {
+    dialogElement.close();
+  });
+
+  // Close dialog when clicking outside
+  window.addEventListener("click", function (event) {
+    if (event.target === dialogElement) {
+      dialogElement.close();
     }
   });
-} else {
-    return;
+
+  // Update data on button click
+  const confirmButton = dialogElement.querySelector("#dialogButtonConfirmId");
+  const confirmButtonClickHandler = async function () {
+    confirmButton.removeEventListener("click", confirmButtonClickHandler); 
+
+    await updateDeliveryPickedUp(clickedData.deliveryRequestId, user_name, userDocId);
+    dialogElement.close();
+  };
+  confirmButton.addEventListener("click", confirmButtonClickHandler);
 }
-}
+
+
 
 
 async function updateDeliveryPickedUp(deliveryRequestId, user_name,userDocId) {
