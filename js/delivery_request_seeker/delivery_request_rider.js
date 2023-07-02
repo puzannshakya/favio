@@ -100,9 +100,6 @@ function dialogData(data) {
         `;
     dialog.appendChild(dialogContent);
 
-
-    
-
     const dialogButtonConfirm = document.createElement("button");
     dialogButtonConfirm.textContent = "Confirm";
     dialogButtonConfirm.id = "dialogButtonConfirmId";
@@ -198,36 +195,7 @@ function generateContent(data, userDocId, user_name,driver_availability) {
             const value = clickedContainer3.getAttribute("data-value");
             clickedData = data[value];
 
-
-//             dialogElement.showModal(); 
-
-//             const closeModal = document.querySelector(".dialogClose");
-
-//             closeModal.addEventListener("click", function (event) {
-//                     dialogElement.close();
-//             });
-
-//            // Close dialog when clicking outside
-//             window.addEventListener("click", function (event) {
-//             if (event.target === dialogElement) {
-//                 dialogElement.close();
-//             }
-//             }); 
-
-//             // update in db
-//     document.getElementById("dialogButtonConfirmId").addEventListener("click", async function () {
-//         await updateDeliveryPickedUp(clickedData.deliveryRequestId, user_name, userDocId);
-//         dialogElement.close();
-//       });  
-//     })
-      
-//     });
-    
-// } else {
-//     return;
-// }
-// }
-        showDialog(dialogElement, clickedData, user_name, userDocId); // Pass dialog element, clicked data, user name, and user ID to the showDialog function
+        showDialog(dialogElement, clickedData, user_name, userDocId); 
       });
     });
   } else {
@@ -254,7 +222,7 @@ function showDialog(dialogElement, clickedData, user_name, userDocId) {
   // Update data on button click
   const confirmButton = dialogElement.querySelector("#dialogButtonConfirmId");
   const confirmButtonClickHandler = async function () {
-    confirmButton.removeEventListener("click", confirmButtonClickHandler); // Remove the event listener
+    confirmButton.removeEventListener("click", confirmButtonClickHandler); 
 
     await updateDeliveryPickedUp(clickedData.deliveryRequestId, user_name, userDocId);
     dialogElement.close();
