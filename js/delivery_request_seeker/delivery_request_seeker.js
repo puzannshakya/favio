@@ -156,6 +156,7 @@ function calcRoute() {
 
       if (price.totalPrice < 10) {
         price.totalPrice = price.totalPrice + minimumFare;
+        delivery_total_fee = price.totalPrice;
         estimatedTotal.innerHTML = `${price.totalPrice}
               
               <ul class="FavioPriceUl"> <li> Base Price       ${price.basePrice} </li>
@@ -166,6 +167,7 @@ function calcRoute() {
                                               </ul>`
       }
       else {
+        delivery_total_fee = price.totalPrice;
         estimatedTotal.innerHTML = `${price.totalPrice}
               
               <ul class="FavioPriceUl"> <li> Base Price       ${price.basePrice} </li>
@@ -343,6 +345,8 @@ async function saveDeliveryRequest() {
     selected_courier_options: checkedVechicleRadio.value,
     delivery_distance: delivery_distance,
     delivery_estimated_time: delivery_estimated_time,
+    delivery_total_fee : delivery_total_fee,
+
     created_at: new Date().toISOString(),
 
 
