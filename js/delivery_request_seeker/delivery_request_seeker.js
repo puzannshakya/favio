@@ -346,7 +346,9 @@ async function saveDeliveryRequest() {
     delivery_distance: delivery_distance,
     delivery_estimated_time: delivery_estimated_time,
     delivery_total_fee : delivery_total_fee,
-
+    delivery_picked_up_flag: false,
+    delivery_completed_flag:false,
+    delivery_confirmation_flag:false,
     created_at: new Date().toISOString(),
 
 

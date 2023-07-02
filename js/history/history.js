@@ -72,13 +72,13 @@ function showHistory(){
 </ul>`;
     historyArray.forEach(history => {
          let formattedDate = getFormattedDate(history.created_at);
-         let deliveryProgressRow = deliveryProgress(history.delivery_completed_flag ,history.delivery_picked_up_flag );
+         let deliveryProgressRow = deliveryProgress(history.delivery_completed_flag  ,history.delivery_picked_up_flag );
         
 
-        let row = `<li> <p> ${history.delivery_picked_up_by} </p> 
+        let row = `<li> <p> ${history.delivery_picked_up_by == null ? "Not Picked" : history.delivery_picked_up_by} </p> 
                          <p>${formattedDate} </p>   
                          <p> From ${history.origin_name} to ${history.destination_name}</p>
-                         <p>${history.deliveryProgressRow} </p>
+                         <p>${deliveryProgressRow} </p>
                          <p> ${history.delivery_estimated_time}</p>
                          <p>${history.delivery_distance} </p>
                          <p> $ ${history.delivery_total_fee}</p></li>`;
@@ -90,12 +90,16 @@ function showHistory(){
 
 
 function deliveryProgress(delivery_completed_flag,delivery_picked_up_flag){
+    console.log(delivery_completed_flag);
+    console.log(delivery_picked_up_flag);
     if(delivery_picked_up_flag){
         if(delivery_completed_flag){
             return "Completed";
         }else{
             return "In Progress";
         }
+    }else{
+        return "Not Picked";
     }
 }
 

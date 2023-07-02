@@ -35,6 +35,7 @@ if (userDocId == null) {
 let data;
 
 // driver_availability: users_tests
+//In Progress works
 db.collection("users_tests").get().then(function(query) {
     var user_data = [];
     query.forEach(function(doc) {
@@ -126,6 +127,7 @@ function dialogData(data) {
 
 
 function generateContent(data, userDocId, user_name,driver_availability) {
+   console.log(data);
     if (driver_availability == true){
       
     const request = document.getElementById('request');
