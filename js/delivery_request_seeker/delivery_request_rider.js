@@ -9,20 +9,20 @@ if(isDriverFlag === "yes"){
 
 /******* driver: show up request > popup > confirm > update ********/
 // change div of section : request
-const allPages = document.querySelectorAll("div.page");
-navigateToPage();
-window.addEventListener("hashchange", navigateToPage);
-function navigateToPage(event) {
-    const pageId = location.hash? location.hash : '#request';
-    for(let page of allPages) {
-        if (pageId === '#'+page.id) {
-            page.style.display = "block";
-        } else {
-            page.style.display = "none";
-        }
-    }
-    return;
-}
+// const allPages = document.querySelectorAll("div.page");
+// navigateToPage();
+// window.addEventListener("hashchange", navigateToPage);
+// function navigateToPage(event) {
+//     const pageId = location.hash? location.hash : '#request';
+//     for(let page of allPages) {
+//         if (pageId === '#'+page.id) {
+//             page.style.display = "block";
+//         } else {
+//             page.style.display = "none";
+//         }
+//     }
+//     return;
+// }
 
 
 // query data
@@ -36,7 +36,11 @@ let data;
 
 // driver_availability: users_tests
 //In Progress works
-db.collection("users_tests").get().then(function(query) {
+
+showRequests();
+
+function showRequests(){
+  db.collection("users_tests").get().then(function(query) {
     var user_data = [];
     query.forEach(function(doc) {
         user_data.push(doc.data());
@@ -53,21 +57,23 @@ db.collection("users_tests").get().then(function(query) {
     };
 }).then(function(userData) {
     data = [];
-    db.collection("delivery_request_tests").get().then(function(query) {
+    db.collection("delivery_request_tests").where('delivery_picked_up_flag' , '==',false).get().then(function(query) {
         query.forEach(function(doc) {
             data.push(doc.data());
             return data;
         });
-        generateContent(data, userDocId,userData.user_name, userData.driver_availability);
+        generateContent(data, userDocId,userData.user_name, userData.driver_availability,"requests");
     }).catch(function(error) {
         console.log("Error getting documents: ", error);
     });
 }).catch(function(error) {
     console.log("Error getting documents: ", error);
 });
+}
+
 
 let dialogElement;
-function dialogData(data) {
+function dialogData(data,request_type) {
     // Code that relies on the data goes here
     console.log(data);
     console.log("test",data.delivery_requested_by);
@@ -107,11 +113,14 @@ function dialogData(data) {
         `;
     dialog.appendChild(dialogContent);
 
-    const dialogButtonConfirm = document.createElement("button");
-    dialogButtonConfirm.textContent = "Confirm";
-    dialogButtonConfirm.id = "dialogButtonConfirmId";
-    dialogButtonConfirm.setAttribute('class', "dialogConfirm");
-    dialog.appendChild(dialogButtonConfirm);
+    if(request_type === 'requests'){
+      const dialogButtonConfirm = document.createElement("button");
+      dialogButtonConfirm.textContent = "Confirm";
+      dialogButtonConfirm.id = "dialogButtonConfirmId";
+      dialogButtonConfirm.setAttribute('class', "dialogConfirm");
+      dialog.appendChild(dialogButtonConfirm);
+    }
+    
 
     const dialogButtonClose = document.createElement("button");
     dialogButtonClose.textContent = "Cancel";
@@ -126,11 +135,13 @@ function dialogData(data) {
 
 
 
-function generateContent(data, userDocId, user_name,driver_availability) {
+function generateContent(data, userDocId, user_name,driver_availability,request_type) {
    console.log(data);
+   let  request= document.getElementById('request')
+   request.innerHTML='';
     if (driver_availability == true){
-      
-    const request = document.getElementById('request');
+    
+   
     let clickedData; 
 
 
@@ -146,21 +157,32 @@ function generateContent(data, userDocId, user_name,driver_availability) {
 
         // div left: time, distance
         const requestContainer1 = document.createElement("div"); 
+        requestContainer1.classList.add("request-div-left");
         requestContainer.appendChild(requestContainer1);
         // fix
         // add img
         const image = document.createElement("img");
         image.src = "./../../img/bike.svg"; 
         image.style.width = "200px"; 
-        image.style.height = "200px"; 
+        image.style.maxHeight  = "30px"; 
         requestContainer1.appendChild(image);
+        //add name
+        const requestName= document.createElement("p");
+        requestName.innerHTML = i.delivery_requested_by;
+        requestContainer1.appendChild(requestName);
         //  date
+        let requestDt = new Date(i.created_at);
         const requestDate = document.createElement("p");
-        requestDate.innerHTML = i.created_at;
-        requestContainer.appendChild(requestDate);
+        requestDate.innerHTML = `${requestDt.getDate()} ${requestDt.toLocaleString('default', { month: 'long' })} ${requestDt.getFullYear()}`;
+        requestContainer1.appendChild(requestDate);
+
+        const requestTime = document.createElement("p");
+        requestTime.innerHTML =requestDt.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+        requestContainer1.appendChild(requestTime);
         
         // div center: time, distance
         const requestContainer2 = document.createElement("div"); 
+        requestContainer2.classList.add("request-div-center");
         requestContainer.appendChild(requestContainer2);
         // origin
         const requestOrigin = document.createElement("p");
@@ -181,6 +203,7 @@ function generateContent(data, userDocId, user_name,driver_availability) {
 
         // div right : request button, fee
         const requestContainer3 = document.createElement("div");
+        requestContainer3.classList.add("request-div-right");
         requestContainer3.setAttribute("data-value", data.indexOf(i));
         requestContainer.appendChild(requestContainer3);
         const requestbutton = document.createElement("button");
@@ -193,7 +216,7 @@ function generateContent(data, userDocId, user_name,driver_availability) {
         requestContainer3.appendChild(requestfee);
 
 
-        const dialogElement = dialogData(i);
+        const dialogElement = dialogData(i,request_type);
         document.body.appendChild(dialogElement);
 
         requestlink.addEventListener("click", function (event) {
@@ -292,7 +315,7 @@ function updateRequestSectionVisibility(driverAvailability) {
     const googleMap = document.getElementById("googleMap");
    
     if (driverAvailability) {
-        requestSection.style.display = 'block';
+         requestSection.style.display = 'block';
         googleMap.style.display = "block";
         changeRequest.style.display = "flex";
     } else {
@@ -324,3 +347,73 @@ var directionsDisplay = new google.maps.DirectionsRenderer();
 
 //bind the DirectionsRenderer to the map
 directionsDisplay.setMap(map);
+
+
+function showInProgress(){
+  console.log("In Progress");
+  db.collection("users_tests").get().then(function(query) {
+    var user_data = [];
+    query.forEach(function(doc) {
+        user_data.push(doc.data());
+    });
+    var filtered_data = user_data.filter(function(user) {
+        return user.userDocId === userDocId;
+    });
+
+    const user_name = filtered_data[0].user_name;
+    const driver_availability = filtered_data[0].driver_availability;
+    return {
+        user_name: user_name,
+        driver_availability: driver_availability
+    };
+}).then(function(userData) {
+    data = [];
+    db.collection("delivery_request_tests").where('delivery_picked_up_flag' , '==',true).where('delivery_completed_flag' , '==',false).get().then(function(query) {
+        query.forEach(function(doc) {
+            data.push(doc.data());
+            return data;
+        });
+        console.log(data);
+        generateContent(data, userDocId,userData.user_name, true,"in progress");
+    }).catch(function(error) {
+        console.log("Error getting documents: ", error);
+    });
+}).catch(function(error) {
+    console.log("Error getting documents: ", error);
+});
+}
+
+
+function showCompleted(){
+  console.log("Completed");
+  db.collection("users_tests").get().then(function(query) {
+    var user_data = [];
+    query.forEach(function(doc) {
+        user_data.push(doc.data());
+    });
+    var filtered_data = user_data.filter(function(user) {
+        return user.userDocId === userDocId;
+    });
+
+    const user_name = filtered_data[0].user_name;
+    const driver_availability = filtered_data[0].driver_availability;
+    return {
+        user_name: user_name,
+        driver_availability: driver_availability
+    };
+}).then(function(userData) {
+    data = [];
+    db.collection("delivery_request_tests").where('delivery_picked_up_flag' , '==',true).where('delivery_completed_flag' , '==',true).get().then(function(query) {
+        query.forEach(function(doc) {
+            data.push(doc.data());
+            return data;
+        });
+        console.log(data);
+        generateContent(data, userDocId,userData.user_name, true,"completed");
+    }).catch(function(error) {
+        console.log("Error getting documents: ", error);
+    });
+}).catch(function(error) {
+    console.log("Error getting documents: ", error);
+});
+}
