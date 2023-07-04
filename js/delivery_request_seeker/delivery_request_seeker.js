@@ -5,6 +5,8 @@ let delivery_total_fee;
 let delivery_distance;
 var bookingFee = 2;
 var minimumFare = 5;
+var intervalId;
+let requestDocumentRef;
 
 if (userDocId == null) {
   userDocId = 'jIqGYzdFTxUz5IVrFPGo';
@@ -135,7 +137,7 @@ function calcRoute() {
     origin: document.getElementById("from").value,
     destination: document.getElementById("to").value,
     travelMode: travelMode, //WALKING, BYCYCLING, TRANSIT
-    unitSystem: google.maps.UnitSystem.IMPERIAL
+    unitSystem: google.maps.UnitSystem.METRIC
   }
 
   //pass the request to the route method
@@ -335,9 +337,9 @@ async function saveDeliveryRequest() {
   console.log(`originInput:${originInput}`);
   console.log(`destinationInput:${destinationInput}`);
 
-  const docRef = firebase.firestore().collection("delivery_request_tests").doc();
-  await docRef.set({
-    deliveryRequestId: docRef.id,
+  requestDocumentRef = firebase.firestore().collection("delivery_request_tests").doc();
+  await requestDocumentRef.set({
+    deliveryRequestId: requestDocumentRef.id,
     seekerDocId: userDocId,
     delivery_requested_by: user_name,
     origin_name: originInput,
@@ -367,7 +369,7 @@ async function saveDeliveryRequest() {
         originLongitude = location.lng;
         console.log('Latitude:', originLatitude);
         console.log('Longitude:', originLongitude);
-        docRef.update({
+        requestDocumentRef.update({
           origin_geolocation: new firebase.firestore.GeoPoint(originLatitude, originLongitude)
 
 
@@ -394,11 +396,15 @@ async function saveDeliveryRequest() {
         destinationLongitude = location.lng;
         console.log('Latitude:', destinationLatitude);
         console.log('Longitude:', destinationLongitude);
-        docRef.update({
+        requestDocumentRef.update({
           destination_geolocation: new firebase.firestore.GeoPoint(destinationLatitude, destinationLongitude)
-
+           
 
         });
+
+        setIntervalForConfirmationDialog();
+
+
 
 
       } else {
@@ -464,3 +470,99 @@ function calculateTimePrice(time, timeMultiplier) {
 function calculateTotalPrice(distancePrice, timePrice, basePrice, bookingFee) {
   return basePrice + distancePrice + timePrice + bookingFee;
 }
+
+
+function setIntervalForConfirmationDialog(){
+  intervalId = setInterval(() => {
+    showConfirmationDialog();
+  }, 8000);
+}
+
+async function showConfirmationDialog(){
+  console.log("Confirmation Dialog");
+
+  await firebase.firestore().collection("delivery_request_tests").doc(requestDocumentRef.id).get().then(doc =>{
+    if(doc.data().delivery_picked_up_flag == true){
+      console.log("true");
+      clearInterval(intervalId);
+      const dialogElement = dialogData(doc.data());
+      document.body.appendChild(dialogElement);
+      showDialog(dialogElement, doc.data(), userDocId); 
+    }else{
+      console.log("false");
+      // clearInterval(intervalId);
+      // const dialogElement = dialogData(doc.data());
+      // document.body.appendChild(dialogElement);
+      // showDialog(dialogElement, doc.data(), userDocId); 
+    }
+  })
+}
+
+
+function dialogData(data) {
+// Code that relies on the data goes here
+console.log(data);
+
+
+const dialog = document.createElement("dialog");
+dialog.setAttribute('class', "modal");
+dialog.id = "modal";
+
+let requestDt = new Date(data.created_at);
+
+const dialogContent = document.createElement("div"); 
+dialogContent.setAttribute('class', "dialogContent"); 
+dialogContent.innerHTML = `
+    <img class="dialog-img" style="width:50px; height:50px;" src="./../../img/bike.svg">
+    <p>Your Favio rider is : ${data.delivery_picked_up_by}</p>
+    
+    `;
+dialog.appendChild(dialogContent);
+
+const dialogButtonConfirm = document.createElement("button");
+dialogButtonConfirm.textContent = "Confirm";
+dialogButtonConfirm.id = "dialogButtonConfirmId";
+dialogButtonConfirm.setAttribute('class', "dialogConfirm");
+dialog.appendChild(dialogButtonConfirm);
+
+
+const dialogButtonClose = document.createElement("button");
+dialogButtonClose.textContent = "Cancel";
+dialogButtonClose.id = "dialogButtonCloseId";
+dialogButtonClose.setAttribute('class', "dialogClose");
+dialog.appendChild(dialogButtonClose);
+return dialog;
+}
+
+// Function to handle the dialog actions
+function showDialog(dialogElement, clickedData, userDocId) {
+dialogElement.showModal();
+
+const closeModal = dialogElement.querySelector(".dialogClose");
+closeModal.addEventListener("click", function (event) {
+  dialogElement.close();
+});
+
+// Close dialog when clicking outside
+window.addEventListener("click", function (event) {
+  if (event.target === dialogElement) {
+    dialogElement.close();
+  }
+});
+
+// Update data on button click
+const confirmButton = dialogElement.querySelector("#dialogButtonConfirmId");
+const confirmButtonClickHandler = async function () {
+  confirmButton.removeEventListener("click", confirmButtonClickHandler); 
+  console.log("delivery_confirmation_flag : true");
+  requestDocumentRef.update({
+    delivery_confirmation_flag : true
+     
+
+  });
+  dialogElement.close();
+};
+confirmButton.addEventListener("click", confirmButtonClickHandler);
+
+}
+
