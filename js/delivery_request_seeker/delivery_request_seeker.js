@@ -140,6 +140,8 @@ function calcRoute() {
     unitSystem: google.maps.UnitSystem.METRIC
   }
 
+  console.log(request);
+
   //pass the request to the route method
   directionsService.route(request, function (result, status) {
     if (status == google.maps.DirectionsStatus.OK) {
