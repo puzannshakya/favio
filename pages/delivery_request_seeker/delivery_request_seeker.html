@@ -68,6 +68,26 @@
                     <div id="courier-option">
                     </div>
 
+                    <div class="delivery-datetime">
+                        <label for="schedule">Schedule (date and time):</label><br>
+                        <input type="datetime-local" id="scheduled_delivery_datetime" name="schedule" required>
+                    </div>
+
+                    <div class="drop-off">
+
+                        <label for="dropoff_option">Drop-off option:</label>
+                        <select id="dropoff_option" name="dropoff_option">
+                            <option value="front_door">Front Door</option>
+                            <option value="receiver">Pickup</option>
+                        </select>
+                    </div>
+
+                    <div class="comments">
+                        <textarea name="comments" id="comments">
+                            Hey... say something!
+                        </textarea>
+                    </div>
+
                     <div id="delivery-info">
                         <p> <strong>Distance:  </strong> <span id="estimatedDistance">asdd<span> </p>
                         <p> <strong>Estimated Time: </strong> <span id="estimatedTime">asdd<span> </p>
