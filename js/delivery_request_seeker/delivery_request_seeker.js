@@ -8,6 +8,8 @@ var minimumFare = 5;
 var intervalId;
 let requestDocumentRef;
 
+console.log(userDocId);
+
 if (userDocId == null) {
   userDocId = 'jIqGYzdFTxUz5IVrFPGo';
 }
@@ -338,7 +340,7 @@ async function saveDeliveryRequest() {
   const checkedVechicleRadio = document.querySelector('input[name="courier-option-radio"]:checked');
   console.log(`originInput:${originInput}`);
   console.log(`destinationInput:${destinationInput}`);
-
+  deliveryInfo= storeDateTimeAndDropoffOption();
   requestDocumentRef = firebase.firestore().collection("delivery_request_tests").doc();
   await requestDocumentRef.set({
     deliveryRequestId: requestDocumentRef.id,
@@ -347,15 +349,18 @@ async function saveDeliveryRequest() {
     origin_name: originInput,
     destination_name: destinationInput,
     selected_courier_options: checkedVechicleRadio.value,
+    scheduled_delivery_datetime: deliveryInfo.dateTime,
+    selected_drop_off_option: deliveryInfo.dropoffOption,
+    notes: deliveryInfo.notes,
     delivery_distance: delivery_distance,
     delivery_estimated_time: delivery_estimated_time,
     delivery_total_fee : delivery_total_fee,
     delivery_picked_up_flag: false,
     delivery_completed_flag:false,
     delivery_confirmation_flag:false,
-    delivery_inprogress_flag:false,
-    delivery_progress:{},
     created_at: new Date().toISOString(),
+
+
   });
 
 
@@ -567,4 +572,37 @@ const confirmButtonClickHandler = async function () {
 confirmButton.addEventListener("click", confirmButtonClickHandler);
 
 }
+
+var deliveryInfo = {};
+
+function storeDateTimeAndDropoffOption() {
+  var dateTimeInput = document.getElementById("scheduled_delivery_datetime");
+  var dateTimeValue = dateTimeInput.value;
+
+  var dropoffOptionInput = document.getElementById("dropoff_option");
+  var dropoffOptionValue = dropoffOptionInput.value;
+
+  var notesInput = document.getElementById("comments");
+  var notesValue = notesInput.value;
+
+
+  deliveryInfo = {
+    dateTime: dateTimeValue,
+    dropoffOption: dropoffOptionValue,
+    notes: notesValue
+  };
+
+  // Add the delivery information to the array
+
+  console.log(deliveryInfo); // Display the array in the console (optional)
+
+  // You can perform further operations with the stored information here
+
+  // Clear the input fields for the next entry (optional)
+  dateTimeInput.value = "";
+  dropoffOptionInput.value = "front_door";
+
+  return deliveryInfo;
+}
+
 
