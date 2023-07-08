@@ -1,5 +1,5 @@
 let userDocId = sessionStorage.getItem("userDocId");
-let requestDocumentRefId = sessionStorage.getItem("requestDocumentRefId");
+let deliveryRequestId = sessionStorage.getItem("deliveryRequestId");
 let deliveryRequest;
 var bookingFee = 2;
 var minimumFare = 5;
@@ -20,7 +20,7 @@ async function getDeliveryDoc() {
   await firebase
     .firestore()
     .collection("delivery_request_tests")
-    .doc(requestDocumentRefId)
+    .doc(deliveryRequestId)
     .get()
     .then((doc) => {
       deliveryRequest = doc.data();
@@ -159,6 +159,12 @@ if( progressTrackingCount ==0){
     checkbox.name = checkboxLabel.id;
     checkbox.value = checkboxLabel.id;
 
+
+    if (checkboxLabel.id === "deliveryStart") {
+      checkbox.disabled = true; 
+      checkbox.checked = true;// Adding the disabled property
+    }
+
     const label = document.createElement("label");
     label.htmlFor = checkboxLabel.id;
     label.textContent = checkboxLabel.label;
@@ -176,7 +182,7 @@ if( progressTrackingCount ==0){
   const docRef = firebase
     .firestore()
     .collection("delivery_request_tests")
-    .doc('32bj1sNrr8lfOHZ5Io5b')
+    .doc('RP90LL6vPwzgKjzanVu7')
 
 
   docRef.get().then((doc) => {
@@ -258,7 +264,7 @@ async function getProgressTracking() {
   await firebase
     .firestore()
     .collection("delivery_request_tests")
-    .doc(requestDocumentRefId)
+    .doc(deliveryRequestId)
     .get()
     .then((doc) => {
       deliveryRequest = doc.data();
@@ -280,8 +286,3 @@ const populateCheckboxes = (deliveryProgress) => {
   deliveryComplete.checked = deliveryProgress.deliveryComplete;
 
 };
-function show(shown, hidden) {
-  document.getElementById(shown).style.display='block';
-  document.getElementById(hidden).style.display='none';
-  return false;
-}
