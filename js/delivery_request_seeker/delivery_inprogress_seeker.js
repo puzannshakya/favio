@@ -1,5 +1,5 @@
 let userDocId = sessionStorage.getItem("userDocId");
-let requestDocumentRefId = sessionStorage.getItem("requestDocumentRefId");
+let deliveryRequestId = sessionStorage.getItem("deliveryRequestId");
 let deliveryRequest;
 var bookingFee = 2;
 var minimumFare = 5;
@@ -12,7 +12,7 @@ if (userDocId == null) {
 }
 
 if (requestDocumentRefId == null) {
-  requestDocumentRefId = "RP90LL6vPwzgKjzanVu7";
+  requestDocumentRefId = "UTo3DxygvHA790xU5a3n";
 }
 
 getDeliveryDoc();
@@ -20,7 +20,7 @@ async function getDeliveryDoc() {
   await firebase
     .firestore()
     .collection("delivery_request_tests")
-    .doc(requestDocumentRefId)
+    .doc(deliveryRequestId)
     .get()
     .then((doc) => {
       deliveryRequest = doc.data();
@@ -264,7 +264,7 @@ async function getProgressTracking() {
   await firebase
     .firestore()
     .collection("delivery_request_tests")
-    .doc(requestDocumentRefId)
+    .doc(deliveryRequestId)
     .get()
     .then((doc) => {
       deliveryRequest = doc.data();
