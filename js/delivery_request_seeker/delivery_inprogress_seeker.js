@@ -11,8 +11,8 @@ if (userDocId == null) {
   userDocId = "ZqrR2gICV2cuT2DCAJIStDE4YEi1";
 }
 
-if (requestDocumentRefId == null) {
-  requestDocumentRefId = "UTo3DxygvHA790xU5a3n";
+if (deliveryRequestId == null) {
+  deliveryRequestId = "RP90LL6vPwzgKjzanVu7";
 }
 
 getDeliveryDoc();
@@ -158,12 +158,9 @@ if( progressTrackingCount ==0){
     checkbox.id = checkboxLabel.id;
     checkbox.name = checkboxLabel.id;
     checkbox.value = checkboxLabel.id;
-
-
-    if (checkboxLabel.id === "deliveryStart") {
-      checkbox.disabled = true; 
-      checkbox.checked = true;// Adding the disabled property
-    }
+    checkbox.disabled = true; 
+    checkbox.checked = true;// Adding the disabled property
+  
 
     const label = document.createElement("label");
     label.htmlFor = checkboxLabel.id;
@@ -271,6 +268,10 @@ async function getProgressTracking() {
       console.log(deliveryRequest.delivery_completed_flag);
       if (deliveryRequest.delivery_completed_flag == true) {
         clearInterval(intervalId);
+        
+        let dialogElement = processDeliveryRequest(deliveryRequestId);
+        showDialog(dialogElement);
+
       }
       showProgressTracking();
 
@@ -286,3 +287,55 @@ const populateCheckboxes = (deliveryProgress) => {
   deliveryComplete.checked = deliveryProgress.deliveryComplete;
 
 };
+
+
+
+function processDeliveryRequest(deliveryRequestId) {
+  console.log("Processing Delivery Request:", deliveryRequestId);
+  const imageUrl = deliveryRequest.delivery_completed_image_url; 
+  const dialogElement = createDialogElement(imageUrl);
+  showDialog(dialogElement);
+  return dialogElement;
+}
+
+function createDialogElement(imageUrl) {
+  const dialog = document.createElement("dialog");
+  dialog.setAttribute("class", "modal");
+  dialog.id = "modal";
+
+  const dialogContent = document.createElement("div");
+  dialogContent.setAttribute("class", "dialogContent");
+  dialogContent.innerHTML = `
+    <p class="dialog-head">Sent a request</p>
+    <img class="dialog-img" style="width: 50px; height: 50px;" src="${imageUrl}">
+    <button class="dialogClose">Close</button>
+  `;
+  dialog.appendChild(dialogContent);
+
+  return dialog;
+}
+
+function showDialog(dialogElement) {
+  if (
+    dialogElement instanceof HTMLElement &&
+    dialogElement.tagName === 'DIALOG' &&
+    !dialogElement.hasAttribute('open')
+  ) {
+  document.body.appendChild(dialogElement);
+  dialogElement.showModal();
+
+  const closeModal = dialogElement.querySelector(".dialogClose");
+  closeModal.addEventListener("click", function (event) {
+    dialogElement.close();
+  });
+
+  // Close dialog when clicking outside
+  dialogElement.addEventListener("click", function (event) {
+    if (event.target === dialogElement) {
+      dialogElement.close();
+    }
+  });
+} else {
+  console.error('Invalid dialogElement provided or dialog is already open');
+}
+}
