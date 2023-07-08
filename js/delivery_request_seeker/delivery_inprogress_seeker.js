@@ -4,6 +4,8 @@ let deliveryRequest;
 var bookingFee = 2;
 var minimumFare = 5;
 var intervalId;
+var progressTrackingCount =0;
+
 
 if (userDocId == null) {
   userDocId = "ZqrR2gICV2cuT2DCAJIStDE4YEi1";
@@ -141,87 +143,145 @@ function calcRoute() {
 }
 
 function showProgressTracking() {
-  progressTracking.innerHTML = `<h2>Progress Tracking </h2>
-                                <button id="deliveryStarts" ${deliveryRequest.delivery_confirmation_flag == false ? "disabled":""}>Delivery Starts</button>
-                                <button id="deliveryInprogress" ${deliveryRequest.delivery_inprogress_flag == false ? "disabled":""}>In Progress</button>
-                                <button id="deliveryComplete" ${deliveryRequest.delivery_completed_flag  == false ? "disabled":""}>Delivery Complete</button>`;
+
+  const checkboxContainer = document.createElement("div");
+if( progressTrackingCount ==0){
+  const checkboxLabels = [
+    { id: "deliveryStart", label: "Delivery Start" },
+    { id: "inProgress", label: "In Progress" },
+    { id: "deliveryComplete", label: "Delivery Complete" },
+  ];
+
+  checkboxLabels.forEach((checkboxLabel) => {
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.id = checkboxLabel.id;
+    checkbox.name = checkboxLabel.id;
+    checkbox.value = checkboxLabel.id;
+
+    const label = document.createElement("label");
+    label.htmlFor = checkboxLabel.id;
+    label.textContent = checkboxLabel.label;
+
+    checkboxContainer.appendChild(checkbox);
+    checkboxContainer.appendChild(label);
+    checkboxContainer.appendChild(document.createElement("br"));
+  });
+
+
+  const container = document.getElementById("progressTracking");
+  container.appendChild(checkboxContainer);
+  progressTrackingCount++;
+}
+  const docRef = firebase
+    .firestore()
+    .collection("delivery_request_tests")
+    .doc('32bj1sNrr8lfOHZ5Io5b')
+
+
+  docRef.get().then((doc) => {
+    if (doc.exists) {
+      const delivery_progress = doc.data().delivery_progress;
+      populateCheckboxes(delivery_progress);
+    } else {
+      console.log("Document not found");
+    }
+  })
+    .catch((error) => {
+      console.log("Error retrieving document:", error);
+    });
 }
 
 
 function calculatePayment(travelMode, distance, time) {
-    let distanceMultiplier, timeMultiplier, basePrice;
-  
-    switch (travelMode) {
-      case "DRIVING":
-        distanceMultiplier = 0.20;
-        timeMultiplier = 0.08;
-        basePrice = 5;
-        break;
-      case "TRANSIT":
-        distanceMultiplier = 0.50;
-        timeMultiplier = 0.10;
-        basePrice = 4;
-        break;
-      case "TWO_WHEELER":
-        distanceMultiplier = 0.25;
-        timeMultiplier = 0.05;
-        basePrice = 2;
-        break;
-      default:
-        console.log("error");
-        return null; // Or any other suitable error handling mechanism
-    }
-  
-    const distancePrice = calculateDistancePrice(distance, distanceMultiplier);
-    const timePrice = calculateTimePrice(time, timeMultiplier);
-    const totalPrice = calculateTotalPrice(distancePrice, timePrice, basePrice, this.bookingFee);
-  
-    return {
-      distanceMultiplier: distanceMultiplier,
-      timeMultiplier: timeMultiplier,
-      distancePrice: distancePrice,
-      timePrice: timePrice,
-      totalPrice: totalPrice,
-      basePrice: basePrice
-    };
-  
-  
-  }
-  function calculateDistancePrice(distance, distanceMultiplier) {
-    const distanceFloat = parseFloat(distance) * 1.60934;
-    return distanceMultiplier * distanceFloat;
-  }
-  
-  function calculateTimePrice(time, timeMultiplier) {
-    const timeFloat = parseFloat(time);
-    return timeMultiplier * timeFloat;
-  }
-  
-  function calculateTotalPrice(distancePrice, timePrice, basePrice, bookingFee) {
-    return basePrice + distancePrice + timePrice + bookingFee;
-  }
-  
+  let distanceMultiplier, timeMultiplier, basePrice;
 
-function setIntervalForProgressTracking(){
-    intervalId = setInterval(() => {
-      getProgressTracking();
-    }, 8000);
+  switch (travelMode) {
+    case "DRIVING":
+      distanceMultiplier = 0.20;
+      timeMultiplier = 0.08;
+      basePrice = 5;
+      break;
+    case "TRANSIT":
+      distanceMultiplier = 0.50;
+      timeMultiplier = 0.10;
+      basePrice = 4;
+      break;
+    case "TWO_WHEELER":
+      distanceMultiplier = 0.25;
+      timeMultiplier = 0.05;
+      basePrice = 2;
+      break;
+    default:
+      console.log("error");
+      return null; // Or any other suitable error handling mechanism
   }
 
-  async function getProgressTracking() {
-    console.log("Fetching Delivery Progress Tracking");
-    await firebase
-      .firestore()
-      .collection("delivery_request_tests")
-      .doc(requestDocumentRefId)
-      .get()
-      .then((doc) => {
-        deliveryRequest = doc.data();
-        console.log(deliveryRequest.delivery_completed_flag);
-        if(deliveryRequest.delivery_completed_flag == true){
-            clearInterval(intervalId);
-        }
-            showProgressTracking();
-        
-      });
-  }
+  const distancePrice = calculateDistancePrice(distance, distanceMultiplier);
+  const timePrice = calculateTimePrice(time, timeMultiplier);
+  const totalPrice = calculateTotalPrice(distancePrice, timePrice, basePrice, this.bookingFee);
+
+  return {
+    distanceMultiplier: distanceMultiplier,
+    timeMultiplier: timeMultiplier,
+    distancePrice: distancePrice,
+    timePrice: timePrice,
+    totalPrice: totalPrice,
+    basePrice: basePrice
+  };
+
+
+}
+function calculateDistancePrice(distance, distanceMultiplier) {
+  const distanceFloat = parseFloat(distance) * 1.60934;
+  return distanceMultiplier * distanceFloat;
+}
+
+function calculateTimePrice(time, timeMultiplier) {
+  const timeFloat = parseFloat(time);
+  return timeMultiplier * timeFloat;
+}
+
+function calculateTotalPrice(distancePrice, timePrice, basePrice, bookingFee) {
+  return basePrice + distancePrice + timePrice + bookingFee;
+}
+
+
+function setIntervalForProgressTracking() {
+  intervalId = setInterval(() => {
+    getProgressTracking();
+  }, 8000);
+}
+
+async function getProgressTracking() {
+  console.log("Fetching Delivery Progress Tracking");
+  await firebase
+    .firestore()
+    .collection("delivery_request_tests")
+    .doc(requestDocumentRefId)
+    .get()
+    .then((doc) => {
+      deliveryRequest = doc.data();
+      console.log(deliveryRequest.delivery_completed_flag);
+      if (deliveryRequest.delivery_completed_flag == true) {
+        clearInterval(intervalId);
+      }
+      showProgressTracking();
+
+    });
+}
+
+const populateCheckboxes = (deliveryProgress) => {
+  const deliveryStart = document.getElementById('deliveryStart')
+  const inProgress = document.getElementById('inProgress')
+  const deliveryComplete = document.getElementById('deliveryComplete')
+  deliveryStart.checked = deliveryProgress.deliveryStart;
+  inProgress.checked = deliveryProgress.inProgress;
+  deliveryComplete.checked = deliveryProgress.deliveryComplete;
+
+};
+function show(shown, hidden) {
+  document.getElementById(shown).style.display='block';
+  document.getElementById(hidden).style.display='none';
+  return false;
+}

@@ -353,9 +353,9 @@ async function saveDeliveryRequest() {
     delivery_picked_up_flag: false,
     delivery_completed_flag:false,
     delivery_confirmation_flag:false,
+    delivery_inprogress_flag:false,
+    delivery_progress:{},
     created_at: new Date().toISOString(),
-
-
   });
 
 
