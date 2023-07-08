@@ -1,8 +1,20 @@
 const progressTracking = document.getElementById('progressTracking');
-const docId = "RP90LL6vPwzgKjzanVu7"; // Replace with the actual document ID
+let userDocId = sessionStorage.getItem("userDocId");
+let deliveryRequestId = sessionStorage.getItem("deliveryRequestId");
+
+
+if (userDocId == null) {
+    userDocId = "ZqrR2gICV2cuT2DCAJIStDE4YEi1";
+  }
+  
+  if (deliveryRequestId == null) {
+    deliveryRequestId = "UTo3DxygvHA790xU5a3n";
+  }
+  
 
 progressTracking.addEventListener('change', () => {
-    const docRef = firebase.firestore().collection("delivery_request_tests").doc(docId);
+    console.log(deliveryRequestId);
+    const docRef = firebase.firestore().collection("delivery_request_tests").doc(deliveryRequestId);
     const deliveryStart = document.getElementById('deliveryStart').checked;
     const inProgress = document.getElementById('inProgress').checked;
     const deliveryComplete = document.getElementById('deliveryComplete').checked;
@@ -16,7 +28,6 @@ progressTracking.addEventListener('change', () => {
      docRef.update({
             delivery_progress: delivery_progress,
             delivery_completed_flag:deliveryComplete,
-            delivery_confirmation_flag:deliveryStart,
             delivery_inprogress_flag:inProgress
         })
              .then(() => {

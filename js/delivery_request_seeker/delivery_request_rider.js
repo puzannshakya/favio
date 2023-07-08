@@ -257,6 +257,8 @@ function showDialog(dialogElement, clickedData, user_name, userDocId) {
 
     await updateDeliveryPickedUp(clickedData.deliveryRequestId, user_name, userDocId);
     dialogElement.close();
+    setIntervalForConfirmationTracking(clickedData.deliveryRequestId);
+    
   };
   confirmButton.addEventListener("click", confirmButtonClickHandler);
 }
@@ -417,3 +419,32 @@ function showCompleted(){
     console.log("Error getting documents: ", error);
 });
 }
+
+
+
+function setIntervalForConfirmationTracking(deliveryRequestId) {
+    intervalId = setInterval(() => {
+        getConfirmationTracking(deliveryRequestId);
+    }, 8000);
+  }
+  
+  async function getConfirmationTracking(deliveryRequestId) {
+    console.log("Fetching Delivery Progress Tracking");
+    await firebase
+      .firestore()
+      .collection("delivery_request_tests")
+      .doc(deliveryRequestId)
+      .get()
+      .then((doc) => {
+        deliveryRequest = doc.data();
+        console.log(deliveryRequest);
+        console.log(deliveryRequest.delivery_completed_flag);
+        if (deliveryRequest.delivery_confirmation_flag == true) {
+          clearInterval(intervalId);
+          sessionStorage.setItem("deliveryRequestId",deliveryRequestId);
+          window.location.href = "./../../pages/delivery_request_seeker/delivery_inprogress_rider.html";  
+        }
+      
+  
+      });
+  }

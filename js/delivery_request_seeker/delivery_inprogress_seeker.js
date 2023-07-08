@@ -11,8 +11,8 @@ if (userDocId == null) {
   userDocId = "ZqrR2gICV2cuT2DCAJIStDE4YEi1";
 }
 
-if (requestDocumentRefId == null) {
-  requestDocumentRefId = "UTo3DxygvHA790xU5a3n";
+if (deliveryRequestId == null) {
+  deliveryRequestId = "UTo3DxygvHA790xU5a3n";
 }
 
 getDeliveryDoc();
@@ -143,9 +143,9 @@ function calcRoute() {
 }
 
 function showProgressTracking() {
+  document.getElementById("progressTracking").innerHTML = "";
 
   const checkboxContainer = document.createElement("div");
-if( progressTrackingCount ==0){
   const checkboxLabels = [
     { id: "deliveryStart", label: "Delivery Start" },
     { id: "inProgress", label: "In Progress" },
@@ -158,13 +158,7 @@ if( progressTrackingCount ==0){
     checkbox.id = checkboxLabel.id;
     checkbox.name = checkboxLabel.id;
     checkbox.value = checkboxLabel.id;
-
-
-    if (checkboxLabel.id === "deliveryStart") {
-      checkbox.disabled = true; 
-      checkbox.checked = true;// Adding the disabled property
-    }
-
+    checkbox.disabled = true; 
     const label = document.createElement("label");
     label.htmlFor = checkboxLabel.id;
     label.textContent = checkboxLabel.label;
@@ -177,26 +171,27 @@ if( progressTrackingCount ==0){
 
   const container = document.getElementById("progressTracking");
   container.appendChild(checkboxContainer);
-  progressTrackingCount++;
+  populateCheckboxes();
+
 }
-  const docRef = firebase
-    .firestore()
-    .collection("delivery_request_tests")
-    .doc('RP90LL6vPwzgKjzanVu7')
+  // const docRef = firebase
+  //   .firestore()
+  //   .collection("delivery_request_tests")
+  //   .doc('RP90LL6vPwzgKjzanVu7')
 
 
-  docRef.get().then((doc) => {
-    if (doc.exists) {
-      const delivery_progress = doc.data().delivery_progress;
-      populateCheckboxes(delivery_progress);
-    } else {
-      console.log("Document not found");
-    }
-  })
-    .catch((error) => {
-      console.log("Error retrieving document:", error);
-    });
-}
+  // docRef.get().then((doc) => {
+  //   if (doc.exists) {
+  //     const delivery_progress = doc.data().delivery_progress;
+  //     populateCheckboxes(delivery_progress);
+  //   } else {
+  //     console.log("Document not found");
+  //   }
+  // })
+  //   .catch((error) => {
+  //     console.log("Error retrieving document:", error);
+  //   });
+
 
 
 function calculatePayment(travelMode, distance, time) {
@@ -268,6 +263,7 @@ async function getProgressTracking() {
     .get()
     .then((doc) => {
       deliveryRequest = doc.data();
+      console.log(deliveryRequest);
       console.log(deliveryRequest.delivery_completed_flag);
       if (deliveryRequest.delivery_completed_flag == true) {
         clearInterval(intervalId);
@@ -277,12 +273,12 @@ async function getProgressTracking() {
     });
 }
 
-const populateCheckboxes = (deliveryProgress) => {
+const populateCheckboxes = () => {
   const deliveryStart = document.getElementById('deliveryStart')
   const inProgress = document.getElementById('inProgress')
   const deliveryComplete = document.getElementById('deliveryComplete')
-  deliveryStart.checked = deliveryProgress.deliveryStart;
-  inProgress.checked = deliveryProgress.inProgress;
-  deliveryComplete.checked = deliveryProgress.deliveryComplete;
+  deliveryStart.checked = deliveryRequest.delivery_confirmation_flag ;
+  inProgress.checked = deliveryRequest.delivery_inprogress_flag ;
+  deliveryComplete.checked = deliveryRequest.delivery_completed_flag  ;
 
 };

@@ -342,6 +342,26 @@ async function saveDeliveryRequest() {
   console.log(`destinationInput:${destinationInput}`);
   deliveryInfo= storeDateTimeAndDropoffOption();
   requestDocumentRef = firebase.firestore().collection("delivery_request_tests").doc();
+  let docss = {
+    deliveryRequestId: requestDocumentRef.id,
+    seekerDocId: userDocId,
+    delivery_requested_by: user_name,
+    origin_name: originInput,
+    destination_name: destinationInput,
+    selected_courier_options: checkedVechicleRadio.value,
+    scheduled_delivery_datetime: deliveryInfo.dateTime,
+    selected_drop_off_option: deliveryInfo.dropoffOption,
+    notes: deliveryInfo.notes,
+    delivery_distance: delivery_distance,
+    delivery_estimated_time: delivery_estimated_time,
+    delivery_total_fee : delivery_total_fee,
+    delivery_picked_up_flag: false,
+    delivery_completed_flag:false,
+    delivery_confirmation_flag:false,
+    delivery_inprogress_flag:false,
+    created_at: new Date().toISOString(),
+  }
+  console.log(docss);
   await requestDocumentRef.set({
     deliveryRequestId: requestDocumentRef.id,
     seekerDocId: userDocId,
@@ -358,6 +378,7 @@ async function saveDeliveryRequest() {
     delivery_picked_up_flag: false,
     delivery_completed_flag:false,
     delivery_confirmation_flag:false,
+    delivery_inprogress_flag:false,
     created_at: new Date().toISOString(),
 
 
@@ -568,6 +589,8 @@ const confirmButtonClickHandler = async function () {
 
   });
   dialogElement.close();
+  sessionStorage.setItem("deliveryRequestId",requestDocumentRef.id);
+  window.location.href = "./../../pages/delivery_request_seeker/delivery_inprogress_seeker.html";   
 };
 confirmButton.addEventListener("click", confirmButtonClickHandler);
 
