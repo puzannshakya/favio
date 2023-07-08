@@ -12,7 +12,7 @@ if (userDocId == null) {
 }
 
 if (requestDocumentRefId == null) {
-  requestDocumentRefId = "UTo3DxygvHA790xU5a3n";
+  requestDocumentRefId = "RP90LL6vPwzgKjzanVu7";
 }
 
 getDeliveryDoc();
@@ -159,6 +159,12 @@ if( progressTrackingCount ==0){
     checkbox.name = checkboxLabel.id;
     checkbox.value = checkboxLabel.id;
 
+
+    if (checkboxLabel.id === "deliveryStart") {
+      checkbox.disabled = true; 
+      checkbox.checked = true;// Adding the disabled property
+    }
+
     const label = document.createElement("label");
     label.htmlFor = checkboxLabel.id;
     label.textContent = checkboxLabel.label;
@@ -176,7 +182,7 @@ if( progressTrackingCount ==0){
   const docRef = firebase
     .firestore()
     .collection("delivery_request_tests")
-    .doc('32bj1sNrr8lfOHZ5Io5b')
+    .doc('RP90LL6vPwzgKjzanVu7')
 
 
   docRef.get().then((doc) => {
@@ -280,8 +286,3 @@ const populateCheckboxes = (deliveryProgress) => {
   deliveryComplete.checked = deliveryProgress.deliveryComplete;
 
 };
-function show(shown, hidden) {
-  document.getElementById(shown).style.display='block';
-  document.getElementById(hidden).style.display='none';
-  return false;
-}
