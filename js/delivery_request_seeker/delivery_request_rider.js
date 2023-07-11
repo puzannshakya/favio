@@ -288,6 +288,7 @@ async function updateDeliveryPickedUp(deliveryRequestId, user_name,userDocId) {
 const favioAvailabilityCheckBox = document.getElementById("Favio_availabilityCheckBox");
 
 
+
 favioAvailabilityCheckBox.addEventListener('change', (e) => {
     e.preventDefault();
     const docRef = firebase.firestore().collection("users_tests").doc(userDocId);
@@ -327,6 +328,10 @@ function updateRequestSectionVisibility(driverAvailability) {
     }
 }
 
+// Set initial availability and visibility
+const initialAvailability = false; // Set initial availability to false
+favioAvailabilityCheckBox.checked = initialAvailability;
+updateRequestSectionVisibility(initialAvailability);
 
 /******************* map *******************/
 var myLatLng = { lat: 49.2820, lng: -123.1171 };
