@@ -193,6 +193,11 @@ function getFormattedDate(timestamp){
         `;
     dialog.appendChild(dialogContent);
 
+    const dialogButtonOpen = document.createElement("button");
+    dialogButtonOpen.textContent = "Open";
+    dialogButtonOpen.id = "dialogButtonOpenId";
+    dialogButtonOpen.setAttribute('class', "dialogOpen");
+    dialog.appendChild(dialogButtonOpen);
 
     const dialogButtonClose = document.createElement("button");
     dialogButtonClose.textContent = "Close";
@@ -217,6 +222,20 @@ function showDialog(dialogElement, clickedData, userDocId) {
         dialogElement.close();
       }
     });
+
+     //OB
+ const oB = dialogElement.querySelector("#dialogButtonOpenId");
+ console.log(oB);
+ const openButtonClickHandler = async function () {
+   alert("Open");
+   oB.removeEventListener("click", openButtonClickHandler); 
+   sessionStorage.setItem("deliveryRequestId",clickedData.deliveryRequestId);
+   dialogElement.close();
+   goInProgress();
+   
+   
+ };
+ oB.addEventListener("click", openButtonClickHandler);
   
   }
 
@@ -327,6 +346,14 @@ function goHome(){
     }else{
         window.location.href = "./../../pages/delivery_request_seeker/delivery_request_seeker.html";  
     }
+}
+
+function goInProgress(){
+  if(isDriver){
+    window.location.href = "./../../pages/delivery_request_seeker/delivery_inprogress_rider.html";  
+}else{
+    window.location.href = "./../../pages/delivery_request_seeker/delivery_inprogress_seeker.html";  
+}
 }
 
 

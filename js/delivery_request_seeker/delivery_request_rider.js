@@ -119,7 +119,16 @@ function dialogData(data,request_type) {
       dialogButtonConfirm.id = "dialogButtonConfirmId";
       dialogButtonConfirm.setAttribute('class', "dialogConfirm");
       dialog.appendChild(dialogButtonConfirm);
+    }else{
+      const dialogButtonOpen = document.createElement("button");
+      dialogButtonOpen.textContent = "Open";
+      dialogButtonOpen.id = "dialogButtonOpenId";
+      dialogButtonOpen.setAttribute('class', "dialogOpen");
+      dialog.appendChild(dialogButtonOpen);
     }
+
+    
+   
     
 
     const dialogButtonClose = document.createElement("button");
@@ -226,7 +235,7 @@ function generateContent(data, userDocId, user_name,driver_availability,request_
             const value = clickedContainer3.getAttribute("data-value");
             clickedData = data[value];
 
-        showDialog(dialogElement, clickedData, user_name, userDocId); 
+        showDialog(dialogElement, clickedData, user_name, userDocId,request_type); 
       });
     });
   } else {
@@ -235,7 +244,7 @@ function generateContent(data, userDocId, user_name,driver_availability,request_
 }
 
 // Function to handle the dialog actions
-function showDialog(dialogElement, clickedData, user_name, userDocId) {
+function showDialog(dialogElement, clickedData, user_name, userDocId,request_type) {
   dialogElement.showModal();
 
   const closeModal = dialogElement.querySelector(".dialogClose");
@@ -250,9 +259,11 @@ function showDialog(dialogElement, clickedData, user_name, userDocId) {
     }
   });
 
-  // Update data on button click
+  if(request_type === 'requests'){
+    // Update data on button click
   const confirmButton = dialogElement.querySelector("#dialogButtonConfirmId");
   const confirmButtonClickHandler = async function () {
+    alert("confirm");
     confirmButton.removeEventListener("click", confirmButtonClickHandler); 
 
     await updateDeliveryPickedUp(clickedData.deliveryRequestId, user_name, userDocId);
@@ -261,6 +272,27 @@ function showDialog(dialogElement, clickedData, user_name, userDocId) {
     
   };
   confirmButton.addEventListener("click", confirmButtonClickHandler);
+
+
+  }else{
+ //OB
+ const oB = dialogElement.querySelector("#dialogButtonOpenId");
+ console.log(oB);
+ const openButtonClickHandler = async function () {
+   alert("Open");
+   oB.removeEventListener("click", openButtonClickHandler); 
+   sessionStorage.setItem("deliveryRequestId",clickedData.deliveryRequestId);
+   dialogElement.close();
+   window.location.href = "./../../pages/delivery_request_seeker/delivery_inprogress_rider.html";  
+   
+   
+ };
+ oB.addEventListener("click", openButtonClickHandler);
+  }
+ 
+
+  
+  
 }
 
 
