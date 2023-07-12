@@ -24,7 +24,7 @@ async function getDeliveryRequestData(){
 
        if(isDriver){
         console.log(userDocId);
-        await firebase.firestore().collection("delivery_request_tests").where('riderDocId', '==', userDocId).get().then( docData => {
+        await firebase.firestore().collection("delivery_request_tests").where('riderDocId', '==', userDocId).orderBy('created_at', 'desc').get().then( docData => {
          if (docData.empty) {
              console.log("No Such document");
              
@@ -40,7 +40,7 @@ async function getDeliveryRequestData(){
         });
        }else{
         console.log(userDocId);
-        await firebase.firestore().collection("delivery_request_tests").where('seekerDocId', '==', userDocId).get().then( docData => {
+        await firebase.firestore().collection("delivery_request_tests").where('seekerDocId', '==', userDocId).orderBy('created_at', 'desc').get().then( docData => {
          if (docData.empty) {
              console.log("No Such document");
              
@@ -238,7 +238,7 @@ function showDialog(dialogElement, clickedData, userDocId) {
 
     if(isDriver){
      console.log(userDocId);
-      firebase.firestore().collection("delivery_request_tests").where('riderDocId', '==', userDocId).where('delivery_completed_flag' , '==',true).get().then( docData => {
+      firebase.firestore().collection("delivery_request_tests").where('riderDocId', '==', userDocId).where('delivery_completed_flag' , '==',true).orderBy('created_at', 'desc').get().then( docData => {
       if (docData.empty) {
           console.log("No Such document");
           
@@ -254,7 +254,7 @@ function showDialog(dialogElement, clickedData, userDocId) {
      });
     }else{
      console.log(userDocId);
-      firebase.firestore().collection("delivery_request_tests").where('seekerDocId', '==', userDocId).where('delivery_completed_flag' , '==',true).get().then( docData => {
+      firebase.firestore().collection("delivery_request_tests").where('seekerDocId', '==', userDocId).where('delivery_completed_flag' , '==',true).orderBy('created_at', 'desc').get().then( docData => {
       if (docData.empty) {
           console.log("No Such document");
           

@@ -57,7 +57,7 @@ function showRequests(){
     };
 }).then(function(userData) {
     data = [];
-    db.collection("delivery_request_tests").where('delivery_picked_up_flag' , '==',false).get().then(function(query) {
+    db.collection("delivery_request_tests").where('delivery_picked_up_flag' , '==',false).orderBy('created_at', 'desc').get().then(function(query) {
         query.forEach(function(doc) {
             data.push(doc.data());
             return data;
@@ -375,7 +375,7 @@ function showInProgress(){
     };
 }).then(function(userData) {
     data = [];
-    db.collection("delivery_request_tests").where('delivery_picked_up_flag' , '==',true).where('delivery_completed_flag' , '==',false).get().then(function(query) {
+    db.collection("delivery_request_tests").where('delivery_picked_up_flag' , '==',true).where('delivery_completed_flag' , '==',false).orderBy('created_at', 'desc').get().then(function(query) {
         query.forEach(function(doc) {
             data.push(doc.data());
             return data;
@@ -410,7 +410,7 @@ function showCompleted(){
     };
 }).then(function(userData) {
     data = [];
-    db.collection("delivery_request_tests").where('delivery_picked_up_flag' , '==',true).where('delivery_completed_flag' , '==',true).get().then(function(query) {
+    db.collection("delivery_request_tests").where('delivery_picked_up_flag' , '==',true).where('delivery_completed_flag' , '==',true).orderBy('created_at', 'desc').get().then(function(query) {
         query.forEach(function(doc) {
             data.push(doc.data());
             return data;
