@@ -23,22 +23,39 @@ progressTracking.addEventListener('change', () => {
       inProgress: inProgress,
       deliveryComplete: deliveryComplete
   };
- 
-   docRef.update({
-          delivery_progress: delivery_progress,
-          delivery_completed_flag:deliveryComplete,
-          delivery_inprogress_flag:inProgress
+  if(deliveryComplete)
+  {
+    docRef.update({
+      delivery_progress: delivery_progress,
+      delivery_inprogress_flag:inProgress
+  })
+       .then(() => {
+          alert("Delivery progress updated successfully.");
       })
-           .then(() => {
-              alert("Delivery progress updated successfully.");
-          })
-          .catch((error) => {
-             console.log("Error updating delivery progress: " + error);
-        });
-
+      .catch((error) => {
+         console.log("Error updating delivery progress: " + error);
+    });
+  }else{
+    docRef.update({
+      delivery_progress: delivery_progress,
+      delivery_completed_flag:deliveryComplete,
+      delivery_inprogress_flag:inProgress
+  })
+       .then(() => {
+          alert("Delivery progress updated successfully.");
+      })
+      .catch((error) => {
+         console.log("Error updating delivery progress: " + error);
+    });
+  }
+ 
+   
+       if(inProgress){
         if(deliveryComplete){
           openDialog(); 
         }
+       }
+        
 });
 
 
@@ -57,41 +74,12 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 
-getDeliveryDoc();
-async function getDeliveryDoc() {
-  await firebase
-    .firestore()
-    .collection("delivery_request_tests")
-    .doc(deliveryRequestId)
-    .get()
-    .then((doc) => {
-      console.log(doc.data());
-      console.log(doc.data().delivery_progress.delivery_completed_flag);
-
-      let delivery_completed_flag = doc.data().delivery_progress.delivery_completed_flag;
-
-      showVerifyButton(delivery_completed_flag);
-    });
-}
-function showVerifyButton(delivery_completed_flag) {
-  const completediv = document.getElementById("complete");
-
-  if (delivery_completed_flag) {
-    const completebtn = document.createElement("button");
-    completebtn.id = "completebtn";
-    completebtn.innerText = "Complete";
-    completebtn.setAttribute("onclick", "openDialog()");
-    completediv.appendChild(completebtn);
-  }
-}
-
-
 function openDialog() {
   console.log("hi");
   const dialogElement = createDialogElement();
   showDialog(dialogElement);
+  startCamera();
 }
-
 
 
 
@@ -103,26 +91,26 @@ function createDialogElement() {
 
   const dialogContent = document.createElement("div");
   dialogContent.setAttribute("class", "dialogContent");
+
   dialogContent.innerHTML = `
     <div class="photo2">
       <div>
-        <button id="start">Start Camera</button>
         <button id="snap" onclick="snapPhoto()">Snap Photo</button>
-        <button id="stop" disabled>Stop Camera</button>
       </div>
       <br />
       <video id="video" width="320" height="240" autoplay></video>
       <br />
       <canvas id="canvas" width="320" height="240"></canvas>
     </div>
-    <button class="dialogClose">Close</button>
-  `;
+`; 
   dialog.appendChild(dialogContent);
 
   // Show dialog event listener
   dialog.addEventListener("click", function (event) {
     if (event.target === dialog) {
       dialog.close();
+      stopCamera();
+      dialog.remove();
     }
   });
 
@@ -139,6 +127,7 @@ function showDialog(dialogElement) {
     dialogElement.showModal();
 
     // camera
+     
 
 const filetext = document.querySelector(".filetext");
 const uploadpercent = document.querySelector(".uploadpercent");
@@ -195,111 +184,119 @@ function uploadimg(){
     // Elements for taking the snapshot
     const snapBtn = dialogElement.querySelector("#snap");
 
-    // Camera start event listener
-    startBtn.addEventListener("click", startCamera);
-
-    // Camera stop event listener
-    stopBtn.addEventListener("click", stopCamera);
+   
 
     // Trigger photo take event listener
     snapBtn.addEventListener("click", snapPhoto);
 
-    function startCamera() {
-      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        video.style.display = "block";
-        canvas.style.display = "none";
-        navigator.mediaDevices
-          .getUserMedia({ video: true })
-          .then((stream) => {
-            video.srcObject = stream;
-            startBtn.disabled = false;
-            stopBtn.disabled = false;
-          })
-          .catch((error) => {
-            console.error("Error starting camera:", error);
-          });
-      } else {
-        console.log("This browser doesn't support media devices");
-      }
-    }
-
-    function stopCamera() {
-      video.style.display = "none";
-      canvas.style.display = "block";
-      const tracks = video.srcObject.getTracks();
-      tracks.forEach((track) => track.stop());
-      startBtn.disabled = false;
-      stopBtn.disabled = true;
-    }
-
+    
     function snapPhoto() {
       context.drawImage(video, 0, 0);
-
+    
       const canvasDataURL = canvas.toDataURL();
-      video.style.display = "none";
+      video.style.display = "block";
       canvas.style.display = "block";
       // Here you can upload this data to store the image in storage
       console.log("URL", canvasDataURL);
-
+    
       // This is just to show we can also create an image element
       uploadimagevid(canvasDataURL);
     }
 
     
-
-  function uploadimagevid(canvasDataURL) {
-    // Convert the base64 dataURL to a Blob object
-    const byteString = atob(canvasDataURL.split(',')[1]);
-    const mimeType = canvasDataURL.match(/(:)([a-z\/]+)(;)/)[2];
-    const arrayBuffer = new ArrayBuffer(byteString.length);
-    const uint8Array = new Uint8Array(arrayBuffer);
-    for (let i = 0; i < byteString.length; i++) {
-      uint8Array[i] = byteString.charCodeAt(i);
-    }
-    const blob = new Blob([uint8Array], { type: mimeType });
-
-    // Generate a unique filename for the image
-    const filename = 'images/' + Date.now() + '.png';
-
-    // Upload the image to Firebase Storage
-    const storageRef = firebase.storage().ref(filename);
-    const uploadTask = storageRef.put(blob);
-
-    uploadTask.on(
-      'state_changed',
-      (snapshot) => {
-        // Handle upload progress if needed
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log('Upload progress:', progress.toFixed(2) + '%');
-      },
-      (error) => {
-        console.log('Error:', error);
-      },
-      () => {
-        // Upload complete, get the download URL
-        uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-          console.log('File available at:', downloadURL);
-
-          // Store the download URL in Firebase Firestore
-          const db = firebase.firestore();
-          db.collection('delivery_request_tests').doc(deliveryRequestId).update({
-            delivery_completed_image_url : downloadURL
-          })
-          .then((docRef) => {
-            console.log('Download URL stored with ID:', docRef.id);
-          })
-          .catch((error) => {
-            console.log('Error storing download URL:', error);
-          });
-
-          // Display the uploaded image
-          img.setAttribute('src', downloadURL);
-          img.style.display = 'block';
-        });
+    function uploadimagevid(canvasDataURL) {
+      // Convert the base64 dataURL to a Blob object
+      const byteString = atob(canvasDataURL.split(',')[1]);
+      const mimeType = canvasDataURL.match(/(:)([a-z\/]+)(;)/)[2];
+      const arrayBuffer = new ArrayBuffer(byteString.length);
+      const uint8Array = new Uint8Array(arrayBuffer);
+      for (let i = 0; i < byteString.length; i++) {
+        uint8Array[i] = byteString.charCodeAt(i);
       }
-    );
-    }
+      const blob = new Blob([uint8Array], { type: mimeType });
+  
+      // Generate a unique filename for the image
+      const filename = 'images/' + Date.now() + '.png';
+  
+      // Upload the image to Firebase Storage
+      const storageRef = firebase.storage().ref(filename);
+      const uploadTask = storageRef.put(blob);
+  
+      uploadTask.on(
+        'state_changed',
+        (snapshot) => {
+          // Handle upload progress if needed
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log('Upload progress:', progress.toFixed(2) + '%');
+        },
+        (error) => {
+          console.log('Error:', error);
+        },
+        () => {
+          // Upload complete, get the download URL
+          uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+            console.log('File available at:', downloadURL);
+  
+            // Store the download URL in Firebase Firestore
+            const db = firebase.firestore();
+            db.collection('delivery_request_tests').doc(deliveryRequestId).update({
+              delivery_completed_image_url : downloadURL,
+              delivery_completed_flag:true
+            })
+            .then((docRef) => {
+              console.log('Download URL stored with ID:', docRef.id);
+            })
+            .catch((error) => {
+              console.log('Error storing download URL:', error);
+            });
+  
+            // Display the uploaded image
+            img.setAttribute('src', downloadURL);
+            img.style.display = 'block';
+          });
+        }
+      );
+      }
+
+    
+
+  
 } else {
     console.error("Invalid dialogElement provided or dialog is already open");
   }
 }
+
+function startCamera() {
+  alert('starting camera');
+  console.log(deliveryRequestId);
+  if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    video.style.display = "block";
+    canvas.style.display = "none";
+    navigator.mediaDevices
+      .getUserMedia({ video: true })
+      .then((stream) => {
+        video.srcObject = stream;
+        startBtn.disabled = false;
+        stopBtn.disabled = false;
+      })
+      .catch((error) => {
+        console.error("Error starting camera:", error);
+      });
+  } else {
+    console.log("This browser doesn't support media devices");
+  }
+}
+
+
+function stopCamera() {
+  video.style.display = "none";
+  canvas.style.display = "block";
+  const tracks = video.srcObject.getTracks();
+  tracks.forEach((track) => track.stop());
+}
+
+
+
+
+
+
