@@ -1,5 +1,5 @@
 signin.addEventListener('click', async(e) => {
-    alert("hello");
+    // alert("hello");
     const signInEmail = email.value;
     const signInPassword = password.value;
     const isDriver = document.querySelector('input[name="driver"]:checked');

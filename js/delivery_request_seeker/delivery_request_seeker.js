@@ -341,6 +341,12 @@ async function saveDeliveryRequest() {
   console.log(`originInput:${originInput}`);
   console.log(`destinationInput:${destinationInput}`);
   deliveryInfo= storeDateTimeAndDropoffOption();
+  if(deliveryInfo.dateTime == ""){
+    scheduled_delivery_flag = false;
+  }else{
+    scheduled_delivery_flag = true;
+  }
+  
   requestDocumentRef = firebase.firestore().collection("delivery_request_tests").doc();
   await requestDocumentRef.set({
     deliveryRequestId: requestDocumentRef.id,
@@ -361,6 +367,7 @@ async function saveDeliveryRequest() {
     delivery_inprogress_flag:false,
     delivery_completed_image_confirmation_flag:false,
     delivery_completed_confirmation_flag: false,
+    scheduled_delivery_flag :  scheduled_delivery_flag,
     created_at: new Date().toISOString(),
 
 
@@ -425,6 +432,7 @@ async function saveDeliveryRequest() {
     .catch(error => {
       console.log('Error:', error);
     });
+    
 }
 
 
