@@ -374,8 +374,8 @@ function uploadimg(){
     context.scale(0.5, 0.5);
 
 
-    const startBtn = dialogElement.querySelector("#start");
-    const stopBtn = dialogElement.querySelector("#stop");
+    // const startBtn = dialogElement.querySelector("#start");
+    // const stopBtn = dialogElement.querySelector("#stop");
 
     // Elements for taking the snapshot
     const snapBtn = dialogElement.querySelector("#snap");
