@@ -57,7 +57,7 @@ function showRequests(){
     };
 }).then(function(userData) {
     data = [];
-    db.collection("delivery_request_tests").where('delivery_picked_up_flag' , '==',false).orderBy('created_at', 'desc').get().then(function(query) {
+    db.collection("delivery_request_tests").where('delivery_picked_up_flag' , '==',false).where('scheduled_delivery_flag' , '==',false).orderBy('created_at', 'desc').get().then(function(query) {
         query.forEach(function(doc) {
             data.push(doc.data());
             return data;
@@ -86,34 +86,68 @@ function dialogData(data,request_type) {
 
     const dialogContent = document.createElement("div"); 
     dialogContent.setAttribute('class', "dialogContent"); 
-    dialogContent.innerHTML = `
-        <p class="dialog-head">${data.delivery_requested_by} sent a request</p>
-        <img class="dialog-img" style="width:50px; height:50px;" src="./../../img/bike.svg">
-        <p class="dialog-date">${requestDt.getDate()} ${requestDt.toLocaleString('default', { month: 'long' })} ${requestDt.getFullYear()}</p>
-        <p class="dialog-time">${requestDt.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</p>
-        <p class="dialog-title">Pick-up Location: </p>
-        <p class="dialog-detail">${data.origin_name}</p>
-        <p class="dialog-title">Drop-off Location: </p>
-        <p class="dialog-detail">${data.destination_name}</p>
-        <p class="dialog-title">Package Details:</p>
-        <p class="dialog-detail">Size: ${data.size}cm</p>
-        <p class="dialog-detail">Weight: ${data.weight}kg</p>
+    if(data.scheduled_delivery_flag ){
+      let scheduledDate = new Date(data.scheduled_delivery_datetime);
+      dialogContent.innerHTML = `
+      <p class="dialog-head">${data.delivery_requested_by} sent a request</p>
+      <img class="dialog-img" style="width:50px; height:50px;" src="./../../img/bike.svg">
+      <p class="dialog-date">${requestDt.getDate()} ${requestDt.toLocaleString('default', { month: 'long' })} ${requestDt.getFullYear()}</p>
+      <p class="dialog-time">${requestDt.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</p>
+      <p class="dialog-title">Scheduled Date: </p>
+      <p class="dialog-detail">${scheduledDate.getDate()} ${scheduledDate.toLocaleString('default', { month: 'long' })} ${scheduledDate.getFullYear()}</p>
+      <p class="dialog-title">Scheduled Time: </p>
+      <p class="dialog-detail">${scheduledDate.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</p>
+      <p class="dialog-title">Pick-up Location: </p>
+      <p class="dialog-detail">${data.origin_name}</p>
+      <p class="dialog-title">Drop-off Location: </p>
+      <p class="dialog-detail">${data.destination_name}</p>
+      <p class="dialog-title">Package Details:</p>
+      <p class="dialog-detail">Size: ${data.size}cm</p>
+      <p class="dialog-detail">Weight: ${data.weight}kg</p>
 
-        <p class="dialog-title">Drop-off Method:</p>
-        <p class="dialog-detail">${data.selected_drop_off_option}</p>
+      <p class="dialog-title">Drop-off Method:</p>
+      <p class="dialog-detail">${data.selected_drop_off_option}</p>
 
-        <p class="dialog-title">Notes:</p>
-        <p class="dialog-detail">${data.note}</p>
+      <p class="dialog-title">Notes:</p>
+      <p class="dialog-detail">${data.notes}</p>
 
-        <p class="dialog-title">Estimated Time:</p>
-        <p class="dialog-detail">${data.delivery_estimated_time}</p>
+      <p class="dialog-title">Estimated Time:</p>
+      <p class="dialog-detail">${data.delivery_estimated_time}</p>
 
-        <p class="dialog-distance">${data.delivery_distance}km</p>
-        <p class="dialog-price">$ ${data.delivery_total_fee} CAD</p>
-        `;
+      <p class="dialog-distance">${data.delivery_distance}km</p>
+      <p class="dialog-price">$ ${data.delivery_total_fee} CAD</p>
+      `;
+    }else{
+      dialogContent.innerHTML = `
+      <p class="dialog-head">${data.delivery_requested_by} sent a request</p>
+      <img class="dialog-img" style="width:50px; height:50px;" src="./../../img/bike.svg">
+      <p class="dialog-date">${requestDt.getDate()} ${requestDt.toLocaleString('default', { month: 'long' })} ${requestDt.getFullYear()}</p>
+      <p class="dialog-time">${requestDt.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</p>
+      <p class="dialog-title">Pick-up Location: </p>
+      <p class="dialog-detail">${data.origin_name}</p>
+      <p class="dialog-title">Drop-off Location: </p>
+      <p class="dialog-detail">${data.destination_name}</p>
+      <p class="dialog-title">Package Details:</p>
+      <p class="dialog-detail">Size: ${data.size}cm</p>
+      <p class="dialog-detail">Weight: ${data.weight}kg</p>
+
+      <p class="dialog-title">Drop-off Method:</p>
+      <p class="dialog-detail">${data.selected_drop_off_option}</p>
+
+      <p class="dialog-title">Notes:</p>
+      <p class="dialog-detail">${data.note}</p>
+
+      <p class="dialog-title">Estimated Time:</p>
+      <p class="dialog-detail">${data.delivery_estimated_time}</p>
+
+      <p class="dialog-distance">${data.delivery_distance}km</p>
+      <p class="dialog-price">$ ${data.delivery_total_fee} CAD</p>
+      `;
+    }
+   
     dialog.appendChild(dialogContent);
 
-    if(request_type === 'requests'){
+    if(request_type === 'requests' || request_type === 'scheduled'){
       const dialogButtonConfirm = document.createElement("button");
       dialogButtonConfirm.textContent = "Confirm";
       dialogButtonConfirm.id = "dialogButtonConfirmId";
@@ -181,6 +215,7 @@ function generateContent(data, userDocId, user_name,driver_availability,request_
         requestContainer1.appendChild(requestName);
         //  date
         let requestDt = new Date(i.created_at);
+        let scheduledDt= new Date(i.scheduled_delivery_datetime);
         const requestDate = document.createElement("p");
         requestDate.innerHTML = `${requestDt.getDate()} ${requestDt.toLocaleString('default', { month: 'long' })} ${requestDt.getFullYear()}`;
         requestContainer1.appendChild(requestDate);
@@ -188,6 +223,19 @@ function generateContent(data, userDocId, user_name,driver_availability,request_
         const requestTime = document.createElement("p");
         requestTime.innerHTML =requestDt.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
         requestContainer1.appendChild(requestTime);
+
+
+        if(i.scheduled_delivery_flag){
+          const scheduledDate = document.createElement("p");
+          scheduledDate.innerHTML = `${scheduledDt.getDate()} ${scheduledDt.toLocaleString('default', { month: 'long' })} ${scheduledDt.getFullYear()}`;
+          scheduledDate.style.border = '1px solid black'
+           requestContainer1.appendChild(scheduledDate);
+
+        const scheduledTime = document.createElement("p");
+        scheduledTime.innerHTML =scheduledDt.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+        scheduledTime.style.border = '1px solid black'
+        requestContainer1.appendChild(scheduledTime);
+        }
         
         // div center: time, distance
         const requestContainer2 = document.createElement("div"); 
@@ -259,7 +307,7 @@ function showDialog(dialogElement, clickedData, user_name, userDocId,request_typ
     }
   });
 
-  if(request_type === 'requests'){
+  if(request_type === 'requests' || request_type === 'scheduled'){
     // Update data on button click
   const confirmButton = dialogElement.querySelector("#dialogButtonConfirmId");
   const confirmButtonClickHandler = async function () {
@@ -449,6 +497,40 @@ function showCompleted(){
         });
         console.log(data);
         generateContent(data, userDocId,userData.user_name, true,"completed");
+    }).catch(function(error) {
+        console.log("Error getting documents: ", error);
+    });
+}).catch(function(error) {
+    console.log("Error getting documents: ", error);
+});
+}
+
+function showScheduled(){
+  console.log("Scheduled");
+  db.collection("users_tests").get().then(function(query) {
+    var user_data = [];
+    query.forEach(function(doc) {
+        user_data.push(doc.data());
+    });
+    var filtered_data = user_data.filter(function(user) {
+        return user.userDocId === userDocId;
+    });
+
+    const user_name = filtered_data[0].user_name;
+    const driver_availability = filtered_data[0].driver_availability;
+    return {
+        user_name: user_name,
+        driver_availability: driver_availability
+    };
+}).then(function(userData) {
+    data = [];
+    db.collection("delivery_request_tests").where('delivery_picked_up_flag' , '==',false).where('scheduled_delivery_flag' , '==',true).orderBy('created_at', 'desc').get().then(function(query) {
+        query.forEach(function(doc) {
+            data.push(doc.data());
+            return data;
+        });
+        console.log(data);
+        generateContent(data, userDocId,userData.user_name, true,"scheduled");
     }).catch(function(error) {
         console.log("Error getting documents: ", error);
     });
