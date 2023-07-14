@@ -33,7 +33,12 @@ async function getDeliveryDoc() {
       if(!deliveryRequest.delivery_completed_image_confirmation_flag){
         setIntervalForProgressTracking();
         }else{
-          submitButtonDeliveryCompleteRider.style.backgroundColor = "#F5BF20";
+          if(deliveryRequest.delivery_completed_rider_flag ){
+            submitButtonDeliveryCompleteRider.style.backgroundColor = "#07B875";
+          }else{
+            submitButtonDeliveryCompleteRider.style.backgroundColor = "#F5BF20";
+          }
+          
         }
 
 
@@ -519,10 +524,15 @@ async function getProgressTracking() {
        deliveryRequest = doc.data();
       console.log(deliveryRequest);
       console.log(deliveryRequest.delivery_completed_image_confirmation_flag);
-      if (deliveryRequest.delivery_completed_image_confirmation_flag == true) {
+      if (deliveryRequest.delivery_completed_image_confirmation_flag) {
         clearInterval(intervalId);
-        submitButtonDeliveryCompleteRider.style.backgroundColor = "#F5BF20";
-
+        if(deliveryRequest.delivery_completed_rider_flag){
+          alert("completed");
+          submitButtonDeliveryCompleteRider.style.backgroundColor = "#07B875";
+       }else{
+      submitButtonDeliveryCompleteRider.style.backgroundColor = "#F5BF20";
+        }
+       
       }
      
 

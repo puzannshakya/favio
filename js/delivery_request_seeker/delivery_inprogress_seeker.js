@@ -40,7 +40,7 @@ async function getDeliveryDoc() {
         completedImage.style.display="block";
         if(!deliveryRequest.delivery_completed_image_confirmation_flag){
           confirmCompletedImage.style.display="block";
-          cancelCompletedImage.style.display="block";
+          // cancelCompletedImage.style.display="block";
         }
       }
       
@@ -346,8 +346,8 @@ function showDialog(dialogElement) {
     dialogElement.close();
     dialogElement.remove();
     confirmCompletedImage.style.display="block";
-    cancelCompletedImage.style.display="block";
-    setIntervalForProgressTracking();
+    // cancelCompletedImage.style.display="block";
+    // setIntervalForProgressTracking();
   });
 
   const confirmNowModal = dialogElement.querySelector(".dialogConfirmNow");
@@ -372,10 +372,24 @@ function showDialog(dialogElement) {
       dialogElement.close();
       dialogElement.remove();
       confirmCompletedImage.style.display="block";
-      cancelCompletedImage.style.display="block";
+      // cancelCompletedImage.style.display="block";
     }
   });
 } else {
   console.error('Invalid dialogElement provided or dialog is already open');
 }
+}
+
+function confirmDeliveryImage(){
+  firebase.firestore().collection('delivery_request_tests').doc(deliveryRequestId).update({
+    delivery_completed_image_confirmation_flag:true
+  })
+  .then((docRef) => {
+    clearInterval(intervalId);
+    confirmCompletedImage.style.display="none";
+    console.log('delivery_completed_image_confirmation_flag Updated ');
+  })
+  .catch((error) => {
+    console.log('Error updating ');
+  });
 }
