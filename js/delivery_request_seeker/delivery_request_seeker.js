@@ -433,13 +433,13 @@ function calculatePayment(travelMode, distance, time) {
 
   switch (travelMode) {
     case "DRIVING":
-      distanceMultiplier = 0.20;
-      timeMultiplier = 0.08;
+      distanceMultiplier = 0.50;
+      timeMultiplier = 0.10;
       basePrice = 5;
       break;
     case "TRANSIT":
-      distanceMultiplier = 0.50;
-      timeMultiplier = 0.10;
+      distanceMultiplier = 0.20;
+      timeMultiplier = 0.08;
       basePrice = 4;
       break;
     case "TWO_WHEELER":
@@ -468,7 +468,7 @@ function calculatePayment(travelMode, distance, time) {
 
 }
 function calculateDistancePrice(distance, distanceMultiplier) {
-  const distanceFloat = parseFloat(distance) * 1.60934;
+  const distanceFloat = parseFloat(distance);
   return distanceMultiplier * distanceFloat;
 }
 
