@@ -26,6 +26,9 @@ async function getDeliveryDoc() {
       console.log(deliveryRequest);
       from.value = deliveryRequest.origin_name;
       to.value = deliveryRequest.destination_name;
+      document.getElementById('deliveryStart').checked = deliveryRequest.delivery_picked_up_flag;
+      document.getElementById('inProgress').checked = deliveryRequest.delivery_inprogress_flag;
+      document.getElementById('deliveryComplete').checked = deliveryRequest.delivery_completed_flag ;
       calcRoute();
       if(!deliveryRequest.delivery_completed_image_confirmation_flag){
         setIntervalForProgressTracking();
@@ -444,7 +447,10 @@ function uploadimg(){
             })
             .then((docRef) => {
               setIntervalForProgressTracking();
+              console.log('Completed Image Src');
               completedImage.src=downloadURL;
+              completedImage.style.display ="block";
+              console.log(completedImage);
               console.log('Download URL stored with ID:', docRef.id);
             })
             .catch((error) => {
@@ -515,12 +521,27 @@ async function getProgressTracking() {
       console.log(deliveryRequest.delivery_completed_image_confirmation_flag);
       if (deliveryRequest.delivery_completed_image_confirmation_flag == true) {
         clearInterval(intervalId);
-        submitButtonDeliveryCompleteRider.style.backgroundColor = "Yellow";
+        submitButtonDeliveryCompleteRider.style.backgroundColor = "#F5BF20";
 
       }
      
 
     });
+}
+
+
+function deliveryCompletedFinal(){
+  firebase.firestore().collection('delivery_request_tests').doc(deliveryRequestId).update({
+    delivery_completed_rider_flag :true
+  })
+  .then((docRef) => {
+    console.log('delivery_completed_rider_flag  Updated ');
+    submitButtonDeliveryCompleteRider.style.backgroundColor = "#07B875";
+
+  })
+  .catch((error) => {
+    console.log('Error updating ');
+  });
 }
 
 
