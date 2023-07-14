@@ -5,6 +5,7 @@ var bookingFee = 2;
 var minimumFare = 5;
 var intervalId;
 var progressTrackingCount =0;
+let delivery_completed_image_confirmation_flag = false;
 
 
 if (userDocId == null) {
@@ -29,7 +30,20 @@ async function getDeliveryDoc() {
       to.value = deliveryRequest.destination_name;
       calcRoute();
       showProgressTracking();
+
+      if(!deliveryRequest.delivery_completed_image_confirmation_flag){
       setIntervalForProgressTracking();
+      }
+
+      if(deliveryRequest.delivery_completed_flag ){
+        completedImage.src=`${deliveryRequest.delivery_completed_image_url}`;
+        completedImage.style.display="block";
+        if(!deliveryRequest.delivery_completed_image_confirmation_flag){
+          confirmCompletedImage.style.display="block";
+          cancelCompletedImage.style.display="block";
+        }
+      }
+      
     });
 }
 
@@ -307,9 +321,13 @@ function createDialogElement(imageUrl) {
   dialogContent.innerHTML = `
     <p class="dialog-head">Sent a request</p>
     <img class="dialog-img" style="width: 50px; height: 50px;" src="${imageUrl}">
-    <button class="dialogClose">Close</button>
+    <button class="dialogClose">Confirm Later</button>
+    <button class="dialogConfirmNow">Confirm Now</button>
   `;
   dialog.appendChild(dialogContent);
+  completedImage.src=`${imageUrl}`;
+  completedImage.style.display="block";
+ 
 
   return dialog;
 }
@@ -326,12 +344,35 @@ function showDialog(dialogElement) {
   const closeModal = dialogElement.querySelector(".dialogClose");
   closeModal.addEventListener("click", function (event) {
     dialogElement.close();
+    dialogElement.remove();
+    confirmCompletedImage.style.display="block";
+    cancelCompletedImage.style.display="block";
+    setIntervalForProgressTracking();
+  });
+
+  const confirmNowModal = dialogElement.querySelector(".dialogConfirmNow");
+  confirmNowModal.addEventListener("click", function (event) {
+    console.log(deliveryRequestId);
+    firebase.firestore().collection('delivery_request_tests').doc(deliveryRequestId).update({
+      delivery_completed_image_confirmation_flag:true
+    })
+    .then((docRef) => {
+      console.log('delivery_completed_image_confirmation_flag Updated ');
+    })
+    .catch((error) => {
+      console.log('Error updating ');
+    });
+    dialogElement.close();
+    dialogElement.remove();
   });
 
   // Close dialog when clicking outside
   dialogElement.addEventListener("click", function (event) {
     if (event.target === dialogElement) {
       dialogElement.close();
+      dialogElement.remove();
+      confirmCompletedImage.style.display="block";
+      cancelCompletedImage.style.display="block";
     }
   });
 } else {

@@ -359,6 +359,8 @@ async function saveDeliveryRequest() {
     delivery_completed_flag:false,
     delivery_confirmation_flag:false,
     delivery_inprogress_flag:false,
+    delivery_completed_image_confirmation_flag:false,
+    delivery_completed_confirmation_flag: false,
     created_at: new Date().toISOString(),
   }
   console.log(docss);
