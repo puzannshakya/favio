@@ -4,9 +4,9 @@
     /* height: auto; */
     height: 80vh;
     margin: 10px auto;
-  }
+}
 
-  * {
+* {
     box-sizing: border-box;
 }
 
@@ -155,7 +155,7 @@ a {
     gap: 1rem;
 }
 
-.options{
+.options {
     padding: 0.5rem 1rem;
     border-radius: 20px;
     border: 1px solid #c4c4c4;
@@ -163,24 +163,24 @@ a {
     opacity: 80%;
 }
 
-.courier-icon img{
+.courier-icon img {
     width: 100px;
 }
 
-.options a{
+.options a {
     display: flex;
     gap: 2rem;
     align-items: center;
 }
 
-.options:hover{
+.options:hover {
     filter: grayscale(0);
     background-color: rgb(239, 239, 239);
     border: 2px solid #222222;
     opacity: 100%;
 }
 
-.options:hover a{
+.options:hover a {
     color: #222222;
 }
 
@@ -205,9 +205,9 @@ button {
     background-color: white;
     border-top: 1px solid #c4c4c4;
 }
-  
 
-.request-div{
+
+.request-div {
     border: 1px solid black;
     border-radius: 30px;
     width: 500px;

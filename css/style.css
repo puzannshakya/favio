@@ -1,0 +1,150 @@
+:root {
+    /* typography */
+    --typography-size-hero: 60px;
+    --typography-size-header: 3.052rem;
+    --typography-size-subheader: 2.441rem;
+    --typography-size-title: 1.953rem;
+    --typography-size-subtitle: 1.563rem;
+    --typography-size-hero: 1.25rem;
+    --typography-size-body: 1rem;
+    --typography-size-small: 0.8rem;
+    --typography-size-smallest: 0.64rem;
+
+
+    /* Colors */
+    --color-primary: #07B875;
+    --color-primary-light: #82DEBC;
+    --color-primary-dark: #043C27;
+    --color-secondary: #F5BF20;
+    --color-accent: #F66256;
+    --color-contrast-dark: #222222;
+    --color-contrast-grey: #767676;
+    --color-contrast-light: #D9D9D9;
+    --color-contrast-white: #ffffff;
+
+
+    /* Variables */
+    --border-radius: 14px;
+    --line: 1px solid;
+    --drop-shadow: ;
+}
+
+/* ================== Font Import ================ */
+
+@font-face {
+    font-family: Uni Nueu;
+    src: url(./../assets/typography/UniNeueLight.otf);
+    font-weight: 200;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: Uni Nueu;
+    src: url(./../assets/typography/UniNeueLight-Italic.otf);
+    font-weight: 200;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: Uni Nueu;
+    src: url(./../assets/typography/UniNeueRegular.otf);
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: Uni Nueu;
+    src: url(./../assets/typography/UniNeueRegular-Italic.otf);
+    font-weight: 400;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: Uni Nueu;
+    src: url(./../assets/typography/UniNeueBook.otf);
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: Uni Nueu;
+    src: url(./../assets/typography/UniNeueBook-Italic.otf);
+    font-weight: 500;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: Uni Nueu;
+    src: url(./../assets/typography/UniNeueBold.otf);
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: Uni Nueu;
+    src: url(./../assets/typography/UniNeueBlack.otf);
+    font-weight: 800;
+    font-style: normal;
+}
+
+/* ===================================================== */
+
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    font-family: 'Uni Nueu', Arial, Helvetica, sans-serif;
+    ;
+}
+
+body {
+    margin: 0;
+    line-height: 1.5;
+}
+
+img {
+    width: 100%;
+}
+
+/* =================== Typography ======================*/
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0;
+}
+
+h1 {
+    font-size: var(--typography-size-hero);
+}
+
+h2 {
+    font-size: var(--typography-size-header);
+}
+
+h3 {
+    font-size: var(--typography-size-subheader);
+}
+
+h4 {
+    font-size: var(--typography-size-title);
+}
+
+h5 {
+    font-size: var(--typography-size-subtitle);
+}
+
+h6 {
+    font-size: var(--typography-size-small);
+}
+
+p {
+    margin: 0;
+}
