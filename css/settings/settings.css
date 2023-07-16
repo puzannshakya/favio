@@ -1,0 +1,22 @@
+.favio_settingsMainDiv{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.favio_settingsMainDiv ul{
+    width:30vw;
+}
+.favio_settingsMainDiv li {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid black;
+    padding:1rem;
+    
+
+}
+a{
+    text-decoration: none;
+}
