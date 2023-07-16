@@ -1,0 +1,33 @@
+header {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    padding: .5rem 1rem;
+    background-color: #06a367;
+    z-index: 1;
+
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+nav li a {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.481);
+    padding: 1rem;
+    font-size: .9rem;
+}
+
+nav ul li:nth-child(1) a {
+    color: white;
+}
+
+nav ul {
+    padding: 0;
+    list-style: none;
+    display: flex;
+}
+
+.logo img {
+    max-height: 30px;
+}
