@@ -361,12 +361,30 @@ async function updateDeliveryPickedUp(deliveryRequestId, user_name,userDocId) {
   }
   
 
+  window.onload = function() {
+    checkAvailability();
+  };
+  
+  async function checkAvailability() {
+    let docData = await firebase.firestore().collection("users_tests").doc(userDocId).get();
+    const driverAvailability=docData.data().driver_availability;
+    if(driverAvailability){
+      document.getElementById("Favio_availabilityCheckBox").checked=true;
+      updateRequestSectionVisibility(driverAvailability);
+
+    }
+  
+    
+  
+
+  }
+  
 
 
 
 /********** driver: update availability status ***********/
 const favioAvailabilityCheckBox = document.getElementById("Favio_availabilityCheckBox");
-
+  
 
 
 favioAvailabilityCheckBox.addEventListener('change', (e) => {

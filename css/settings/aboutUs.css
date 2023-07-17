@@ -1,0 +1,60 @@
+/* TODO ++++++++++ ADD BORDER RADIUS IN MOBILE LAYOUT 
+    css for arrow
+    
+*/
+
+
+
+*{
+    margin:0;
+    padding:0;
+    
+}
+
+.favio_aboutUs_header{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    color:white;
+    height: 40vh;
+    gap:1rem;
+
+    
+    background-color: #06a367;
+
+
+}
+header{
+    margin-bottom: 1rem;
+}
+
+
+img{
+max-width: 20%;
+    height:auto;
+}
+.favio_aboutUsMainDiv{
+    display:  flex;
+    flex-flow: column nowrap;
+    gap:1rem;
+    justify-content: center;
+    align-items: center;
+   
+    
+}
+
+.favio_AboutUsGrid{
+    display: grid;
+    width:80%;
+    gap:1rem;
+}
+
+
+
+@media only screen and (min-width:600px ) {
+    .favio_AboutUsGrid{
+        grid-template-columns: 1fr 1fr;
+
+    }
+}

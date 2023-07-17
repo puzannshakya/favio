@@ -152,7 +152,6 @@ function calcRoute() {
       // //Get distance and time
       // const output = document.querySelector('#output');
       // output.innerHTML = "<div class='alert-info'>From: " + document.getElementById("from").value + ".<br />To: " + document.getElementById("to").value + ".<br /> Driving distance <i class='fas fa-road'></i> : " + result.routes[0].legs[0].distance.text + ".<br />Duration <i class='fas fa-hourglass-start'></i> : " + result.routes[0].legs[0].duration.text + ".</div>";
-
       //display route
       delivery_distance = result.routes[0].legs[0].distance.text;
       delivery_estimated_time = result.routes[0].legs[0].duration.text;
@@ -160,7 +159,7 @@ function calcRoute() {
       estimatedTime.innerHTML = delivery_estimated_time;
       const price = calculatePayment(request.travelMode, delivery_distance, delivery_estimated_time);
 
-      if (price.totalPrice < 10) {
+      if (price.totalPrice < 6) {
         price.totalPrice = price.totalPrice + minimumFare;
         delivery_total_fee = price.totalPrice;
         estimatedTotal.innerHTML = `${price.totalPrice}
@@ -443,12 +442,12 @@ function calculatePayment(travelMode, distance, time) {
     case "DRIVING":
       distanceMultiplier = 0.50;
       timeMultiplier = 0.10;
-      basePrice = 5;
+      basePrice = 8;
       break;
     case "TRANSIT":
       distanceMultiplier = 0.20;
       timeMultiplier = 0.08;
-      basePrice = 4;
+      basePrice = 5;
       break;
     case "TWO_WHEELER":
       distanceMultiplier = 0.25;

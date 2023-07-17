@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="./../../css/delivery_request_seeker/delivery_inprogress_rider.css" rel="stylesheet" />
 
     <title>Settings</title>
+    <link rel="stylesheet" href="../../css/settings/settings.css">
+    <script src="https://kit.fontawesome.com/3de06c2456.js" crossorigin="anonymous"></script>
+
 </head>
+
 <body>
     <header>
         <div class="logo">
@@ -24,16 +29,66 @@
 
     <main>
 
-        <h1>Settings</h1>
-        <ul>
-            <li><a href="profile.html">My Profile</a></li>
-            <li><a href="../history/history.html">My History</a></li>
-            <li><a href="../">Support</a></li>
-            <li><a href="../about_us/about_us.html">About Us</a></li>
-            <li><a onclick="logoutFunc()" href="logout.html">Logout</a></li>
-        </ul>
+        <div class="favio_settingsMainDiv">
+            <h1>Settings</h1>
+            <!-- To do add logos here  -->
+            <ul>
+                <li>
+                    <div class="favio_settingslogoandItem">
+                        <i class="fa-solid fa-code"></i>
+                        <a href="profile.html">My Profile</a>
+                    </div>
+                    <i class="fa-solid fa-code"></i>
+                </li>
+                <li>
+                    <div>
+                        <i class="fa-solid fa-code"></i>
+                        <a href="../history/history.html">My History</a>
+                    </div>
+                    <i class="fa-solid fa-code"></i>
+                </li>
+                <li>
+                    <div>
+                        <i class="fa-solid fa-code"></i>
+                        <a href="../">Vehicle Settings</a>
+                    </div>
+                    <i class="fa-solid fa-code"></i>
+                </li>
+                <li>
+                    <div>
+                        <i class="fa-solid fa-code"></i>
+                        <a href="../">Support</a>
+                    </div>
+                    <i class="fa-solid fa-code"></i>
+                </li>
+                <li>
+                    <div>
+                        <i class="fa-solid fa-code"></i>
+                        <a href="../about_us/about_us.html">About Us</a>
+                    </div>
+                    <i class="fa-solid fa-code"></i>
+                </li>
+                <li>
+                    <div>
+                        <i class="fa-solid fa-code"></i>
+                        <a onclick="logoutFunc(event)" href="../../index.html">Logout</a>
+                    </div>
+                    <i class="fa-solid fa-code"></i>
+                </li>
+            </ul>
+        </div>
         
+
+
     </main>
-    
+
 </body>
+<script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-firestore.js"></script>
+
+<!-- firebase files -->
+<script src="./../../js/firebase-config.js"></script>
+<script src="../../js//settings/settings.js"></script>
+
 </html>
