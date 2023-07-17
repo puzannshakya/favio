@@ -60,30 +60,31 @@ async function getDeliveryRequestData(){
 
 
 function showHistory(){
-    let result = `<ul>
-    <li> 
-        <h2>Name</h2>
-        <h2>Time & Date</h2>
-        <h2>Pickup and Drop off</h2>
-        <h2>Status</h2>
-        <h2>Duration</h2>
-        <h2>Distance</h2>
-        <h2>Total Fee</h2>
-    </li>
-</ul>`;
+    let result = `<table>
+    <tr> 
+        <th>Name</th>
+        <th>Time & Date</th>
+        <th>Pickup and Drop off</th>
+        <th>Status</th>
+        <th>Duration</th>
+        <th>Distance</th>
+        <th>Total Fee</th>
+    </tr>`;
 let index=0;
     historyArray.forEach(history => {
          let formattedDate = getFormattedDate(history.created_at);
          let deliveryProgressRow = deliveryProgress(history.delivery_completed_flag  ,history.delivery_picked_up_flag );
         
 
-        let row = `<li onclick="showdialogAll(${index})"> <p> <a href="#" >${history.delivery_picked_up_by == null ? "Not Picked" : history.delivery_picked_up_by}</a> </p> 
-                         <p><a href="#" >${formattedDate}</a> </p>   
-                         <p><a href="#" >From ${history.origin_name} to ${history.destination_name}</a> </p>
-                         <p><a href="#" >${deliveryProgressRow} </a></p>
-                         <p><a href="#" > ${history.delivery_estimated_time}</a></p>
-                         <p><a href="#" >${history.delivery_distance} </a></p>
-                         <p><a href="#" >$ ${history.delivery_total_fee}</a> </p></li>`;
+        let row = `<tr onclick="showdialogAll(${index})"> 
+        <td> <a href="#" >${history.delivery_picked_up_by == null ? "Not Picked" : history.delivery_picked_up_by}</a> </td> 
+                         <td><a href="#" >${formattedDate}</a> </td>   
+                         <td><a href="#" >From ${history.origin_name} to ${history.destination_name}</a> </td>
+                         <td><a href="#" >${deliveryProgressRow} </a></td>
+                         <td><a href="#" > ${history.delivery_estimated_time}</a></td>
+                         <td><a href="#" >${history.delivery_distance} </a></td>
+                         <td><a href="#" >$ ${history.delivery_total_fee}</a> </td>
+                         </tr>`;
         result = result +  row;
         index = index+1;
         // const dialogElement = dialogData(i);
@@ -95,7 +96,7 @@ let index=0;
 
 
     })
-    
+    result = result +  `</table>`;
     showHistoryDiv.innerHTML=result;
 }
 
@@ -292,30 +293,34 @@ function showDialog(dialogElement, clickedData, userDocId) {
 }
 
 function showHistoryCompletedInDiv(){
-    let result = `<ul>
-    <li> 
-        <h2>Name</h2>
-        <h2>Time & Date</h2>
-        <h2>Pickup and Drop off</h2>
-        <h2>Status</h2>
-        <h2>Duration</h2>
-        <h2>Distance</h2>
-        <h2>Total Fee</h2>
-    </li>
-</ul>`;
+    let result = `<table>
+    <thead>
+
+    <tr> 
+        <th>Name</th>
+        <th>Time & Date</th>
+        <th>Pickup and Drop off</th>
+        <th>Status</th>
+        <th>Duration</th>
+        <th>Distance</th>
+        <th>Total Fee</th>
+    </tr>
+</thead>`;
 let index=0;
 historyArrayCompleted.forEach(history => {
          let formattedDate = getFormattedDate(history.created_at);
          let deliveryProgressRow = deliveryProgress(history.delivery_completed_flag  ,history.delivery_picked_up_flag );
         
 
-        let row = `<li onclick="showdialogCompleted(${index})"> <p> <a href="#" >${history.delivery_picked_up_by == null ? "Not Picked" : history.delivery_picked_up_by}</a> </p> 
-                         <p><a href="#" >${formattedDate}</a> </p>   
-                         <p><a href="#" >From ${history.origin_name} to ${history.destination_name}</a> </p>
-                         <p><a href="#" >${deliveryProgressRow} </a></p>
-                         <p><a href="#" > ${history.delivery_estimated_time}</a></p>
-                         <p><a href="#" >${history.delivery_distance} </a></p>
-                         <p><a href="#" >$ ${history.delivery_total_fee}</a> </p></li>`;
+        let row = `<tr onclick="showdialogCompleted(${index})"> 
+                         <td> <a href="#" >${history.delivery_picked_up_by == null ? "Not Picked" : history.delivery_picked_up_by}</a> </td> 
+                         <td><a href="#" >${formattedDate}</a> </td>   
+                         <td><a href="#" >From ${history.origin_name} to ${history.destination_name}</a> </td>
+                         <td><a href="#" >${deliveryProgressRow} </a></td>
+                         <td><a href="#" > ${history.delivery_estimated_time}</a></td>
+                         <td><a href="#" >${history.delivery_distance} </a></td>
+                         <td><a href="#" >$ ${history.delivery_total_fee}</a> </td>
+                         </tr>`;
         result = result +  row;
         index = index+1;
         // const dialogElement = dialogData(i);
@@ -327,6 +332,7 @@ historyArrayCompleted.forEach(history => {
 
 
     })
+    result = result +  `</table>`;
     
     showHistoryDiv.innerHTML=result;
 }
