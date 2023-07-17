@@ -155,8 +155,3 @@ h5 {
 h6 {
     font-size: var(--typography-size-small);
 }
-
-p {
-    margin: 0;
-}
-
