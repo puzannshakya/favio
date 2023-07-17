@@ -4,9 +4,28 @@ main{
     align-items: center;
     justify-content: center;
 }
-
+.favio_AboutUsArrow{
+    align-self: flex-start;
+}
+.favio_profilemainDiv
+{
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center;  
+}
 .profileSettings form{
     display: flex;
     flex-flow: column nowrap;
+    gap:1rem;
+    width:25vw;
     
+}
+
+main img{
+    width:80px;
+    height: 80px;
+    border: 1px solid black;
+    border-radius: 50%;
+    object-fit:contain;
 }
