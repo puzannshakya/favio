@@ -1,6 +1,6 @@
 :root {
     /* typography */
-    --typography-size-hero: 60px;
+    --typography-size-headline: 60px;
     --typography-size-header: 3.052rem;
     --typography-size-subheader: 2.441rem;
     --typography-size-title: 1.953rem;
@@ -133,7 +133,7 @@ h6 {
 }
 
 h1 {
-    font-size: var(--typography-size-hero);
+    font-size: var(--typography-size-headline);
 }
 
 h2 {
