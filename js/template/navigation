@@ -1,0 +1,7 @@
+const btnMain = document.querySelector('.hamburger');
+
+const body = document.body;
+
+btnMain.addEventListener('click', () => {
+    document.body.classList.toggle('menu-mobile-active')
+})
