@@ -228,7 +228,7 @@ function showDialog(dialogElement, clickedData, userDocId) {
  const oB = dialogElement.querySelector("#dialogButtonOpenId");
  console.log(oB);
  const openButtonClickHandler = async function () {
-   alert("Open");
+  //  alert("Open");
    oB.removeEventListener("click", openButtonClickHandler); 
    sessionStorage.setItem("deliveryRequestId",clickedData.deliveryRequestId);
    dialogElement.close();

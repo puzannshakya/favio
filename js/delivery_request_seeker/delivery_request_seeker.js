@@ -107,7 +107,7 @@ directionsDisplay.setMap(map);
 
 //define calcRoute function
 function calcRoute() {
-  alert("hello");
+  // alert("hello");
   //create request
   const checkedVechicleRadio = document.querySelector('input[name="courier-option-radio"]:checked');
   console.log(checkedVechicleRadio.value);
@@ -115,22 +115,22 @@ function calcRoute() {
 
   switch (checkedVechicleRadio.value) {
     case "Walk":
-      alert("walk selected");
+      // alert("walk selected");
       travelMode = google.maps.TravelMode.WALKING;
       break;
 
     case "Bikes or Scooters":
-      alert("Bikes or Scooters selected");
+      // alert("Bikes or Scooters selected");
       travelMode = google.maps.TravelMode.TWO_WHEELER;
       break;
 
     case "Cars":
-      alert("Cars selected");
+      // alert("Cars selected");
       travelMode = google.maps.TravelMode.DRIVING;
       break;
 
     case "Transit":
-      alert("Transit selected");
+      // alert("Transit selected");
       travelMode = google.maps.TravelMode.TRANSIT;
       break;
   }
@@ -329,7 +329,7 @@ function generateContent(data) {
 
 
 async function saveDeliveryRequest() {
-  alert("saveDeliveryRequest");
+  // alert("saveDeliveryRequest");
   let originInput = from.value;
   let destinationInput = to.value;
   let originLatitude;
@@ -417,7 +417,8 @@ async function saveDeliveryRequest() {
            
 
         });
-
+        alert("Request Created");
+        console.log("Request Created");
         setIntervalForConfirmationDialog();
 
 
@@ -426,7 +427,7 @@ async function saveDeliveryRequest() {
       } else {
         console.log('Geocoding API request failed.');
       }
-      alert("Request Created");
+     
     })
     .catch(error => {
       console.log('Error:', error);
