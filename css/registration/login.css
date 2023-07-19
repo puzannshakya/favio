@@ -151,8 +151,7 @@ img {
 /* ================================ */
 
 h1 {
-    font-size: 80px;
-    margin: 0;
+    text-align: center;
 }
 
 .form {
@@ -165,7 +164,9 @@ h1 {
 }
 
 .flex-form {
-    max-width: 360px;
+    max-width: 400px;
+    display: grid;
+    gap: 4rem;
 }
 
 input {
@@ -205,12 +206,12 @@ a {
     text-align: center;
 }
 
-form > div > p {
+form>div>p {
     font-size: .7rem;
     margin: 0;
 }
 
-form > div > p > a {
+form>div>p>a {
     font-weight: 700;
 }
 
@@ -243,3 +244,41 @@ form > div > p > a {
     /* color: white; */
 }
 
+
+
+
+input[type="radio"] {
+    display: none;
+}
+
+label {
+    position: relative;
+    color: var(--color-contrast-dark);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8em;
+    border: 2px solid var(--color-contrast-dark);
+    padding: .5em;
+    border-radius: var(--border-radius);
+    width: 100%;
+    justify-content: center;
+}
+
+
+
+input[type="radio"]:checked+label:before {
+    height: 1em;
+    width: 1em;
+    background-color: var(--color-contrast-white);
+}
+
+input[type="radio"]:checked+label {
+    background-color: var(--color-contrast-dark);
+    color: #ffffff;
+}
+
+.user-type {
+    display: flex;
+    flex-flow: row;
+}

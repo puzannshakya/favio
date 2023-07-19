@@ -5,6 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <script src="https://kit.fontawesome.com/ab2155e76b.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="./../../css/normalize.css">
+
+    <link rel="stylesheet" href="./../../css/style.css">
+
+    <link rel="stylesheet" href="./../../css/templates/header.css">
+
+    <script src="https://kit.fontawesome.com/f9397e162d.js" crossorigin="anonymous"></script>
+
+    <script src="./../../js/template/navigation" defer></script>
+
     <link href="./../../css/delivery_request_seeker/delivery_request_seeker.css" rel="stylesheet" />
 </head>
 <body>
@@ -22,19 +33,53 @@
         </div>
     </div> -->
 
-    <header>
+   <header>
         <div class="logo">
-            <img src="./../../img/Favio.png" alt="">
+            <a href="./../delivery_request_seeker/delivery_inprogress_rider.html">
+                <img src="./../../img/Favio.png" alt="Favio"></a>
         </div>
-        <nav>
+
+        <nav class="menu-main">
             <ul>
-                <li><a href="">Home</a></li>
-                <li><a href="./../history/history.html">History</a></li>
-                <li><a href="../about_us/about_us.html">About Us</a></li>
-                <li><a href="">Settings</a></li>
+                <li>
+                    <a href="./../delivery_request_seeker/delivery_inprogress_rider.html">
+                        <span class="visually-hidden-text">Home</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="./../history/history.html">
+                        <span class="visually-hidden-text">History</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="../about_us/about_us.html">
+                        <span class="visually-hidden-text">About Us</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="">
+                        <span class="visually-hidden-text">Settings</span>
+                    </a>
+                </li>
+
+                <button class="hamburger visually-hidden-hamburger">
+                    <span class="fas fa-bars"></span>
+                </button>
             </ul>
         </nav>
     </header>
+
+    <nav class="menu-mobile">
+        <ul>
+            <li><a href="./../delivery_request_seeker/delivery_inprogress_rider.html">Home</a></li>
+            <li><a href="./../history/history.html">History</a></li>
+            <li><a href="../about_us/about_us.html">About Us</a></li>
+            <li><a href="">Settings</a></li>
+        </ul>
+    </nav>
 
     <main>
 
@@ -43,9 +88,9 @@
                 <div class="form-fillup">
 
                     <div class="form-destination">
-                        <h2>
+                        <h4>
                             Pick Destination
-                        </h2>
+                        </h4>
 
                         <div>
                             <div class="form-food">
@@ -59,13 +104,15 @@
                                 <input type="text" id="to" placeholder="Destination" onchange="calcRoute();" >
                             </div>
                             <div class="form-food">
-                                <input type="button" onclick="calcRoute();" value="Find">
+                                <input type="button" class="find-route" onclick="calcRoute();" value="Find">
                             </div>
                            
                         </div>
                     </div>
 
                     <div id="courier-option">
+                        <h4>
+                        </h4>
                     </div>
 
                     <div class="delivery-datetime">
@@ -95,13 +142,13 @@
                        
                     </div>
 
-                </div>
+                    <div class="button-confirmation">
 
-                <div class="button-confirmation">
-
-                    <button  id="submitButton-complete" onclick="saveDeliveryRequest();">
-                       Complete
-                    </button>
+                        <button class="submit"  id="submitButton-complete" onclick="saveDeliveryRequest();">
+                           Complete
+                        </button>
+    
+                    </div>
 
                 </div>
 
