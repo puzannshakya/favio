@@ -5,28 +5,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>support</title>
-    <link rel="stylesheet" href="../../css/style.css">
-    <link rel="stylesheet" href="../../css/delivery_request_seeker/delivery_inprogress_rider.css">
+    
+    <link rel="stylesheet" href="./../../css/normalize.css">
+
+    <link rel="stylesheet" href="./../../css/style.css">
+
+    <link rel="stylesheet" href="./../../css/templates/header.css">
+
+    <script src="https://kit.fontawesome.com/f9397e162d.js" crossorigin="anonymous"></script>
+
+    <script src="./../../js/template/navigation" defer></script>
+
     <link rel="stylesheet" href="../../css/settings/support.css">
 </head>
 
 <body>
 
-    <header>
+       <header>
         <div class="logo">
-            <img src="./../../img/Favio.png" alt="">
+            <img src="./../../img/Favio.png" alt="Favio">
         </div>
-        <nav>
+
+        <nav class="menu-main">
             <ul>
-                <li><a href="./../delivery_request_seeker/delivery_request_seeker.html">Home</a></li>
-                <li><a href="./../history/history.html">History</a></li>
-                <li><a href="../about_us/about_us.html">About Us</a></li>
-                <li><a href="">Settings</a></li>
+                <li>
+                    <a href="./../delivery_request_seeker/delivery_inprogress_rider.html">
+                        <span class="visually-hidden-text">Home</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="./../history/history.html">
+                        <span class="visually-hidden-text">History</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="../about_us/about_us.html">
+                        <span class="visually-hidden-text">About Us</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="../settings/settings.html">
+                        <span class="visually-hidden-text">Settings</span>
+                    </a>
+                </li>
+
+                <button class="hamburger visually-hidden-hamburger">
+                    <span class="fas fa-bars"></span>
+                </button>
             </ul>
         </nav>
     </header>
 
+
     <main>
+        <div class="favio_AboutUsArrow">
+            <!-- add icon and add css here -->
+            <span>back</span>
+
+        </div>
         <div class="favio_supportMain">
             <h1>Support</h1>
 

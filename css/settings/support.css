@@ -12,10 +12,11 @@
     align-items: center;
     gap:1rem;
     border-bottom: 1px solid black;
+    width:auto;
 }
 
 .favio_supportDiv{
-    width:50vw;
+   max-width:50vw;
 }
 
 .button {
@@ -28,7 +29,14 @@
     width:50vw;
   }
 
-  div span{
+  .favio_supportItems span{
     border: 1px solid black;
     padding:1rem 4rem 1rem 4rem;
+  }
+
+  @media only screen and (max-width: 600px) {
+    .favio_supportItems div p{
+        display: none;
+        
+    }
   }

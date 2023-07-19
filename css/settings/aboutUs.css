@@ -21,16 +21,14 @@
     gap:1rem;
 
     
-    background-color: #06a367;
+    background-color: var( --color-primary);
 
 
 }
-header{
-    margin-bottom: 1rem;
-}
 
 
-img{
+
+main img{
 max-width: 20%;
     height:auto;
 }

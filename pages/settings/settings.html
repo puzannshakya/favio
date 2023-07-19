@@ -8,72 +8,110 @@
 
     <title>Settings</title>
     <link rel="stylesheet" href="../../css/settings/settings.css">
-    <script src="https://kit.fontawesome.com/3de06c2456.js" crossorigin="anonymous"></script>
 
+    <link rel="stylesheet" href="./../../css/normalize.css">
+
+    <link rel="stylesheet" href="./../../css/style.css">
+
+    <link rel="stylesheet" href="./../../css/templates/header.css">
+
+    <script src="https://kit.fontawesome.com/f9397e162d.js" crossorigin="anonymous"></script>
+
+    <script src="./../../js/template/navigation" defer></script>
 </head>
 
 <body>
     <header>
         <div class="logo">
-            <img src="./../../img/Favio.png" alt="">
+            <img src="./../../img/Favio.png" alt="Favio">
         </div>
-        <nav>
+
+        <nav class="menu-main">
             <ul>
-                <li><a href="./../delivery_request_seeker/delivery_request_seeker.html">Home</a></li>
-                <li><a href="./../history/history.html">History</a></li>
-                <li><a href="../about_us/about_us.html">About Us</a></li>
-                <li><a href="">Settings</a></li>
+                <li>
+                    <a href="./../delivery_request_seeker/delivery_inprogress_rider.html">
+                        <span class="visually-hidden-text">Home</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="./../history/history.html">
+                        <span class="visually-hidden-text">History</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="../about_us/about_us.html">
+                        <span class="visually-hidden-text">About Us</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="../settings/settings.html">
+                        <span class="visually-hidden-text">Settings</span>
+                    </a>
+                </li>
+
+                <button class="hamburger visually-hidden-hamburger">
+                    <span class="fas fa-bars"></span>
+                </button>
             </ul>
         </nav>
     </header>
 
     <main>
+        <div class="favio_AboutUsArrow">
+            <!-- add icon and add css here -->
+            <span>back</span>
+
+        </div>
 
         <div class="favio_settingsMainDiv">
             <h1>Settings</h1>
             <!-- To do add logos here  -->
+            <!-- change css for logo where display is none -->
             <ul>
                 <li>
                     <div class="favio_settingslogoandItem">
                         <i class="fa-solid fa-code"></i>
                         <a href="profile.html">My Profile</a>
                     </div>
-                    <i class="fa-solid fa-code"></i>
+                    <i class="fa-solid fa-arrow-right visually-hidden-text"></i>
                 </li>
                 <li>
                     <div>
                         <i class="fa-solid fa-code"></i>
                         <a href="../history/history.html">My History</a>
                     </div>
-                    <i class="fa-solid fa-code"></i>
+                    <i class="fa-solid fa-arrow-right visually-hidden-text"></i>
                 </li>
                 <li>
                     <div>
                         <i class="fa-solid fa-code"></i>
-                        <a href="../">Vehicle Settings</a>
+                        <a href="../settings/vehicle_settings.html">Vehicle Settings</a>
                     </div>
-                    <i class="fa-solid fa-code"></i>
+                    <i class="fa-solid fa-arrow-right visually-hidden-text"></i>
                 </li>
                 <li>
                     <div>
                         <i class="fa-solid fa-code"></i>
-                        <a href="../">Support</a>
+                        <a href="../settings/support.html">Support</a>
                     </div>
-                    <i class="fa-solid fa-code"></i>
+                    <i class="fa-solid fa-arrow-right visually-hidden-text"></i>
                 </li>
                 <li>
                     <div>
                         <i class="fa-solid fa-code"></i>
                         <a href="../about_us/about_us.html">About Us</a>
                     </div>
-                    <i class="fa-solid fa-code"></i>
+                    <i class="fa-solid fa-arrow-right visually-hidden-text"></i>
                 </li>
                 <li>
                     <div>
                         <i class="fa-solid fa-code"></i>
                         <a onclick="logoutFunc(event)" href="../../index.html">Logout</a>
                     </div>
-                    <i class="fa-solid fa-code"></i>
+                    <i class="fa-solid fa-arrow-right visually-hidden-text"></i>
                 </li>
             </ul>
         </div>
