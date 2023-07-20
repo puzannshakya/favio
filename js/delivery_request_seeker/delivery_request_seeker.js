@@ -282,6 +282,7 @@ function generateContent(data) {
     radioContainer.appendChild(radioInput);
 
     const radioLabel = document.createElement("label");
+    radioLabel.classList.add("courier-label")
     radioLabel.htmlFor = option_img_name[index];
     radioContainer.appendChild(radioLabel);
 
