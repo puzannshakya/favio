@@ -1,113 +1,62 @@
-/*map*/
-#googleMap {
-    width: 100%;
-    /* height: auto; */
-    height: 80vh;
-    margin: 10px auto;
-  }
 
-  * {
-    box-sizing: border-box;
+.switch{
+	position: relative;
+	width: 60px;
+	height: 34px;
+	margin: 20px auto;
 }
-
-body {
-    height: 100vh;
-    font-family: Arial, Helvetica, sans-serif;
-    margin: 0;
-    line-height: 1.5;
-    background-color: #eeeeee;
+.switch input[type=checkbox]{
+	position: absolute;
+	-moz-opacity: 0;
+	-khtml-opacity: 0;
+	-webkit-opacity: 0;
+	opacity: 0;
+	-ms-filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0);
+	filter: alpha(opacity=0);
 }
-
-header {
-    position: sticky;
-    top: 0;
-    width: 100%;
-    padding: .5rem 1rem;
-    background-color: #06a367;
-    z-index: 1;
-
-    display: flex;
-    align-items: center;
-    gap: 4rem;
+.switch label,
+.switch label span{
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	transition-duration: .2s;
 }
-
-.map {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 50%;
-    height: 100%;
+.switch label{
+	border-radius: 20px;
+	background-color: #ddd;
 }
-
-iframe {
-    display: block;
-    background: #000;
-    border: none;
-    height: 100vh;
+.switch label:before,
+.switch label:after{
+	position: absolute;
+	top: 0;
+	width: 34px;
+	line-height: 34px;
+	color: #fff;
+	text-align: center;
 }
-
-nav li a {
-    text-decoration: none;
-    color: rgba(255, 255, 255, 0.481);
-    padding: 1rem;
-    font-size: .9rem;
+.switch label span {
+	z-index: 1;
+	width: 28px;
+	height: 28px;
+	margin: 3px;
+	border-radius: 50%;
+	background-color: #fff;
 }
-
-nav ul li:nth-child(1) a {
-    color: white;
+.switch label:before {
+	left: 0;
+	font-size: 11px;
+	content: 'ON';
 }
-
-nav ul {
-    padding: 0;
-    list-style: none;
-    display: flex;
+.switch label:after {
+	right: 0;
+	font-size: 10px;
+	content: 'OFF';
 }
-
-.logo img {
-    max-height: 30px;
+.switch input:checked+label {
+	background-color: #00c73c;
 }
-
-
-button {
-    border-radius: 8px;
-    font-weight: bold;
-    padding: 1rem;
-    background-color: #222222;
-    border: none;
-    color: white;
-    width: 100%;
-}
-
-.button-confirmation {
-    /* position: fixed; */
-    bottom: 0;
-    left: 0;
-    width: 50%;
-    padding: 2rem;
-    background-color: white;
-    border-top: 1px solid #c4c4c4;
-}
-
-
-.change-request{
-    display: flex;
-    gap: 1rem;
-}
-
-.change-request li{
-    list-style: none;
-}
-
-
-.main-wrapper{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-}
-
-.request-div{
-    border: 1px solid black;
-    border-radius: 30px;
-    text-align: center;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+.switch input:checked+label span {
+	transform: translateX(26px);
 }

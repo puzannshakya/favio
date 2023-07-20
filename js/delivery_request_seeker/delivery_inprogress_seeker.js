@@ -122,7 +122,7 @@ function calcRoute() {
       if (price.totalPrice < 10) {
         price.totalPrice = price.totalPrice + minimumFare;
         delivery_total_fee = price.totalPrice;
-        feeSummary.innerHTML = `<h2>Fee Summary</h2>
+        feeSummary.innerHTML = `<h4>Fee Summary</h4>
               
               <ul class="FavioPriceUl"> <li> Base Price       ${price.basePrice} </li>
                                               <li>Minimum Fare       ${minimumFare}</li>

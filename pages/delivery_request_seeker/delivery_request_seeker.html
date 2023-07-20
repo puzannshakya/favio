@@ -86,7 +86,7 @@
 
                     <div>
                         <div class="form-destination-search">
-                            <!-- <label for="username">Food Name</label> -->
+
                             <input type="text" id="from" placeholder="Origin">
 
                         </div>
@@ -95,6 +95,7 @@
                             <!-- <label for="username">Food Name</label> -->
                             <input type="text" id="to" placeholder="Destination" onchange="calcRoute();">
                         </div>
+
                         <div class="form-destination-search">
                             <input type="button" class="find-route" onclick="calcRoute();" value="Find">
                         </div>
@@ -143,7 +144,7 @@
                 </div>
 
                 <div class="comments">
-                    <label for="comments">Notes</label>
+                    <label for="comments"><h4>Notes</h4></label>
 
                     <textarea name="comments" id="comments" rows="5" cols="50" style="resize: none;"
                         placeholder="Add additional instructions"></textarea>
@@ -166,7 +167,7 @@
 
             </div>
 
-            <div id="googleMap" style="width: 100%">
+            <div id="googleMap" class="map" style="width: 100%">
 
             </div>
 

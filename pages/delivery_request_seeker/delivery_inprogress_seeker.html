@@ -1,103 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <script src="https://kit.fontawesome.com/ab2155e76b.js" crossorigin="anonymous"></script>
     <link rel="manifest" href="../../app.webmanifest">
+
+
+    <link rel="stylesheet" href="./../../css/normalize.css">
+
+    <link rel="stylesheet" href="./../../css/style.css">
+
+    <link rel="stylesheet" href="./../../css/templates/header.css">
+
+    <link rel="stylesheet" href="./../../css/templates/gridlayout.css">
+
+    <script src="https://kit.fontawesome.com/f9397e162d.js" crossorigin="anonymous"></script>
+
+    <script src="./../../js/template/navigation" defer></script>
+
+
     <link href="./../../css/delivery_request_seeker/delivery_inprogress_seeker.css" rel="stylesheet" />
 </head>
+
 <body>
 
     <header>
         <div class="logo">
-            <img src="./../../img/Favio.png" alt="">
+            <a href="./../delivery_request_seeker/delivery_inprogress_rider.html">
+                <img src="./../../img/Favio.png" alt="Favio"></a>
         </div>
-        <nav>
+
+        <nav class="menu-main">
             <ul>
-                <li><a href="./../delivery_request_seeker/delivery_request_seeker.html">Home</a></li>
-                <li><a href="./../history/history.html">History</a></li>
-                <li><a href="../about_us/about_us.html">About Us</a></li>
-                <li><a href="">Settings</a></li>
+                <li>
+                    <a href="./../delivery_request_seeker/delivery_inprogress_rider.html">
+                        <span class="visually-hidden-text">Home</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="./../history/history.html">
+                        <span class="visually-hidden-text">History</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="../about_us/about_us.html">
+                        <span class="visually-hidden-text">About Us</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="">
+                        <span class="visually-hidden-text">Settings</span>
+                    </a>
+                </li>
+
+                <button class="hamburger visually-hidden-hamburger">
+                    <span class="fas fa-bars"></span>
+                </button>
             </ul>
         </nav>
     </header>
 
+    <nav class="menu-mobile">
+        <ul>
+            <li><a href="./../delivery_request_seeker/delivery_inprogress_rider.html">Home</a></li>
+            <li><a href="./../history/history.html">History</a></li>
+            <li><a href="../about_us/about_us.html">About Us</a></li>
+            <li><a href="">Settings</a></li>
+        </ul>
+    </nav>
+
     <main>
 
-        <div class="main-body">
+        <div class="content-grid">
             <div class="main-content">
-                <div class="form-fillup">
 
-                    <div class="form-destination">
-                        <h2>
-                            Progress Tracking
-                        </h2>
+                <div class="form-destination">
+                    <h4>
+                        Progress Tracking
+                    </h4>
 
-                        <div>
-                            <div class="form-food">
-                                <!-- <label for="username">Food Name</label> -->
-                                <input type="text" id="from" placeholder="Origin" readonly >
-                              
-                            </div>
+                    <div>
+                        <div class="form-destination-search">
 
-                            <div class="form-food">
-                                <!-- <label for="username">Food Name</label> -->
-                                <input type="text" id="to" placeholder="Destination" onchange="calcRoute();" readonly >
-                            </div>
-                            <div class="form-food">
-                                <input type="button" onclick="calcRoute();" value="Find">
-                            </div>
-                           
+                            <input type="text" id="from" placeholder="Origin" readonly>
+
                         </div>
-                    </div>
 
-                    <div id="progressTracking">
-                    </div>
+                        <div class="form-destination-search">
+                            <!-- <label for="username">Food Name</label> -->
+                            <input type="text" id="to" placeholder="Destination" onchange="calcRoute();" readonly>
+                        </div>
 
-                    <div id="completedImageWrapper">
-                        <img src="" alt="Completed Image" id="completedImage" style="display: none;">
-                        <button id="confirmCompletedImage" style="display: none;" onclick="confirmDeliveryImage();">Confirm</button>
-                        <button id="cancelCompletedImage" style="display: none;">Cancel</button>
                     </div>
+                </div>
 
-                    <div id="feeSummary">
-                        
-                    </div>
-                    <div id="delivery-info">
-                        <p> <strong>Distance:  </strong> <span id="estimatedDistance">asdd<span> </p>
-                        <p> <strong>Estimated Time: </strong> <span id="estimatedTime">asdd<span> </p>
-                        <p> <strong>Total: $</strong> <span id="estimatedTotal"><span> </p>
-                       
-                    </div>
+                <div id="progressTracking">
+
+                        <!-- <div>
+                            <input type="checkbox" id="deliveryStart" name="deliveryStart" value="deliveryStart"
+                                disabled="">
+                            <label for="deliveryStart">Delivery Start</label>
+                            <br>
+                            <input type="checkbox" id="inProgress" name="inProgress" value="inProgress" disabled="">
+                            <label for="inProgress">In Progress</label>
+                            <br>
+                            <input type="checkbox" id="deliveryComplete" name="deliveryComplete"
+                                value="deliveryComplete" disabled="">
+
+                            <label for="deliveryComplete">Delivery Complete</label><br>
+                        </div> -->
 
                 </div>
 
-                <!-- <div class="button-confirmation">
+                
 
-                    <button  id="submitButton-complete" onclick="saveDeliveryRequest();">
-                       Complete
-                    </button>
+                <div id="completedImageWrapper">
+                    <img src="" alt="Completed Image" id="completedImage" style="display: none;">
+                    <button id="confirmCompletedImage" style="display: none;"
+                        onclick="confirmDeliveryImage();">Confirm</button>
+                    <button id="cancelCompletedImage" style="display: none;">Cancel</button>
+                </div>
 
-                </div> -->
+                <div id="feeSummary">
 
-                <div id="googleMap" style="width: 100%">
-                   
+                </div>
+
+                <div id="delivery-info">
+                    <p> <strong>Distance: </strong> <span id="estimatedDistance">asdd<span> </p>
+                    <p> <strong>Estimated Time: </strong> <span id="estimatedTime">asdd<span> </p>
+                    <p> <strong>Total: $</strong> <span id="estimatedTotal"><span> </p>
+
                 </div>
 
             </div>
+
+
+            <div id="googleMap" class="map" style="width: 100%">
+
+            </div>
+
+        </div>
     </main>
-    
+
 </body>
 <!-- firebase CDN -->
-<script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-app.js"></script> 
+<script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-firestore.js"></script>  
+<script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-firestore.js"></script>
 
 <!-- firebase files -->
 <script src="./../../js/firebase-config.js"></script>
- <!-- Google Maps -->
- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFyOKnoicCueguKZctIMwiDDD-bZ35VMA&libraries=places"></script>
- <script src="./../../js/delivery_request_seeker/delivery_inprogress_seeker.js"></script>
+<!-- Google Maps -->
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFyOKnoicCueguKZctIMwiDDD-bZ35VMA&libraries=places"></script>
+<script src="./../../js/delivery_request_seeker/delivery_inprogress_seeker.js"></script>
+
 </html>
