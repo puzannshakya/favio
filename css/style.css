@@ -156,3 +156,8 @@ h6 {
     font-size: var(--typography-size-small);
     font-weight: 400;
 }
+
+a {
+    text-decoration: none;
+	color: var(--color-contrast-dark);
+}
