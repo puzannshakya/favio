@@ -262,7 +262,7 @@ function generateContent(data) {
   const option_img_name = ['bike', 'car', 'transportation'];
 
   const courier_option = document.getElementById('courier-option');
-  const courier_option_head = document.createElement("h6");
+  const courier_option_head = document.createElement("h4");
   courier_option_head.textContent = "Courier Options";
   courier_option.insertBefore(courier_option_head, courier_option.firstChild);
   const courier_form = document.createElement("form");
