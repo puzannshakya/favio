@@ -122,6 +122,11 @@ input.datetime {
 
 /* ========================== */
 
+.form-courier {
+    display: grid;
+    gap: 1rem;
+}
+
 input:focus {
     border-color: var(--color-primary);
 }

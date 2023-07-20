@@ -263,6 +263,7 @@ function generateContent(data) {
   courier_option_head.textContent = "Courier Options";
   courier_option.insertBefore(courier_option_head, courier_option.firstChild);
   const courier_form = document.createElement("form");
+  courier_form.classList.add("form-courier");
   courier_option.appendChild(courier_form);
 
   option_name_from_db.forEach((option, index) => {
