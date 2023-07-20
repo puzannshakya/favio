@@ -107,7 +107,7 @@ directionsDisplay.setMap(map);
 
 //define calcRoute function
 function calcRoute() {
-  alert("hello");
+  // alert("hello");
   //create request
   const checkedVechicleRadio = document.querySelector('input[name="courier-option-radio"]:checked');
   console.log(checkedVechicleRadio.value);
@@ -115,22 +115,22 @@ function calcRoute() {
 
   switch (checkedVechicleRadio.value) {
     case "Walk":
-      alert("walk selected");
+      // alert("walk selected");
       travelMode = google.maps.TravelMode.WALKING;
       break;
 
     case "Bikes or Scooters":
-      alert("Bikes or Scooters selected");
+      // alert("Bikes or Scooters selected");
       travelMode = google.maps.TravelMode.TWO_WHEELER;
       break;
 
     case "Cars":
-      alert("Cars selected");
+      // alert("Cars selected");
       travelMode = google.maps.TravelMode.DRIVING;
       break;
 
     case "Transit":
-      alert("Transit selected");
+      // alert("Transit selected");
       travelMode = google.maps.TravelMode.TRANSIT;
       break;
   }
@@ -255,9 +255,6 @@ function selectObject(array, propertyName, value) {
 
 
 function generateContent(data) {
-  // const option_name_from_db = ['Walk', 'Bikes or Scooters', 'Cars', 'Transit'];
-  // const option_img_name = ['walk', 'bike', 'car', 'transportation'];
-
   const option_name_from_db = ['Bikes or Scooters', 'Cars', 'Transit'];
   const option_img_name = ['bike', 'car', 'transportation'];
 
@@ -277,7 +274,7 @@ function generateContent(data) {
 
     const radioInput = document.createElement("input");
     radioInput.type = "radio";
-    radioInput.id = `radio${option}`;
+    radioInput.id = option_img_name[index];
     radioInput.name = "courier-option-radio";
     radioInput.talk = "courier-option-radio";
     radioInput.onchange = calcRoute;
@@ -285,40 +282,46 @@ function generateContent(data) {
     radioContainer.appendChild(radioInput);
 
     const radioLabel = document.createElement("label");
-    radioLabel.htmlFor = `radio${option}`;
-    radioLabel.textContent = option;
+    radioLabel.htmlFor = option_img_name[index];
     radioContainer.appendChild(radioLabel);
 
     const courierIcon = document.createElement("div");
     courierIcon.classList.add("courier-icon");
-    radioContainer.appendChild(courierIcon);
+    radioLabel.appendChild(courierIcon);
 
     const courierIconImg = document.createElement("img");
     courierIconImg.src = `./../../img/${option_img_name[index]}.svg`;
     courierIconImg.alt = `${option}-img`;
     courierIcon.appendChild(courierIconImg);
 
-    const courierInfo = document.createElement("div");
-    courierInfo.classList.add("form-option");
-    radioContainer.appendChild(courierInfo);
-
     const courierInfoText = document.createElement("div");
     courierInfoText.classList.add("courier-info");
-    courierInfo.appendChild(courierInfoText);
+    radioLabel.appendChild(courierInfoText);
 
-    const weightSizeLimits = document.createElement("p");
-    weightSizeLimits.innerHTML = `0kg - ${courier_item['weight-limit']}kg <br> ${courier_item['size-limit']} X ${courier_item['size-limit']} X ${courier_item['size-limit']} Centimeters`;
-    courierInfoText.appendChild(weightSizeLimits);
+    const couriername = document.createElement("div");
+    couriername.classList.add("courier-name");
+    const couriernametext = document.createElement("h5");
+    couriernametext.textContent = option;
+    couriername.appendChild(couriernametext);
+    courierInfoText.appendChild(couriername);
 
-    const description = document.createElement("p");
-    description.textContent = "Cheapest and most sustainable delivery option: earn points every time you use sustainable delivery.";
-    courierInfoText.appendChild(description);
+    const courierdetails = document.createElement("div");
+    courierdetails.classList.add("courier-details");
+    const weightLimits = document.createElement("h6");
+    weightLimits.innerHTML = `0kg - ${courier_item['weight-limit']}kg`;
+    courierdetails.appendChild(weightLimits);
+
+    const sizeLimits = document.createElement("h6");
+    sizeLimits.innerHTML = `${courier_item['size-limit']} X ${courier_item['size-limit']} X ${courier_item['size-limit']} Centimeters`;
+    courierdetails.appendChild(sizeLimits);
+    courierInfoText.appendChild(courierdetails);
+
+    // const description = document.createElement("h6");
+    // description.textContent = "Cheapest and most sustainable delivery option: earn points every time you use sustainable delivery.";
+    // courierdetails.appendChild(description);
+    // courierInfoText.appendChild(courierdetails);
+    
   });
-  // const submitButton = document.createElement("button");
-  // submitButton.type = "submit";
-  // submitButton.id = "submit-courier";
-  // submitButton.textContent = "Select courier";
-  // courier_form.appendChild(submitButton);
 }
 /****************** Ending of Loading Courier Options *************/
 
@@ -329,7 +332,7 @@ function generateContent(data) {
 
 
 async function saveDeliveryRequest() {
-  alert("saveDeliveryRequest");
+  // alert("saveDeliveryRequest");
   let originInput = from.value;
   let destinationInput = to.value;
   let originLatitude;
@@ -417,7 +420,8 @@ async function saveDeliveryRequest() {
            
 
         });
-
+        alert("Request Created");
+        console.log("Request Created");
         setIntervalForConfirmationDialog();
 
 
@@ -426,7 +430,7 @@ async function saveDeliveryRequest() {
       } else {
         console.log('Geocoding API request failed.');
       }
-      alert("Request Created");
+     
     })
     .catch(error => {
       console.log('Error:', error);

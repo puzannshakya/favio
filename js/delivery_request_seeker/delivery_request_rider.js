@@ -101,9 +101,7 @@ function dialogData(data,request_type) {
       <p class="dialog-detail">${data.origin_name}</p>
       <p class="dialog-title">Drop-off Location: </p>
       <p class="dialog-detail">${data.destination_name}</p>
-      <p class="dialog-title">Package Details:</p>
-      <p class="dialog-detail">Size: ${data.size}cm</p>
-      <p class="dialog-detail">Weight: ${data.weight}kg</p>
+      
 
       <p class="dialog-title">Drop-off Method:</p>
       <p class="dialog-detail">${data.selected_drop_off_option}</p>
@@ -127,9 +125,6 @@ function dialogData(data,request_type) {
       <p class="dialog-detail">${data.origin_name}</p>
       <p class="dialog-title">Drop-off Location: </p>
       <p class="dialog-detail">${data.destination_name}</p>
-      <p class="dialog-title">Package Details:</p>
-      <p class="dialog-detail">Size: ${data.size}cm</p>
-      <p class="dialog-detail">Weight: ${data.weight}kg</p>
 
       <p class="dialog-title">Drop-off Method:</p>
       <p class="dialog-detail">${data.selected_drop_off_option}</p>
@@ -311,7 +306,7 @@ function showDialog(dialogElement, clickedData, user_name, userDocId,request_typ
     // Update data on button click
   const confirmButton = dialogElement.querySelector("#dialogButtonConfirmId");
   const confirmButtonClickHandler = async function () {
-    alert("confirm");
+    // alert("confirm");
     confirmButton.removeEventListener("click", confirmButtonClickHandler); 
 
     await updateDeliveryPickedUp(clickedData.deliveryRequestId, user_name, userDocId);
@@ -327,7 +322,7 @@ function showDialog(dialogElement, clickedData, user_name, userDocId,request_typ
  const oB = dialogElement.querySelector("#dialogButtonOpenId");
  console.log(oB);
  const openButtonClickHandler = async function () {
-   alert("Open");
+  //  alert("Open");
    oB.removeEventListener("click", openButtonClickHandler); 
    sessionStorage.setItem("deliveryRequestId",clickedData.deliveryRequestId);
    dialogElement.close();

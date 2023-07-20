@@ -76,22 +76,22 @@ function calcRoute() {
 
   switch (checkedVechicle) {
     case "Walk":
-      alert("walk selected");
+      // alert("walk selected");
       travelMode = google.maps.TravelMode.WALKING;
       break;
 
     case "Bikes or Scooters":
-      alert("Bikes or Scooters selected");
+      // alert("Bikes or Scooters selected");
       travelMode = google.maps.TravelMode.TWO_WHEELER;
       break;
 
     case "Cars":
-      alert("Cars selected");
+      // alert("Cars selected");
       travelMode = google.maps.TravelMode.DRIVING;
       break;
 
     case "Transit":
-      alert("Transit selected");
+      // alert("Transit selected");
       travelMode = google.maps.TravelMode.TRANSIT;
       break;
   }
