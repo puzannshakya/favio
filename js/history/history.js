@@ -1,12 +1,12 @@
 let userDocId = (sessionStorage.getItem("userDocId"));
 let isDriverFlag = (sessionStorage.getItem("isDriver"));
-let isDriver =false;
+let isDriver = false;
 let historyArray = [];
 let historyArrayCompleted = [];
 console.log(userDocId);
 
-if(isDriverFlag === "yes"){
-    isDriver =true;
+if (isDriverFlag === "yes") {
+  isDriver = true;
 }
 
 getDeliveryRequestData();
@@ -19,155 +19,156 @@ getDeliveryRequestData();
 
 
 
-async function getDeliveryRequestData(){
-       //delete this after testing
+async function getDeliveryRequestData() {
+  //delete this after testing
 
-       if(isDriver){
-        console.log(userDocId);
-        await firebase.firestore().collection("delivery_request_tests").where('riderDocId', '==', userDocId).orderBy('created_at', 'desc').get().then( docData => {
-         if (docData.empty) {
-             console.log("No Such document");
-             
-           }
-           else {
-             docData.forEach(doc => {
-                 historyArray.push(doc.data());
-               });
-       
-           }
-             console.log(historyArray);
-             showHistory();
+  if (isDriver) {
+    console.log(userDocId);
+    await firebase.firestore().collection("delivery_request_tests").where('riderDocId', '==', userDocId).orderBy('created_at', 'desc').get().then(docData => {
+      if (docData.empty) {
+        console.log("No Such document");
+
+      }
+      else {
+        docData.forEach(doc => {
+          historyArray.push(doc.data());
         });
-       }else{
-        console.log(userDocId);
-        await firebase.firestore().collection("delivery_request_tests").where('seekerDocId', '==', userDocId).orderBy('created_at', 'desc').get().then( docData => {
-         if (docData.empty) {
-             console.log("No Such document");
-             
-           }
-           else {
-             docData.forEach(doc => {
-                 historyArray.push(doc.data());
-               });
-       
-           }
-             console.log(historyArray);
-             showHistory();
+
+      }
+      console.log(historyArray);
+      showHistory();
+    });
+  } else {
+    console.log(userDocId);
+    await firebase.firestore().collection("delivery_request_tests").where('seekerDocId', '==', userDocId).orderBy('created_at', 'desc').get().then(docData => {
+      if (docData.empty) {
+        console.log("No Such document");
+
+      }
+      else {
+        docData.forEach(doc => {
+          historyArray.push(doc.data());
         });
-       }
- 
+
+      }
+      console.log(historyArray);
+      showHistory();
+    });
+  }
+
 }
 
 
-function showHistory(){
-    let result = `<table>
-    <tr> 
-        <th>Name</th>
-        <th>Time & Date</th>
-        <th>Pickup and Drop off</th>
-        <th>Status</th>
-        <th>Duration</th>
-        <th>Distance</th>
-        <th>Total Fee</th>
-    </tr>`;
-let index=0;
-    historyArray.forEach(history => {
-         let formattedDate = getFormattedDate(history.created_at);
-         let deliveryProgressRow = deliveryProgress(history.delivery_completed_flag  ,history.delivery_picked_up_flag );
-        
+function showHistory() {
+  let result = `<ul>
+    <li class="favioHeaderli"> 
+        <h5>&nbsp;</h5>
+        <h5>Time & Date</h5>
+        <h5>Pickup and Drop off</h5>
+        <h5>Status</h5>
+        <h5>Distance</h5>
+        <h5>Total Fee</h5>
+    </li>
+</ul>`;
+  let index = 0;
+  historyArray.forEach(history => {
+    let formattedDate = getFormattedDate(history.created_at);
+    let deliveryProgressRow = deliveryProgress(history.delivery_completed_flag, history.delivery_picked_up_flag);
 
-        let row = `<tr onclick="showdialogAll(${index})"> 
-        <td> <a href="#" >${history.delivery_picked_up_by == null ? "Not Picked" : history.delivery_picked_up_by}</a> </td> 
-                         <td><a href="#" >${formattedDate}</a> </td>   
-                         <td><a href="#" >From ${history.origin_name} to ${history.destination_name}</a> </td>
-                         <td><a href="#" >${deliveryProgressRow} </a></td>
-                         <td><a href="#" > ${history.delivery_estimated_time}</a></td>
-                         <td><a href="#" >${history.delivery_distance} </a></td>
-                         <td><a href="#" >$ ${history.delivery_total_fee}</a> </td>
-                         </tr>`;
-        result = result +  row;
-        index = index+1;
-        // const dialogElement = dialogData(i);
-        // document.body.appendChild(dialogElement);
+
+    let row = `<ul class="favio_historyListUl">
+        <li class="favio_listStyle"onclick="showdialogAll(${index})"> <p> <a href="#" >${history.delivery_picked_up_by == null ? "Not Picked" : history.delivery_picked_up_by}</a> </p> 
+                         <p><a href="#" >${formattedDate}</a> </p>   
+                         <p><a class="favio_historyFromTO" href="#" > <span class="favio_historyDistance"> From ${history.origin_name}</span> <span class="favio_historyDistance"> To ${history.destination_name}</span></a> </p>
+                         <p><a href="#" id="favio_historyId" class="favio_historyStatus" >${deliveryProgressRow} </a></p>
+                         <p><a class="favio_distance" href="#" >${history.delivery_distance} </a></p>
+                         <p><a href="#" >$ ${history.delivery_total_fee}</a> </p>
+                         <p><i class="fa-solid fa-arrow-right visually-hidden-text"></i></p>
+                         </li></ul>`;
+    result = result + row;
+    index = index + 1;
+    // const dialogElement = dialogData(i);
+    // document.body.appendChild(dialogElement);
 
     //     document.addEventListener("click", function (event) {
     //        console.log(history)
     //   });
 
 
-    })
-    result = result +  `</table>`;
-    showHistoryDiv.innerHTML=result;
+  })
+
+  showHistoryDiv.innerHTML = result;
+  colorHistory();
 }
 
 
-function deliveryProgress(delivery_completed_flag,delivery_picked_up_flag){
-    console.log(delivery_completed_flag);
-    console.log(delivery_picked_up_flag);
-    if(delivery_picked_up_flag){
-        if(delivery_completed_flag){
-            return "Completed";
-        }else{
-            return "In Progress";
-        }
-    }else{
-        return "Not Picked";
+function deliveryProgress(delivery_completed_flag, delivery_picked_up_flag) {
+  console.log(delivery_completed_flag);
+  console.log(delivery_picked_up_flag);
+  if (delivery_picked_up_flag) {
+    if (delivery_completed_flag) {
+      return "Completed";
+    } else {
+      return "In Progress";
     }
-}
-
-function getFormattedDate(timestamp){
-   
-    const date = new Date(timestamp);
-    
-    // Months array to get the month name
-    const months = [
-      "January", "February", "March", "April",
-      "May", "June", "July", "August",
-      "September", "October", "November", "December"
-    ];
-    
-    // Get the month, day, year, hours, minutes, and AM/PM
-    const month = months[date.getMonth()];
-    const day = date.getDate();
-    const year = date.getFullYear();
-    let hours = date.getHours();
-    const minutes = date.getMinutes();
-    const ampm = hours >= 12 ? 'PM' : 'AM';
-    
-    // Convert to 12-hour format
-    hours = hours % 12;
-    hours = hours ? hours : 12;
-    
-    // Format the final string
-    const formattedDate = `${month} ${day}, ${year} ${hours}:${minutes.toString().padStart(2, '0')}${ampm}`;
-    
-    console.log(formattedDate);
-    return formattedDate;
-}
-
-
-
-  function showdialogAll(index){
-      console.log(index);
-       const dialogElement = dialogData(historyArray[index]);
-        document.body.appendChild(dialogElement);
-        showDialog(dialogElement, historyArray[index], userDocId); 
+  } else {
+    return "Not Picked";
   }
+}
 
-  function dialogData(data) {
-    // Code that relies on the data goes here
-    console.log(data);
-    console.log("test",data.delivery_requested_by);
+function getFormattedDate(timestamp) {
 
-    const dialog = document.createElement("dialog");
-    dialog.setAttribute('class', "modal");
-    dialog.id = "modal";
+  const date = new Date(timestamp);
 
-    let requestDt = new Date(data.created_at);
+  // Months array to get the month name
+  const months = [
+    "January", "February", "March", "April",
+    "May", "June", "July", "August",
+    "September", "October", "November", "December"
+  ];
 
-    const dialogContent = document.createElement("div"); 
-    dialogContent.setAttribute('class', "dialogContent"); 
-    dialogContent.innerHTML = `
+  // Get the month, day, year, hours, minutes, and AM/PM
+  const month = months[date.getMonth()];
+  const day = date.getDate();
+  const year = date.getFullYear();
+  let hours = date.getHours();
+  const minutes = date.getMinutes();
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+
+  // Convert to 12-hour format
+  hours = hours % 12;
+  hours = hours ? hours : 12;
+
+  // Format the final string
+  const formattedDate = `${month} ${day}, ${year} ${hours}:${minutes.toString().padStart(2, '0')}${ampm}`;
+
+  console.log(formattedDate);
+  return formattedDate;
+}
+
+
+
+function showdialogAll(index) {
+  console.log(index);
+  const dialogElement = dialogData(historyArray[index]);
+  document.body.appendChild(dialogElement);
+  showDialog(dialogElement, historyArray[index], userDocId);
+}
+
+function dialogData(data) {
+  // Code that relies on the data goes here
+  console.log(data);
+  console.log("test", data.delivery_requested_by);
+
+  const dialog = document.createElement("dialog");
+  dialog.setAttribute('class', "modal");
+  dialog.id = "modal";
+
+  let requestDt = new Date(data.created_at);
+
+  const dialogContent = document.createElement("div");
+  dialogContent.setAttribute('class', "dialogContent");
+  dialogContent.innerHTML = `
         <p>${data.delivery_picked_up_by}</p>
         <img class="dialog-img" style="width:50px; height:50px;" src="./../../img/bike.svg">
         <p class="dialog-date">${requestDt.getDate()} ${requestDt.toLocaleString('default', { month: 'long' })} ${requestDt.getFullYear()}</p>
@@ -192,174 +193,191 @@ function getFormattedDate(timestamp){
         <p class="dialog-distance">${data.delivery_distance}</p>
         <p class="dialog-price">$ ${data.delivery_total_fee}</p>
         `;
-    dialog.appendChild(dialogContent);
+  dialog.appendChild(dialogContent);
 
-    const dialogButtonOpen = document.createElement("button");
-    dialogButtonOpen.textContent = "Open";
-    dialogButtonOpen.id = "dialogButtonOpenId";
-    dialogButtonOpen.setAttribute('class', "dialogOpen");
-    dialog.appendChild(dialogButtonOpen);
+  const dialogButtonOpen = document.createElement("button");
+  dialogButtonOpen.textContent = "Open";
+  dialogButtonOpen.id = "dialogButtonOpenId";
+  dialogButtonOpen.setAttribute('class', "dialogOpen");
+  dialog.appendChild(dialogButtonOpen);
 
-    const dialogButtonClose = document.createElement("button");
-    dialogButtonClose.textContent = "Close";
-    dialogButtonClose.id = "dialogButtonCloseId";
-    dialogButtonClose.setAttribute('class', "dialogClose");
-    dialog.appendChild(dialogButtonClose);
-    return dialog;
-  }
+  const dialogButtonClose = document.createElement("button");
+  dialogButtonClose.textContent = "Close";
+  dialogButtonClose.id = "dialogButtonCloseId";
+  dialogButtonClose.setAttribute('class', "dialogClose");
+  dialog.appendChild(dialogButtonClose);
+  return dialog;
+}
 
-  // Function to handle the dialog actions
+// Function to handle the dialog actions
 function showDialog(dialogElement, clickedData, userDocId) {
-    dialogElement.showModal();
-  
-    const closeModal = dialogElement.querySelector(".dialogClose");
-    closeModal.addEventListener("click", function (event) {
+  dialogElement.showModal();
+
+  const closeModal = dialogElement.querySelector(".dialogClose");
+  closeModal.addEventListener("click", function (event) {
+    dialogElement.close();
+  });
+
+  // Close dialog when clicking outside
+  window.addEventListener("click", function (event) {
+    if (event.target === dialogElement) {
       dialogElement.close();
-    });
-  
-    // Close dialog when clicking outside
-    window.addEventListener("click", function (event) {
-      if (event.target === dialogElement) {
-        dialogElement.close();
-      }
-    });
-
-     //OB
- const oB = dialogElement.querySelector("#dialogButtonOpenId");
- console.log(oB);
- const openButtonClickHandler = async function () {
-   alert("Open");
-   oB.removeEventListener("click", openButtonClickHandler); 
-   sessionStorage.setItem("deliveryRequestId",clickedData.deliveryRequestId);
-   dialogElement.close();
-   goInProgress();
-   
-   
- };
- oB.addEventListener("click", openButtonClickHandler);
-  
-  }
-
-
-  function showHistoryAll(){
-     historyArray = [];
-     getDeliveryRequestData();
-  }
-
-
-  function showHistoryCompleted(){
- historyArrayCompleted = [];
-    console.log("Completed");
-    getDeliveryRequestDataCompleted();
-  }
-
-
-   function getDeliveryRequestDataCompleted(){
-
-    if(isDriver){
-     console.log(userDocId);
-      firebase.firestore().collection("delivery_request_tests").where('riderDocId', '==', userDocId).where('delivery_completed_flag' , '==',true).orderBy('created_at', 'desc').get().then( docData => {
-      if (docData.empty) {
-          console.log("No Such document");
-          
-        }
-        else {
-          docData.forEach(doc => {
-            historyArrayCompleted.push(doc.data());
-            });
-    
-        }
-          console.log(historyArrayCompleted);
-          showHistoryCompletedInDiv();
-     });
-    }else{
-     console.log(userDocId);
-      firebase.firestore().collection("delivery_request_tests").where('seekerDocId', '==', userDocId).where('delivery_completed_flag' , '==',true).orderBy('created_at', 'desc').get().then( docData => {
-      if (docData.empty) {
-          console.log("No Such document");
-          
-        }
-        else {
-          docData.forEach(doc => {
-            historyArrayCompleted.push(doc.data());
-            });
-    
-        }
-          console.log(historyArrayCompleted);
-          showHistoryCompletedInDiv();
-     });
     }
+  });
+
+  //OB
+  const oB = dialogElement.querySelector("#dialogButtonOpenId");
+  console.log(oB);
+  const openButtonClickHandler = async function () {
+    alert("Open");
+    oB.removeEventListener("click", openButtonClickHandler);
+    sessionStorage.setItem("deliveryRequestId", clickedData.deliveryRequestId);
+    dialogElement.close();
+    goInProgress();
+
+
+  };
+  oB.addEventListener("click", openButtonClickHandler);
 
 }
 
-function showHistoryCompletedInDiv(){
-    let result = `<table>
-    <thead>
 
-    <tr> 
-        <th>Name</th>
-        <th>Time & Date</th>
-        <th>Pickup and Drop off</th>
-        <th>Status</th>
-        <th>Duration</th>
-        <th>Distance</th>
-        <th>Total Fee</th>
-    </tr>
-</thead>`;
-let index=0;
-historyArrayCompleted.forEach(history => {
-         let formattedDate = getFormattedDate(history.created_at);
-         let deliveryProgressRow = deliveryProgress(history.delivery_completed_flag  ,history.delivery_picked_up_flag );
-        
+function showHistoryAll() {
+  historyArray = [];
+  getDeliveryRequestData();
+}
 
-        let row = `<tr onclick="showdialogCompleted(${index})"> 
-                         <td> <a href="#" >${history.delivery_picked_up_by == null ? "Not Picked" : history.delivery_picked_up_by}</a> </td> 
-                         <td><a href="#" >${formattedDate}</a> </td>   
-                         <td><a href="#" >From ${history.origin_name} to ${history.destination_name}</a> </td>
-                         <td><a href="#" >${deliveryProgressRow} </a></td>
-                         <td><a href="#" > ${history.delivery_estimated_time}</a></td>
-                         <td><a href="#" >${history.delivery_distance} </a></td>
-                         <td><a href="#" >$ ${history.delivery_total_fee}</a> </td>
-                         </tr>`;
-        result = result +  row;
-        index = index+1;
-        // const dialogElement = dialogData(i);
-        // document.body.appendChild(dialogElement);
+
+function showHistoryCompleted() {
+  historyArrayCompleted = [];
+  console.log("Completed");
+  getDeliveryRequestDataCompleted();
+}
+
+
+function getDeliveryRequestDataCompleted() {
+
+  if (isDriver) {
+    console.log(userDocId);
+    firebase.firestore().collection("delivery_request_tests").where('riderDocId', '==', userDocId).where('delivery_completed_flag', '==', true).orderBy('created_at', 'desc').get().then(docData => {
+      if (docData.empty) {
+        console.log("No Such document");
+
+      }
+      else {
+        docData.forEach(doc => {
+          historyArrayCompleted.push(doc.data());
+        });
+
+      }
+      console.log(historyArrayCompleted);
+      showHistoryCompletedInDiv();
+    });
+  } else {
+    console.log(userDocId);
+    firebase.firestore().collection("delivery_request_tests").where('seekerDocId', '==', userDocId).where('delivery_completed_flag', '==', true).orderBy('created_at', 'desc').get().then(docData => {
+      if (docData.empty) {
+        console.log("No Such document");
+
+      }
+      else {
+        docData.forEach(doc => {
+          historyArrayCompleted.push(doc.data());
+        });
+
+      }
+      console.log(historyArrayCompleted);
+      showHistoryCompletedInDiv();
+    });
+  }
+
+}
+
+function showHistoryCompletedInDiv() {
+  let result = `<ul>
+    <li class="favioHeaderli"> 
+        <h5>&nbsp;</h5>
+        <h5>Name</h5>
+        <h5>Time & Date</h5>
+        <h5>Pickup and Drop off</h5>
+        <h5>Status</h5>
+        <h5>Duration</h5>
+        <h5>Distance</h5>
+        <h5>Total Fee</h5>
+    </li>
+</ul>`;
+  let index = 0;
+  historyArrayCompleted.forEach(history => {
+    let formattedDate = getFormattedDate(history.created_at);
+    let deliveryProgressRow = deliveryProgress(history.delivery_completed_flag, history.delivery_picked_up_flag);
+
+
+    let row = `<ul class="favio_historyListUl">
+    <li  class="favio_listStyle" onclick="showdialogCompleted(${index})"> <p> <a href="#" >${history.delivery_picked_up_by == null ? "Not Picked" : history.delivery_picked_up_by}</a> </p> 
+                         <p><a href="#" >${formattedDate}</a> </p>   
+                         <p><a class="favio_historyFromTO" href="#" > <span class="favio_historyDistance"> From ${history.origin_name}</span> <span class="favio_historyDistance"> To ${history.destination_name}</span></a> </p>
+                         <p><a href="#" id="favio_historyId" class="favio_historyStatus">${deliveryProgressRow} </a></p>
+                         <p><a href="#" class="favio_distance" >${history.delivery_distance} </a></p>
+                         <p><a href="#" >$ ${history.delivery_total_fee}</a> </p>
+                         <p><i class="fa-solid fa-arrow-right visually-hidden-text"></i></p>
+                         </li></ul>`;
+    result = result + row;
+    index = index + 1;
+    // const dialogElement = dialogData(i);
+    // document.body.appendChild(dialogElement);
 
     //     document.addEventListener("click", function (event) {
     //        console.log(history)
     //   });
 
 
-    })
-    result = result +  `</table>`;
-    
-    showHistoryDiv.innerHTML=result;
+  })
+
+  showHistoryDiv.innerHTML = result;
+  colorHistory();
 }
 
 
-function showdialogCompleted(index){
-    console.log(index);
-    const dialogElement = dialogData(historyArrayCompleted[index]);
-     document.body.appendChild(dialogElement);
-     showDialog(dialogElement, historyArrayCompleted[index], userDocId); 
-      }
+function showdialogCompleted(index) {
+  console.log(index);
+  const dialogElement = dialogData(historyArrayCompleted[index]);
+  document.body.appendChild(dialogElement);
+  showDialog(dialogElement, historyArrayCompleted[index], userDocId);
+}
 
 
-function goHome(){
-    if(isDriver){
-        window.location.href = "./../../pages/delivery_request_seeker/delivery_request_rider.html";  
-    }else{
-        window.location.href = "./../../pages/delivery_request_seeker/delivery_request_seeker.html";  
+function goHome() {
+  if (isDriver) {
+    window.location.href = "./../../pages/delivery_request_seeker/delivery_request_rider.html";
+  } else {
+    window.location.href = "./../../pages/delivery_request_seeker/delivery_request_seeker.html";
+  }
+}
+
+function goInProgress() {
+  if (isDriver) {
+    window.location.href = "./../../pages/delivery_request_seeker/delivery_inprogress_rider.html";
+  } else {
+    window.location.href = "./../../pages/delivery_request_seeker/delivery_inprogress_seeker.html";
+  }
+}
+
+
+
+function colorHistory() {
+  const historyBoxes = document.getElementsByClassName('favio_historyStatus');
+  
+  for (const historyBox of historyBoxes) {
+    if (historyBox.innerText === 'Completed') {
+      historyBox.style.backgroundColor = '#07B875';
+    } else if (historyBox.innerText === 'In Progress') {
+      historyBox.style.backgroundColor = '#043C27';
+    } else if (historyBox.innerText === 'Requests') {
+      historyBox.style.backgroundColor = '#F5BF20';
+    } else if(historyBox.innerText === 'Delay'){
+      // Set default color for other status values
+      historyBox.style.backgroundColor = '#F66256';
     }
+  }
 }
-
-function goInProgress(){
-  if(isDriver){
-    window.location.href = "./../../pages/delivery_request_seeker/delivery_inprogress_rider.html";  
-}else{
-    window.location.href = "./../../pages/delivery_request_seeker/delivery_inprogress_seeker.html";  
-}
-}
-
 
