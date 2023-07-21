@@ -95,9 +95,9 @@
                             <input type="text" id="to" placeholder="Destination" onchange="calcRoute();">
                         </div>
 
-                        <div class="form-destination-search">
+                        <!-- <div class="form-destination-search">
                             <input type="button" class="find-route" onclick="calcRoute();" value="Find">
-                        </div>
+                        </div> -->
 
                     </div>
                 </div>
@@ -188,5 +188,15 @@
 <script
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFyOKnoicCueguKZctIMwiDDD-bZ35VMA&libraries=places"></script>
 <script src="./../../js/delivery_request_seeker/delivery_request_seeker.js"></script>
+
+
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+$( function() {
+  $( "#scheduled_delivery_datetime" ).scheduled_delivery_datetime();
+} );
+</script>
 
 </html>

@@ -157,7 +157,7 @@
 	list-style: none;
 }
 
-.active a {
+a:active {
 	border-bottom: 4px solid var(--color-contrast-dark);
 }
 
@@ -168,4 +168,9 @@
 
 .request-div:hover {
 	box-shadow: 0px 0px 0px 2px var(--color-contrast-dark);
+}
+
+input[type=text]:focus {
+	color: bisque;
+	background-color: bisque;
 }

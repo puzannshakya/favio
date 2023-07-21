@@ -209,15 +209,7 @@ function generateContent(data, userDocId, user_name,driver_availability,request_
         requestName.innerHTML = i.delivery_requested_by;
         requestContainer1.appendChild(requestName);
         //  date
-        let requestDt = new Date(i.created_at);
-        let scheduledDt= new Date(i.scheduled_delivery_datetime);
-        const requestDate = document.createElement("p");
-        requestDate.innerHTML = `${requestDt.getDate()} ${requestDt.toLocaleString('default', { month: 'long' })} ${requestDt.getFullYear()}`;
-        requestContainer1.appendChild(requestDate);
-
-        const requestTime = document.createElement("p");
-        requestTime.innerHTML =requestDt.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
-        requestContainer1.appendChild(requestTime);
+        
 
 
         if(i.scheduled_delivery_flag){
@@ -258,6 +250,18 @@ function generateContent(data, userDocId, user_name,driver_availability,request_
         requestContainer3.classList.add("request-div-right");
         requestContainer3.setAttribute("data-value", data.indexOf(i));
         requestContainer.appendChild(requestContainer3);
+        let requestDt = new Date(i.created_at);
+        let scheduledDt= new Date(i.scheduled_delivery_datetime);
+        const requestDate = document.createElement("p");
+        requestDate.innerHTML = `${requestDt.getDate()} ${requestDt.toLocaleString('default', { month: 'long' })} ${requestDt.getFullYear()}`;
+        requestContainer3.appendChild(requestDate);
+
+        const requestTime = document.createElement("p");
+        requestTime.innerHTML =requestDt.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+        requestContainer3.appendChild(requestTime);
+
+
+
         const requestbutton = document.createElement("button");
         requestbutton.textContent = "Requests"
         requestbutton.classList.add("request-button");
