@@ -83,7 +83,7 @@ function showHistory() {
                          <p><a href="#" id="favio_historyId" class="favio_historyStatus" >${deliveryProgressRow} </a></p>
                          <p><a class="favio_distance" href="#" >${history.delivery_distance} </a></p>
                          <p><a href="#" >$ ${history.delivery_total_fee}</a> </p>
-                         <p><i class="fa-solid fa-arrow-right visually-hidden-text"></i></p>
+                         <p><i class="fa-solid fa-arrow-right"></i></p>
                          </li></ul>`;
     result = result + row;
     index = index + 1;
@@ -317,7 +317,7 @@ function showHistoryCompletedInDiv() {
                          <p><a href="#" id="favio_historyId" class="favio_historyStatus">${deliveryProgressRow} </a></p>
                          <p><a href="#" class="favio_distance" >${history.delivery_distance} </a></p>
                          <p><a href="#" >$ ${history.delivery_total_fee}</a> </p>
-                         <p><i class="fa-solid fa-arrow-right visually-hidden-text"></i></p>
+                         <p><i class="fa-solid fa-arrow-right"></i></p>
                          </li></ul>`;
     result = result + row;
     index = index + 1;
