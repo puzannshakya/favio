@@ -225,21 +225,21 @@ function showDialog(dialogElement, clickedData, userDocId) {
     }
   });
 
-     //OB
- const oB = dialogElement.querySelector("#dialogButtonOpenId");
- console.log(oB);
- const openButtonClickHandler = async function () {
-   // alert("Open");
-   oB.removeEventListener("click", openButtonClickHandler); 
-   sessionStorage.setItem("deliveryRequestId",clickedData.deliveryRequestId);
-   dialogElement.close();
-   goInProgress();
-   
-   
- };
- oB.addEventListener("click", openButtonClickHandler);
-  
-  }
+  //OB
+  const oB = dialogElement.querySelector("#dialogButtonOpenId");
+  console.log(oB);
+  const openButtonClickHandler = async function () {
+    // alert("Open");
+    oB.removeEventListener("click", openButtonClickHandler);
+    sessionStorage.setItem("deliveryRequestId", clickedData.deliveryRequestId);
+    dialogElement.close();
+    goInProgress();
+
+
+  };
+  oB.addEventListener("click", openButtonClickHandler);
+
+}
 
 
 function showHistoryAll() {
@@ -295,16 +295,14 @@ function getDeliveryRequestDataCompleted() {
 
 function showHistoryCompletedInDiv() {
   let result = `<ul>
-    <li class="favioHeaderli"> 
-        <h5>&nbsp;</h5>
-        <h5>Name</h5>
-        <h5>Time & Date</h5>
-        <h5>Pickup and Drop off</h5>
-        <h5>Status</h5>
-        <h5>Duration</h5>
-        <h5>Distance</h5>
-        <h5>Total Fee</h5>
-    </li>
+  <li class="favioHeaderli"> 
+  <h5>&nbsp;</h5>
+  <h5>Time & Date</h5>
+  <h5>Pickup and Drop off</h5>
+  <h5>Status</h5>
+  <h5>Distance</h5>
+  <h5>Total Fee</h5>
+</li>
 </ul>`;
   let index = 0;
   historyArrayCompleted.forEach(history => {
@@ -366,7 +364,7 @@ function goInProgress() {
 
 function colorHistory() {
   const historyBoxes = document.getElementsByClassName('favio_historyStatus');
-  
+
   for (const historyBox of historyBoxes) {
     if (historyBox.innerText === 'Completed') {
       historyBox.style.backgroundColor = '#07B875';
@@ -374,7 +372,7 @@ function colorHistory() {
       historyBox.style.backgroundColor = '#043C27';
     } else if (historyBox.innerText === 'Requests') {
       historyBox.style.backgroundColor = '#F5BF20';
-    } else if(historyBox.innerText === 'Delay'){
+    } else if (historyBox.innerText === 'Delay') {
       // Set default color for other status values
       historyBox.style.backgroundColor = '#F66256';
     }
