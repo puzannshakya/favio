@@ -5,48 +5,106 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="../../css/registration/select-vehicle-driver.css">
+
+    <link rel="stylesheet" href="./../../css/normalize.css">
+
+    <link rel="stylesheet" href="./../../css/style.css">
+
+    <link rel="stylesheet" href="./../../css/templates/header.css">
+
+    <script src="https://kit.fontawesome.com/f9397e162d.js" crossorigin="anonymous"></script>
+
+    <script src="./../../js/template/navigation" defer></script>
 </head>
 
 <body>
-
-    <form action="#">
-        <div class="container">
-
-            <h1>Choose your vehicle using Favio</h1>
-
-            <div class="row">
-
-                <div class="col-md-4 col-lg-4 col-sm-4">
-
-                    <label for="vehicle">Driver:</label>
-                    <input type="radio" id="vehicle" name="vehicle" value="Transit" required>Transit
-                    <input type="radio" id="vehicle" name="vehicle" value="Bike or Scooter" required>Bike or Scooter
-                    <input type="radio" id="vehicle" name="vehicle" value="Car" required>Car<br><br>
-            
-
-                    
-
-                </div>
-                 
-
-
-            </div>
-
+    <header>
+        <div class="logo" onclick="navigate_back_home()">
+            <img src="./../../img/Favio.png" alt="Favio">
         </div>
 
-        <button id="select-option-driver">Submit</button>
-    </form>
+        <nav class="menu-main">
+            <ul>
+                <li>
+                    <a onclick="navigate_back_home()">
+                        <span class="visually-hidden-text">Home</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="./../history/history.html">
+                        <span class="visually-hidden-text">History</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="../about_us/about_us.html">
+                        <span class="visually-hidden-text">About Us</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="../settings/settings.html">
+                        <span class="visually-hidden-text">Settings</span>
+                    </a>
+                </li>
+
+                <button class="hamburger visually-hidden-hamburger">
+                    <span class="fas fa-bars"></span>
+                </button>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="favio_AboutUsArrow">
+            <!-- add icon and add css here -->
+            <a href="javascript:history.back()">
+                <i class="fa-solid fa-chevron-left"></i><span> back</span></button>
+            </a>
+
+        </div>
+        <form action="#">
+        
+            <div class="container">
+        
+                <h1>Choose your vehicle using Favio</h1>
+                <div class="favio_SelectVehicle">
+                    <div>
+                        <input type="radio" id="transit" name="vehicle" value="Transit" required>
+                        <label for="transit">
+                            <img src="../../img/bike.svg" alt="">
+                        </label>
+                    </div>
+                    <div>        
+                        <input type="radio" id="bike" name="vehicle" value="Bike or Scooter" required>
+                        <label for="bike">
+                            <img src="../../img/bike.svg" alt="">
+                        </label>
+                    </div>
+                    <div>
+                        <input type="radio" id="car" name="vehicle" value="Car" required>
+                        <label for="car">
+                            <img src="../../img/bike.svg" alt="">
+                        </label>
+                    </div>
+                </div>
+                
+            <button id="select-option-driver">Continue</button>
+        </div>
+        </form>
+    </main>
 
 </body>
 
 </html>
 
-    <!-- firebase CDN -->
-    <script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-app.js"></script> 
-    <script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-firestore.js"></script>  
-    
-    <!-- firebase files -->
-    <script src="./../../js/firebase-config.js"></script>
-    <script src="../../js/registration/select-vehicle-driver.js"></script>
-    
+<!-- firebase CDN -->
+<script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-firestore.js"></script>
+
+<!-- firebase files -->
+<script src="./../../js/firebase-config.js"></script>
+<script src="../../js/registration/select-vehicle-driver.js"></script>
