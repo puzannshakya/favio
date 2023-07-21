@@ -130,7 +130,7 @@ function dialogData(data,request_type) {
       <p class="dialog-detail">${data.selected_drop_off_option}</p>
 
       <p class="dialog-title">Notes:</p>
-      <p class="dialog-detail">${data.note}</p>
+      <p class="dialog-detail">${data.notes}</p>
 
       <p class="dialog-title">Estimated Time:</p>
       <p class="dialog-detail">${data.delivery_estimated_time}</p>
