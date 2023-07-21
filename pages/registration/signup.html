@@ -12,6 +12,8 @@
 
     <link rel="stylesheet" href="./../../css/templates/header.css">
 
+    <link rel="stylesheet" href="./../../css/registration/signup.css">
+
     <script src="https://kit.fontawesome.com/f9397e162d.js" crossorigin="anonymous"></script>
 
     <script src="./../../js/template/navigation" defer></script>
@@ -23,33 +25,39 @@
 <head>
     <title>Sign Up Form</title>
 </head>
-<body>
-    <h2>Sign Up</h2>
-    <form id="signup" method="POST">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required><br><br>
-
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br><br>
-
-        <label for="phone">Phone:</label>
-        <input type="tel" id="phone" name="phone" required><br><br>
-
-        <label for="dob">Date of Birth:</label>
-        <input type="date" id="dob" name="dob" required><br><br>
-
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required><br><br>
-
-        <label for="confirm-password">Confirm Password:</label>
-        <input type="password" id="confirm-password" name="confirm-password" required><br><br>
-
-        <label for="driver">Driver:</label>
-        <input type="radio" id="driver-yes" name="driver" value="yes" required>Yes
-        <input type="radio" id="driver-no" name="driver" value="no" required>No<br><br>
-
-        <input type="submit" value="Sign Up" >
-    </form>
+<body class="sign-up">
+    <div class="signup-wrapper">
+        <div class="signup-banner"></div>
+        <div class="singup-form">
+            <div class="signup-flex-form">
+                <h2>Create Account</h2>
+                <form id="signup" method="POST">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                    <label for="phone">Phone:</label>
+                    <input type="tel" id="phone" name="phone" required>
+                    <label for="dob">Date of Birth:</label>
+                    <input type="date" id="dob" name="dob" required>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                    <label for="confirm-password">Confirm Password:</label>
+                    <input type="password" id="confirm-password" name="confirm-password" required>
+                    <label for="driver">Are you a Rider?</label>
+                    <div class="rider-radio">
+                        <input type="radio" id="driver-yes" name="driver" value="yes" required>
+                        <label for="driver-yes">Yes</label>
+                        <input type="radio" id="driver-no" name="driver" value="no" required>
+                        <label for="driver-no">No</label>
+                    </div>
+                    <input type="submit" value="Sign Up" >
+                </form>
+            </div>
+            <p>By clicking Sign Up, you agree to our <a href="#">Terms and Conditions</a> and <a href="#">Privacy Statement</a>.</p>
+            <p>Delivering a sustainable future one ride at a time.</p>
+        </div>
+    </div>
 
 
 </body>
