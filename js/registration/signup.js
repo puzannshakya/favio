@@ -100,5 +100,5 @@ async function createUserDocument(name, email, phone, dob, isDriverValue, uid) {
 }
 
 function navigateToNextPage() {
-    window.location.href = './../../pages/registration/signup-payment.html';
+    window.location.href = './../../pages/registration/select-vehicle-driver.html';
 }

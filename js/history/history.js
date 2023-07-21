@@ -225,21 +225,21 @@ function showDialog(dialogElement, clickedData, userDocId) {
     }
   });
 
-  //OB
-  const oB = dialogElement.querySelector("#dialogButtonOpenId");
-  console.log(oB);
-  const openButtonClickHandler = async function () {
-    alert("Open");
-    oB.removeEventListener("click", openButtonClickHandler);
-    sessionStorage.setItem("deliveryRequestId", clickedData.deliveryRequestId);
-    dialogElement.close();
-    goInProgress();
-
-
-  };
-  oB.addEventListener("click", openButtonClickHandler);
-
-}
+     //OB
+ const oB = dialogElement.querySelector("#dialogButtonOpenId");
+ console.log(oB);
+ const openButtonClickHandler = async function () {
+   // alert("Open");
+   oB.removeEventListener("click", openButtonClickHandler); 
+   sessionStorage.setItem("deliveryRequestId",clickedData.deliveryRequestId);
+   dialogElement.close();
+   goInProgress();
+   
+   
+ };
+ oB.addEventListener("click", openButtonClickHandler);
+  
+  }
 
 
 function showHistoryAll() {

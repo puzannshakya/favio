@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="./../../css/delivery_request_seeker/delivery_inprogress_rider.css" rel="stylesheet" />
+    <link rel="manifest" href="../../app.webmanifest">
 
     <title>Settings</title>
     <link rel="stylesheet" href="../../css/settings/settings.css">
@@ -22,14 +23,14 @@
 
 <body>
     <header>
-        <div class="logo">
+        <div class="logo" onclick="navigate_back_home()">
             <img src="./../../img/Favio.png" alt="Favio">
         </div>
 
         <nav class="menu-main">
             <ul>
                 <li>
-                    <a href="./../delivery_request_seeker/delivery_inprogress_rider.html">
+                    <a onclick="navigate_back_home()">
                         <span class="visually-hidden-text">Home</span>
                     </a>
                 </li>
@@ -60,10 +61,12 @@
     </header>
 
     <main>
-        <div class="favio_AboutUsArrow">
+        <div class="favio_AboutUsArrow" >
             <!-- add icon and add css here -->
-            <span>back</span>
-
+            <!-- change seeting, about, history -->
+            <a onclick="navigate_back()">
+                <i class="fa-solid fa-chevron-left"></i><span> back</span></button>
+            </a>
         </div>
 
         <div class="favio_settingsMainDiv">

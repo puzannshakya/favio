@@ -1,113 +1,121 @@
-/*map*/
-#googleMap {
-    width: 100%;
-    /* height: auto; */
-    height: 80vh;
-    margin: 10px auto;
-  }
+/* =================== Switch =========== */
 
-  * {
-    box-sizing: border-box;
+.availability-switch-position {
+	position: fixed;
+	top: 100px;
+	right: 2rem;
+	z-index: 2;
+
+	display: flex;
+	align-items: center;
+	gap: 2rem;
+
+	background-color: var(--color-contrast-white);
+	padding: 1rem;
+	border-radius: var(--border-radius);
+	box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.739);
+
 }
 
-body {
-    height: 100vh;
-    font-family: Arial, Helvetica, sans-serif;
-    margin: 0;
-    line-height: 1.5;
-    background-color: #eeeeee;
+.availability-switch-position p {
+	margin: 0;
 }
 
-header {
-    position: sticky;
-    top: 0;
-    width: 100%;
-    padding: .5rem 1rem;
-    background-color: #06a367;
-    z-index: 1;
-
-    display: flex;
-    align-items: center;
-    gap: 4rem;
+.availabilitySwitch {
+	position: relative;
+	width: 60px;
+	height: 34px;
 }
 
-.map {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 50%;
-    height: 100%;
+.availabilitySwitch input[type=checkbox] {
+	position: absolute;
+	-moz-opacity: 0;
+	-khtml-opacity: 0;
+	-webkit-opacity: 0;
+	opacity: 0;
+	-ms-filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0);
+	filter: alpha(opacity=0);
 }
 
-iframe {
-    display: block;
-    background: #000;
-    border: none;
-    height: 100vh;
+.availabilitySwitch label,
+.availabilitySwitch label span {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	transition-duration: .2s;
 }
 
-nav li a {
-    text-decoration: none;
-    color: rgba(255, 255, 255, 0.481);
-    padding: 1rem;
-    font-size: .9rem;
+.availabilitySwitch label {
+	border-radius: 20px;
+	background-color: #ddd;
 }
 
-nav ul li:nth-child(1) a {
-    color: white;
+.availabilitySwitch label:before,
+.availabilitySwitch label:after {
+	position: absolute;
+	top: 0;
+	width: 34px;
+	line-height: 34px;
+	color: #fff;
+	text-align: center;
 }
 
-nav ul {
-    padding: 0;
-    list-style: none;
-    display: flex;
+.availabilitySwitch label span {
+	z-index: 1;
+	width: 28px;
+	height: 28px;
+	margin: 3px;
+	border-radius: 50%;
+	background-color: #fff;
 }
 
-.logo img {
-    max-height: 30px;
+.availabilitySwitch label:before {
+	left: 0;
+	font-size: 11px;
+	content: 'ON';
 }
 
-
-button {
-    border-radius: 8px;
-    font-weight: bold;
-    padding: 1rem;
-    background-color: #222222;
-    border: none;
-    color: white;
-    width: 100%;
+.availabilitySwitch label:after {
+	right: 0;
+	font-size: 10px;
+	content: 'OFF';
 }
 
-.button-confirmation {
-    /* position: fixed; */
-    bottom: 0;
-    left: 0;
-    width: 50%;
-    padding: 2rem;
-    background-color: white;
-    border-top: 1px solid #c4c4c4;
+.availabilitySwitch input:checked+label {
+	background-color: var(--color-primary);
 }
 
-
-.change-request{
-    display: flex;
-    gap: 1rem;
-}
-
-.change-request li{
-    list-style: none;
+.availabilitySwitch input:checked+label span {
+	transform: translateX(26px);
 }
 
 
-.main-wrapper{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+/* ============= Cards ============= */
+
+.request-div {
+	padding: 1rem;
+	border: 1px solid black;
 }
 
-.request-div{
-    border: 1px solid black;
-    border-radius: 30px;
-    text-align: center;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+.change-request {
+	padding: 0;
 }
+
+.change-request {
+	display: flex;
+	gap: 1rem;
+}
+
+.change-request li {
+	text-decoration: none;
+	list-style: none;
+}
+
+.active a {
+	border-bottom: 4px solid var(--color-contrast-dark);
+}
+
+
+

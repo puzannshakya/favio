@@ -80,22 +80,22 @@ function calcRoute() {
 
   switch (checkedVechicle) {
     case "Walk":
-      alert("walk selected");
+      // alert("walk selected");
       travelMode = google.maps.TravelMode.WALKING;
       break;
 
     case "Bikes or Scooters":
-      alert("Bikes or Scooters selected");
+      // alert("Bikes or Scooters selected");
       travelMode = google.maps.TravelMode.TWO_WHEELER;
       break;
 
     case "Cars":
-      alert("Cars selected");
+      // alert("Cars selected");
       travelMode = google.maps.TravelMode.DRIVING;
       break;
 
     case "Transit":
-      alert("Transit selected");
+      // alert("Transit selected");
       travelMode = google.maps.TravelMode.TRANSIT;
       break;
   }
@@ -479,7 +479,7 @@ function uploadimg(){
 }
 
 function startCamera() {
-  alert('starting camera');
+  // alert('starting camera');
   console.log(deliveryRequestId);
   if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
     video.style.display = "block";
@@ -527,7 +527,7 @@ async function getProgressTracking() {
       if (deliveryRequest.delivery_completed_image_confirmation_flag) {
         clearInterval(intervalId);
         if(deliveryRequest.delivery_completed_rider_flag){
-          alert("completed");
+          // alert("completed");
           submitButtonDeliveryCompleteRider.style.backgroundColor = "#07B875";
        }else{
       submitButtonDeliveryCompleteRider.style.backgroundColor = "#F5BF20";

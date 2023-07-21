@@ -1,130 +1,192 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <script src="https://kit.fontawesome.com/ab2155e76b.js" crossorigin="anonymous"></script>
+
+    <link rel="manifest" href="../../app.webmanifest">
+
+    <link rel="stylesheet" href="./../../css/normalize.css">
+
+    <link rel="stylesheet" href="./../../css/style.css">
+
+    <link rel="stylesheet" href="./../../css/templates/header.css">
+
+    <link rel="stylesheet" href="./../../css/templates/gridlayout.css">
+
+    <script src="https://kit.fontawesome.com/f9397e162d.js" crossorigin="anonymous"></script>
+
+    <script src="./../../js/template/navigation" defer></script>
+
     <link href="./../../css/delivery_request_seeker/delivery_request_seeker.css" rel="stylesheet" />
 </head>
+
 <body>
 
-    <!-- <div class="body-wrapper">
-        <div id="googleMap">
-
-        </div>
-        <div id="delivery-request-form">
-            <form>
-                <input type="text" id="from" placeholder="Origin" >
-                <input type="text" id="to" placeholder="Destination" >
-                <input type="button" onclick="calcRoute();" value="Find">
-            </form>
-        </div>
-    </div> -->
 
     <header>
-        <div class="logo">
-            <img src="./../../img/Favio.png" alt="">
+        <div class="logo" onclick="navigate_back_home()">
+                <img src="./../../img/Favio.png" alt="Favio">
         </div>
-        <nav>
+
+        <nav class="menu-main">
             <ul>
-                <li><a href="">Home</a></li>
-                <li><a href="./../history/history.html">History</a></li>
-                <li><a href="../about_us/about_us.html">About Us</a></li>
-                <li><a href="">Settings</a></li>
+                <li>
+                    <a href="./../delivery_request_seeker/delivery_inprogress_seeker.html">
+                        <span class="visually-hidden-text">Home</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="./../history/history.html">
+                        <span class="visually-hidden-text">History</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="../about_us/about_us.html">
+                        <span class="visually-hidden-text">About Us</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="./../settings/settings.html">
+                        <span class="visually-hidden-text">Settings</span>
+                    </a>
+                </li>
+
+                <button class="hamburger visually-hidden-hamburger">
+                    <span class="fas fa-bars"></span>
+                </button>
             </ul>
         </nav>
     </header>
 
+    <nav class="menu-mobile">
+        <ul>
+            <li><a href="./../delivery_request_seeker/delivery_inprogress_seeker.html">Home</a></li>
+            <li><a href="./../history/history.html">History</a></li>
+            <li><a href="../about_us/about_us.html">About Us</a></li>
+            <li><a href="">Settings</a></li>
+        </ul>
+    </nav>
+
     <main>
-
-        <div class="main-body">
+        <div class="content-grid">
             <div class="main-content">
-                <div class="form-fillup">
 
-                    <div class="form-destination">
-                        <h2>
-                            Pick Destination
-                        </h2>
+                <div class="form-destination">
+                    <h4>
+                        Pick Destination
+                    </h4>
 
-                        <div>
-                            <div class="form-food">
-                                <!-- <label for="username">Food Name</label> -->
-                                <input type="text" id="from" placeholder="Origin" >
-                              
-                            </div>
+                    <div>
+                        <div class="form-destination-search">
 
-                            <div class="form-food">
-                                <!-- <label for="username">Food Name</label> -->
-                                <input type="text" id="to" placeholder="Destination" onchange="calcRoute();" >
-                            </div>
-                            <div class="form-food">
-                                <input type="button" onclick="calcRoute();" value="Find">
-                            </div>
-                           
+                            <input type="text" id="from" placeholder="Origin">
+
                         </div>
-                    </div>
 
-                    <div id="courier-option">
-                    </div>
+                        <div class="form-destination-search">
+                            <!-- <label for="username">Food Name</label> -->
+                            <input type="text" id="to" placeholder="Destination" onchange="calcRoute();">
+                        </div>
 
-                    <div class="delivery-datetime">
-                        <label for="schedule">Schedule (date and time):</label><br>
-                        <input type="datetime-local" id="scheduled_delivery_datetime" name="schedule" required>
-                    </div>
+                        <div class="form-destination-search">
+                            <input type="button" class="find-route" onclick="calcRoute();" value="Find">
+                        </div>
 
-                    <div class="drop-off">
-
-                        <label for="dropoff_option">Drop-off option:</label>
-                        <select id="dropoff_option" name="dropoff_option">
-                            <option value="front_door">Front Door</option>
-                            <option value="receiver">Pickup</option>
-                        </select>
                     </div>
+                </div>
 
-                    <div class="comments">
-                        <textarea name="comments" id="comments" placeholder="Notes">
-                            
-                        </textarea>
-                    </div>
+                <div id="courier-option">
 
-                    <div id="delivery-info">
-                        <p> <strong>Distance:  </strong> <span id="estimatedDistance">asdd<span> </p>
-                        <p> <strong>Estimated Time: </strong> <span id="estimatedTime">asdd<span> </p>
-                        <p> <strong>Total: $</strong> <span id="estimatedTotal"><span> </p>
-                       
-                    </div>
+                    <!-- <div class="form-courier-options">
+                        <input type="radio" id="bike" name="courier-option-radio" value="Bikes or Scooters">
+                        <label class="courier-label" for="bike">
+                            <div class="courier-icon">
+                                <img src="./../../img/bike.svg" alt="Bikes or Scooters-img">
+                            </div>
+                            <div class="courier-info">
+                                <div class="courier-name">
+                                    <h5>Bikes or Scooters</h5>
+                                </div>
+                                <div class="courier-details">
+                                    <h6>0kg - 5kg</h6>
+                                    <h6>40 X 40 X 40 Centimeters</h6>
+                                </div>
+                            </div>
+                        </label>
+                    </div> -->
+
+                </div>
+
+                <div class="delivery-datetime">
+                    <label for="schedule">
+                        <h4>Schedule (date and time):</h4>
+                    </label>
+                    <input type="datetime-local" class="datetime" id="scheduled_delivery_datetime" name="schedule"
+                        required>
+                </div>
+
+                <div class="drop-off">
+                    <label for="dropoff_option">
+                        <h4>Drop-off option:</h4>
+                    </label>
+                    <select class="drop-off-box" id="dropoff_option" name="dropoff_option">
+                        <option value="front_door">Front Door</option>
+                        <option value="receiver">Pickup</option>
+                    </select>
+                </div>
+
+                <div class="comments">
+                    <label for="comments"><h4>Notes</h4></label>
+
+                    <textarea name="comments" id="comments" rows="5" cols="50" style="resize: none;"
+                        placeholder="Add additional instructions"></textarea>
+                </div>
+
+                <div id="delivery-info">
+                    <p> <strong>Distance: </strong> <span id="estimatedDistance">asdd<span> </p>
+                    <p> <strong>Estimated Time: </strong> <span id="estimatedTime">asdd<span> </p>
+                    <p> <strong>Total: $</strong> <span id="estimatedTotal"><span> </p>
 
                 </div>
 
                 <div class="button-confirmation">
 
-                    <button  id="submitButton-complete" onclick="saveDeliveryRequest();">
-                       Complete
+                    <button class="submit" id="submitButton-complete" onclick="saveDeliveryRequest();">
+                        Complete
                     </button>
 
                 </div>
 
-                <div id="googleMap" style="width: 100%">
-                   
-                </div>
+            </div>
+
+            <div id="googleMap" class="map" style="width: 100%">
 
             </div>
+
+        </div>
     </main>
 
-    
+
 </body>
 
 
 <!-- firebase CDN -->
-<script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-app.js"></script> 
+<script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-firestore.js"></script>  
+<script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-firestore.js"></script>
 
 <!-- firebase files -->
 <script src="./../../js/firebase-config.js"></script>
- <!-- Google Maps -->
- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFyOKnoicCueguKZctIMwiDDD-bZ35VMA&libraries=places"></script>
- <script src="./../../js/delivery_request_seeker/delivery_request_seeker.js"></script>
+<!-- Google Maps -->
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFyOKnoicCueguKZctIMwiDDD-bZ35VMA&libraries=places"></script>
+<script src="./../../js/delivery_request_seeker/delivery_request_seeker.js"></script>
 
 </html>
