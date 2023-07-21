@@ -121,7 +121,7 @@ function calcRoute() {
 
     case "Bikes or Scooters":
       // alert("Bikes or Scooters selected");
-      travelMode = google.maps.TravelMode.TWO_WHEELER;
+      travelMode = google.maps.TravelMode.BICYCLING;
       break;
 
     case "Cars":
@@ -147,7 +147,7 @@ function calcRoute() {
   //pass the request to the route method
   directionsService.route(request, function (result, status) {
     if (status == google.maps.DirectionsStatus.OK) {
-
+      directionsDisplay.setDirections(result);
 
       // //Get distance and time
       // const output = document.querySelector('#output');
@@ -185,7 +185,7 @@ function calcRoute() {
 
 
 
-      directionsDisplay.setDirections(result);
+     
     } else {
       //delete route from map
       directionsDisplay.setDirections({ routes: [] });
@@ -455,7 +455,7 @@ function calculatePayment(travelMode, distance, time) {
       timeMultiplier = 0.08;
       basePrice = 5;
       break;
-    case "TWO_WHEELER":
+    case "BICYCLING":
       distanceMultiplier = 0.25;
       timeMultiplier = 0.05;
       basePrice = 2;
