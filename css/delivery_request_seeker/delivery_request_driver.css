@@ -95,9 +95,53 @@
 /* ============= Cards ============= */
 
 .request-div {
-	padding: 1rem;
-	border: 1px solid black;
+	padding: .5rem 2rem;
+	border: 1px solid var(--color-contrast-grey);
+	border-radius: var(--border-radius);
+
+	display: grid;
+	gap: 1rem;
 }
+
+.request-div p {
+	margin: .5rem;
+}
+
+.request-div-left{
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	align-items: center;
+}
+
+.request-div-center {
+	border-bottom: 1px solid black;
+}
+
+.request-div-right{
+	display: flex;
+	flex-flow: row nowrap;
+	gap: 1rem;
+	justify-content: end;
+	align-items: center;
+
+}
+
+.request-fee {
+	order: 1;
+}
+
+.request-button {
+	order: 2;
+	width: 100px;
+	font-size: var(--typography-size-button);
+	padding: 0;
+	border: none;
+	background-color: var(--color-secondary);
+	height: 30px;
+	border-radius: 25px;
+
+}
+
 
 .change-request {
 	padding: 0;
@@ -117,5 +161,11 @@
 	border-bottom: 4px solid var(--color-contrast-dark);
 }
 
+.page {
+	display: grid;
+	gap: 1rem;
+}
 
-
+.request-div:hover {
+	box-shadow: 0px 0px 0px 2px var(--color-contrast-dark);
+}

@@ -411,7 +411,7 @@ function updateRequestSectionVisibility(driverAvailability) {
     const googleMap = document.getElementById("googleMap");
    
     if (driverAvailability) {
-         requestSection.style.display = 'block';
+         requestSection.style.display = 'grid';
         googleMap.style.display = "block";
         changeRequest.style.display = "flex";
     } else {
