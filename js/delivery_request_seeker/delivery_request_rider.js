@@ -580,3 +580,16 @@ function setIntervalForConfirmationTracking(deliveryRequestId) {
   
       });
   }
+
+
+
+
+
+
+//store url
+const firsturl = window.location.href;
+console.log("firsturl:", firsturl);
+sessionStorage.setItem("firsturl", window.location.href);
+
+
+console.log("Stored URL:", sessionStorage.getItem("firsturl"));
