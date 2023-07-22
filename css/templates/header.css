@@ -18,14 +18,18 @@ header {
 
 .menu-main li a {
     text-decoration: none;
-    color: var(--color-contrast-white);
+    color: var(--color-contrast-light);
     padding: 1rem;
     font-size: .9rem;
 }
 
-.menu-main ul li:nth-child(1) a {
-    color: white;
+.menu-main li a:hover {
+
+    color: var(--color-contrast-white);
+    transition: 1s;
 }
+
+
 
 .menu-main ul {
     padding: 0;
