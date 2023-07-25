@@ -7,6 +7,7 @@ var bookingFee = 2;
 var minimumFare = 5;
 var intervalId;
 let requestDocumentRef;
+var price=0;
 
 console.log(userDocId);
 
@@ -159,7 +160,7 @@ function calcRoute() {
       delivery_estimated_time = result.routes[0].legs[0].duration.text;
       estimatedDistance.innerHTML = delivery_distance;
       estimatedTime.innerHTML = delivery_estimated_time;
-      const price = calculatePayment(request.travelMode, delivery_distance, delivery_estimated_time);
+      price = calculatePayment(request.travelMode, delivery_distance, delivery_estimated_time);
 
       if (price.totalPrice < 6) {
         price.totalPrice = price.totalPrice + minimumFare;
@@ -171,7 +172,7 @@ function calcRoute() {
                                               <li>+ per Km            ${price.distanceMultiplier}</li>
                                               <li>+ per min           ${price.timeMultiplier}</li>
                                               <li> Booking Fee        ${bookingFee}</li> 
-                                              </ul>`
+                                              </ul>`      
       }
       else {
         delivery_total_fee = price.totalPrice;
@@ -182,7 +183,6 @@ function calcRoute() {
                                               <li>+ per min           ${price.timeMultiplier}</li>
                                               <li> Booking Fee        ${bookingFee}</li> 
                                               </ul>`
-
       }
 
 
@@ -380,8 +380,12 @@ async function saveDeliveryRequest() {
     scheduled_delivery_flag :  scheduled_delivery_flag,
     created_at: new Date().toISOString(),
     seeker_img: img, 
-
-
+    basePrice:price.basePrice,
+    minimumFare:minimumFare,
+    perKm:price.distanceMultiplier,
+    perMin:price.timeMultiplier,
+    bookingFee:bookingFee,
+    delivery_total_fee:price.totalPrice
   });
 
 
@@ -478,12 +482,12 @@ function calculatePayment(travelMode, distance, time) {
   const totalPrice = calculateTotalPrice(distancePrice, timePrice, basePrice, this.bookingFee);
 
   return {
-    distanceMultiplier: distanceMultiplier,
-    timeMultiplier: timeMultiplier,
-    distancePrice: distancePrice,
-    timePrice: timePrice,
-    totalPrice: totalPrice,
-    basePrice: basePrice
+    distanceMultiplier: distanceMultiplier.toFixed(2),
+    timeMultiplier: timeMultiplier.toFixed(2),
+    distancePrice: distancePrice.toFixed(2),
+    timePrice: timePrice.toFixed(2),
+    totalPrice: totalPrice.toFixed(2),
+    basePrice: basePrice.toFixed(2)
   };
 
 
