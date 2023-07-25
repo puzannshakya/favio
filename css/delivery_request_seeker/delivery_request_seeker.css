@@ -142,3 +142,83 @@ textarea {
     padding: 1rem;
     width: 100%;
 }
+
+
+/* ============= Dialog ============= */
+#modal {
+	border-radius: var(--border-radius);
+	max-width: 560px;
+}
+
+.dialogContent {
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: center;
+	align-items: center;
+}
+
+.dialogContent p {
+	font-size: var(--typography-size-subtitle);
+	font-weight: bold;
+	flex-basis: 100%;
+	text-align: center;
+}
+
+.dialog-img {
+	flex-basis: 100%;
+}
+
+
+/* BUTTON============= */
+button.dialogConfirm {
+    border-radius: var(--border-radius);
+    font-weight: bold;
+    padding: 1rem;
+	margin-bottom: 1rem;
+    background-color: var(--color-secondary);
+    border: 1px solid var(--color-secondary);
+    color: var(--color-contrast-dark);
+	width: calc(50% - .5rem);
+}
+
+button.dialogClose {
+	border-radius: var(--border-radius);
+    font-weight: bold;
+    padding: 1rem;
+	margin-bottom: 1rem;
+    background-color: var(--color-contrast-white);
+    border: 1px solid var(--color-secondary);
+    color: var(--color-contrast-dark);
+	width: calc(50% - .5rem);
+}
+
+button.dialogConfirm + button.dialogClose {
+	margin-left: 1rem;
+}
+
+
+/* loader */
+
+.loader{
+	display:none;
+}
+
+.show-loader .loader{
+	position: fixed;
+	top: 0;
+	left: 0;
+	background: rgba(0, 0, 0, 0.739);
+	height: 100%;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index:10;
+  }
+
+  .profile-pic{
+	height: 100px;
+	width: 100px;
+	border-radius: 50%;
+}
+

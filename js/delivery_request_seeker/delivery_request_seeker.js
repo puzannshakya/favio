@@ -11,7 +11,7 @@ let requestDocumentRef;
 console.log(userDocId);
 
 if (userDocId == null) {
-  userDocId = 'jIqGYzdFTxUz5IVrFPGo';
+  userDocId = '7CAw8QAmzYgBou8dgYqKCzUTqaC2';
 }
 let selectedVehicle = "Car";
 
@@ -28,6 +28,8 @@ async function getUserData() {
   if (docData.exists) {
     user_name = docData.data().user_name;
     console.log(user_name);
+    img = docData.data().img;
+
   }
   else {
     console.log("No Such document");
@@ -267,6 +269,9 @@ function generateContent(data) {
   courier_option.appendChild(courier_form);
 
   option_name_from_db.forEach((option, index) => {
+    console.log("printtttttt",option)
+    console.log("printtttttt",data)
+    console.log("printtttttt",data[index])
     const courier_item = selectObject(data, 'courier-options-name', option);
 
     const radioContainer = document.createElement("div");
@@ -292,7 +297,7 @@ function generateContent(data) {
     radioLabel.appendChild(courierIcon);
 
     const courierIconImg = document.createElement("img");
-    courierIconImg.src = `./../../img/${option_img_name[index]}.svg`;
+    courierIconImg.src = courier_item.img;
     courierIconImg.alt = `${option}-img`;
     courierIcon.appendChild(courierIconImg);
 
@@ -334,6 +339,7 @@ function generateContent(data) {
 
 
 async function saveDeliveryRequest() {
+  toggleLoader();
   // alert("saveDeliveryRequest");
   let originInput = from.value;
   let destinationInput = to.value;
@@ -373,6 +379,7 @@ async function saveDeliveryRequest() {
     delivery_completed_confirmation_flag: false,
     scheduled_delivery_flag :  scheduled_delivery_flag,
     created_at: new Date().toISOString(),
+    seeker_img: img, 
 
 
   });
@@ -422,10 +429,11 @@ async function saveDeliveryRequest() {
            
 
         });
-        alert("Request Created");
+       
         console.log("Request Created");
         setIntervalForConfirmationDialog();
-
+        toggleLoader();
+        alert("Request Created");
 
 
 
@@ -536,7 +544,7 @@ let requestDt = new Date(data.created_at);
 const dialogContent = document.createElement("div"); 
 dialogContent.setAttribute('class', "dialogContent"); 
 dialogContent.innerHTML = `
-    <img class="dialog-img" style="width:50px; height:50px;" src="./../../img/bike.svg">
+    <img class="profile-pic"  src="${img}">
     <p>Your Favio rider is : ${data.delivery_picked_up_by}</p>
     
     `;
@@ -634,3 +642,8 @@ sessionStorage.setItem("firsturl", window.location.href);
 
 
 console.log("Stored URL:", sessionStorage.getItem("firsturl"));
+
+
+function toggleLoader(){
+  document.body.classList.toggle('show-loader');
+}

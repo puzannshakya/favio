@@ -175,3 +175,108 @@ input[type=text]:focus {
 	color: bisque;
 	background-color: bisque;
 }
+
+
+/* ============= Dialog ============= */
+#modal {
+	border-radius: var(--border-radius);
+	max-width: 560px;
+}
+
+.dialogContent {
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.dialog-head {
+	font-size: var(--typography-size-title);
+	font-weight: bold;
+	flex-basis: 100%;
+	text-align: center;
+}
+
+.dialog-img,
+.dialog-title,
+.dialog-detail {
+	flex-basis: 100%;
+}
+
+.dialog-title {
+	font-size: var(--typography-size-body);
+	font-weight: bold;
+	margin-bottom: 0;
+}
+
+.dialog-date,
+.dialog-time {
+	font-size: var(--typography-size-subtitle);
+	font-weight: bold;
+}
+
+.dialog-distance {
+	background: var(--color-contrast-grey);
+	color: var(--color-contrast-white);
+	border-radius: var(--border-radius);
+	padding: .5rem 1rem;
+}
+
+.dialog-price {
+	font-size: var(--typography-size-subtitle);
+	font-weight: bold;
+}
+
+
+/* BUTTON============= */
+button.dialogConfirm {
+	border-radius: var(--border-radius);
+  font-weight: bold;
+  padding: 1rem;
+	margin-bottom: 1rem;
+  background-color: var(--color-secondary);
+  border: 1px solid var(--color-secondary);
+  color: var(--color-contrast-dark);
+	width: calc(50% - .5rem);
+}
+
+button.dialogOpen {
+	border-radius: var(--border-radius);
+  font-weight: bold;
+  padding: 1rem;
+	margin-bottom: 1rem;
+  background-color: var(--color-secondary);
+  border: 1px solid var(--color-secondary);
+  color: var(--color-contrast-dark);
+	width: calc(50% - .5rem);
+}
+
+button.dialogClose {
+	border-radius: var(--border-radius);
+  font-weight: bold;
+  padding: 1rem;
+	margin-bottom: 1rem;
+  background-color: var(--color-contrast-white);
+  border: 1px solid var(--color-secondary);
+  color: var(--color-contrast-dark);
+	width: calc(50% - .5rem);
+}
+
+button.dialogOpen + button.dialogClose {
+	margin-left: 1rem;
+}
+
+button.dialogConfirm + button.dialogClose {
+	margin-left: 1rem;
+}
+
+.profile-pic{
+	height: 100px;
+	width: 100px;
+	border-radius: 50%;
+}
+
+
+
+
+
