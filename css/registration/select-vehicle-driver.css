@@ -1,0 +1,63 @@
+
+
+.favio_SelectVehicle div {
+    border: 1px solid black;
+    padding: 1rem;
+    border-radius: 16px;
+}
+
+[type=radio] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+[type=radio] + label img {
+    cursor: pointer;
+}
+
+/* CHECKED STYLES */
+[type=radio]:checked + label {
+    border: 1px solid green; /* Border color for checked state */
+}
+
+  body{
+    height: 100vh;
+  }
+  .container{
+    height: 100vh;
+  }
+  button#select-option-driver {
+    display:block;
+    width:60vw;
+    padding:1rem;
+    border-radius: 8px 8px 8px 8px;
+  }
+  .favio_SelectVehicle{
+    display: flex;
+    flex-flow: column nowrap;
+    gap:2rem;
+  }
+  
+
+
+  
+  .container{
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: space-around;
+    gap:2rem;
+
+  }
+ 
+  @media only screen and (min-width: 800px) {
+    .favio_SelectVehicle{
+        flex-flow: row ;        
+        justify-content: center;
+        gap:2rem;
+        align-items: center;
+    }
+    
+  }
