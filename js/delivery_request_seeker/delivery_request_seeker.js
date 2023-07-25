@@ -339,6 +339,7 @@ function generateContent(data) {
 
 
 async function saveDeliveryRequest() {
+  toggleLoader();
   // alert("saveDeliveryRequest");
   let originInput = from.value;
   let destinationInput = to.value;
@@ -428,10 +429,11 @@ async function saveDeliveryRequest() {
            
 
         });
-        alert("Request Created");
+       
         console.log("Request Created");
         setIntervalForConfirmationDialog();
-
+        toggleLoader();
+        alert("Request Created");
 
 
 
@@ -542,7 +544,7 @@ let requestDt = new Date(data.created_at);
 const dialogContent = document.createElement("div"); 
 dialogContent.setAttribute('class', "dialogContent"); 
 dialogContent.innerHTML = `
-    <img class="dialog-img" style="width:50px; height:50px;" src="${img}">
+    <img class="profile-pic"  src="${img}">
     <p>Your Favio rider is : ${data.delivery_picked_up_by}</p>
     
     `;
@@ -640,3 +642,8 @@ sessionStorage.setItem("firsturl", window.location.href);
 
 
 console.log("Stored URL:", sessionStorage.getItem("firsturl"));
+
+
+function toggleLoader(){
+  document.body.classList.toggle('show-loader');
+}

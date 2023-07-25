@@ -153,7 +153,7 @@ textarea {
 .dialogContent {
 	display: flex;
 	flex-flow: row wrap;
-	justify-content: space-between;
+	justify-content: center;
 	align-items: center;
 }
 
@@ -195,3 +195,30 @@ button.dialogClose {
 button.dialogConfirm + button.dialogClose {
 	margin-left: 1rem;
 }
+
+
+/* loader */
+
+.loader{
+	display:none;
+}
+
+.show-loader .loader{
+	position: fixed;
+	top: 0;
+	left: 0;
+	background: rgba(0, 0, 0, 0.739);
+	height: 100%;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index:10;
+  }
+
+  .profile-pic{
+	height: 100px;
+	width: 100px;
+	border-radius: 50%;
+}
+

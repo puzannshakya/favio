@@ -2,6 +2,14 @@ let userDocId = (sessionStorage.getItem("userDocId"));
 let isDriverFlag = (sessionStorage.getItem("isDriver"));
 let isDriver =false;
 
+var loader = document.querySelector(".loader")
+
+window.addEventListener("load", vanish);
+
+function vanish() {
+  loader.classList.add("disppear");
+}
+
 
 if(isDriverFlag === "yes"){
     isDriver =true;
@@ -89,7 +97,7 @@ function dialogData(data,request_type) {
       let scheduledDate = new Date(data.scheduled_delivery_datetime);
       dialogContent.innerHTML = `
       <p class="dialog-head">${data.delivery_requested_by} sent a request</p>
-      <img class="dialog-img" style="width:50px; height:50px;" src="${data.seeker_img}">
+      <img class="profile-pic" src="${data.seeker_img}">
       <p class="dialog-date">${requestDt.getDate()} ${requestDt.toLocaleString('default', { month: 'long' })} ${requestDt.getFullYear()}</p>
       <p class="dialog-time">${requestDt.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</p>
       <p class="dialog-title">Scheduled Date: </p>
@@ -117,7 +125,7 @@ function dialogData(data,request_type) {
     }else{
       dialogContent.innerHTML = `
       <p class="dialog-head">${data.delivery_requested_by} sent a request</p>
-      <img class="dialog-img" style="width:50px; height:50px;" src="${data.seeker_img}">
+      <img class="profile-pic"  src="${data.seeker_img}">
       <p class="dialog-date">${requestDt.getDate()} ${requestDt.toLocaleString('default', { month: 'long' })} ${requestDt.getFullYear()}</p>
       <p class="dialog-time">${requestDt.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</p>
       <p class="dialog-title">Pick-up Location: </p>
@@ -200,6 +208,7 @@ function generateContent(data, userDocId, user_name,driver_availability,request_
         // add img
         const image = document.createElement("img");
         image.src = i.seeker_img; 
+        image.classList.add("profile-pic");
         requestContainer1.appendChild(image);
         //add name
         const requestName= document.createElement("p");
@@ -594,3 +603,11 @@ sessionStorage.setItem("firsturl", window.location.href);
 
 
 console.log("Stored URL:", sessionStorage.getItem("firsturl"));
+
+
+
+
+function toggleLoader(){
+  document.body.classList.toggle('show-loader');
+}
+

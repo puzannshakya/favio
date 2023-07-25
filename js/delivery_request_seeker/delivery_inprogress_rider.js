@@ -86,7 +86,7 @@ function calcRoute() {
 
     case "Bikes or Scooters":
       // alert("Bikes or Scooters selected");
-      travelMode = google.maps.TravelMode.TWO_WHEELER;
+      travelMode = google.maps.TravelMode.BICYCLING;
       break;
 
     case "Cars":
@@ -175,7 +175,7 @@ function calculatePayment(travelMode, distance, time) {
       timeMultiplier = 0.10;
       basePrice = 4;
       break;
-    case "TWO_WHEELER":
+    case "BICYCLING":
       distanceMultiplier = 0.25;
       timeMultiplier = 0.05;
       basePrice = 2;

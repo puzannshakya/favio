@@ -269,3 +269,14 @@ button.dialogOpen + button.dialogClose {
 button.dialogConfirm + button.dialogClose {
 	margin-left: 1rem;
 }
+
+.profile-pic{
+	height: 100px;
+	width: 100px;
+	border-radius: 50%;
+}
+
+
+
+
+
