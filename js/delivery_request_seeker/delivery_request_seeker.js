@@ -437,7 +437,7 @@ async function saveDeliveryRequest() {
         console.log("Request Created");
         setIntervalForConfirmationDialog();
         toggleLoader();
-        alert("Request Created");
+        // alert("Request Created");
 
 
 

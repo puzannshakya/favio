@@ -14,7 +14,7 @@ select_option_driver.addEventListener('click', async (e) => {
         await firebase.firestore().collection("users_tests").doc(documentId).update({
             selected_vehicle : selected_vehicle.value
         });
-        alert("User information updated successfully!");
+        // alert("User information updated successfully!");
 
         navigateToNextPage();
         

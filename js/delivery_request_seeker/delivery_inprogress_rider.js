@@ -234,7 +234,7 @@ progressTracking.addEventListener('change', () => {
       delivery_inprogress_flag:inProgress
   })
        .then(() => {
-          alert("Delivery progress updated successfully.");
+          // alert("Delivery progress updated successfully.");
       })
       .catch((error) => {
          console.log("Error updating delivery progress: " + error);
@@ -246,7 +246,7 @@ progressTracking.addEventListener('change', () => {
       delivery_inprogress_flag:inProgress
   })
        .then(() => {
-          alert("Delivery progress updated successfully.");
+          // alert("Delivery progress updated successfully.");
       })
       .catch((error) => {
          console.log("Error updating delivery progress: " + error);

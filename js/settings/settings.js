@@ -5,7 +5,7 @@ function logoutFunc(e){
         .then(() => {
             // Clear session storage or any other necessary cleanup
             sessionStorage.clear();
-            alert("You have signed out successfully!");
+            // alert("You have signed out successfully!");
             // Redirect to the login page or any other desired destination
             window.location.href = "./../../index.html";
         })
