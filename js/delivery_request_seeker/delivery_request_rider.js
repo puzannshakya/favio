@@ -48,12 +48,11 @@ function showRequests(){
     var filtered_data = user_data.filter(function(user) {
         return user.userDocId === userDocId;
     });
-
     const user_name = filtered_data[0].user_name;
     const driver_availability = filtered_data[0].driver_availability;
     return {
         user_name: user_name,
-        driver_availability: driver_availability
+        driver_availability: driver_availability,
     };
 }).then(function(userData) {
     data = [];
@@ -90,7 +89,7 @@ function dialogData(data,request_type) {
       let scheduledDate = new Date(data.scheduled_delivery_datetime);
       dialogContent.innerHTML = `
       <p class="dialog-head">${data.delivery_requested_by} sent a request</p>
-      <img class="dialog-img" style="width:50px; height:50px;" src="./../../img/bike.svg">
+      <img class="dialog-img" style="width:50px; height:50px;" src="${data.seeker_img}">
       <p class="dialog-date">${requestDt.getDate()} ${requestDt.toLocaleString('default', { month: 'long' })} ${requestDt.getFullYear()}</p>
       <p class="dialog-time">${requestDt.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</p>
       <p class="dialog-title">Scheduled Date: </p>
@@ -118,7 +117,7 @@ function dialogData(data,request_type) {
     }else{
       dialogContent.innerHTML = `
       <p class="dialog-head">${data.delivery_requested_by} sent a request</p>
-      <img class="dialog-img" style="width:50px; height:50px;" src="./../../img/bike.svg">
+      <img class="dialog-img" style="width:50px; height:50px;" src="${data.seeker_img}">
       <p class="dialog-date">${requestDt.getDate()} ${requestDt.toLocaleString('default', { month: 'long' })} ${requestDt.getFullYear()}</p>
       <p class="dialog-time">${requestDt.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</p>
       <p class="dialog-title">Pick-up Location: </p>
@@ -135,7 +134,7 @@ function dialogData(data,request_type) {
       <p class="dialog-title">Estimated Time:</p>
       <p class="dialog-detail">${data.delivery_estimated_time}</p>
 
-      <p class="dialog-distance">${data.delivery_distance}km</p>
+      <p class="dialog-distance">${data.delivery_distance}</p>
       <p class="dialog-price">$ ${data.delivery_total_fee} CAD</p>
       `;
     }
@@ -174,7 +173,7 @@ function dialogData(data,request_type) {
 
 
 function generateContent(data, userDocId, user_name,driver_availability,request_type) {
-   console.log(data);
+   console.log("from here--------", data);
    let  request= document.getElementById('request')
    request.innerHTML='';
     if (driver_availability == true){
@@ -184,7 +183,7 @@ function generateContent(data, userDocId, user_name,driver_availability,request_
 
 
     data.forEach((i) => {
-        const requestlink = document.createElement("a"); // 
+        const requestlink = document.createElement("a"); 
         requestlink.href = "#"; 
         requestlink.classList.add("request-link");
         request.appendChild(requestlink);
@@ -200,9 +199,7 @@ function generateContent(data, userDocId, user_name,driver_availability,request_
         // fix
         // add img
         const image = document.createElement("img");
-        image.src = "./../../img/bike.svg"; 
-        image.style.width = "200px"; 
-        image.style.maxHeight  = "30px"; 
+        image.src = i.seeker_img; 
         requestContainer1.appendChild(image);
         //add name
         const requestName= document.createElement("p");
