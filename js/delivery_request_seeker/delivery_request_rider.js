@@ -359,9 +359,9 @@ async function updateDeliveryPickedUp(deliveryRequestId, user_name,userDocId) {
         riderDocId : userDocId,
         delivery_completed_flag : false 
       });
-      alert("Delivery request updated successfully!");
+      // alert("Delivery request updated successfully!");
     } catch (error) {
-      alert("Error updating delivery request:", error);
+      // alert("Error updating delivery request:", error);
     }
   }
   
@@ -402,11 +402,11 @@ favioAvailabilityCheckBox.addEventListener('change', (e) => {
             driver_availability: driverAvailability
         })
         .then(() => {
-            alert("Driver availability updated successfully.");
+            // alert("Driver availability updated successfully.");
             updateRequestSectionVisibility(driverAvailability);
         })
         .catch((error) => {
-            alert("Error updating driver availability:", error);
+            // alert("Error updating driver availability:", error);
         });
         // Update visible immediately
         updateRequestSectionVisibility(driverAvailability);

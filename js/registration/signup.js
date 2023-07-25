@@ -55,7 +55,7 @@ async function handleSignup(e) {
 
         navigateToNextPage();
 
-        alert("Your account has been created!");
+        // alert("Your account has been created!");
     } catch (error) {
         const errorCode = error.code;
         const errorMessage = error.message;
