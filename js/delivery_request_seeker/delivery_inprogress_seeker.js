@@ -28,6 +28,9 @@ async function getDeliveryDoc() {
       console.log(deliveryRequest);
       from.value = deliveryRequest.origin_name;
       to.value = deliveryRequest.destination_name;
+      // document.getElementById('deliveryStart').checked = deliveryRequest.delivery_picked_up_flag;
+      // document.getElementById('inProgress').checked = deliveryRequest.delivery_inprogress_flag;
+      // document.getElementById('deliveryComplete').checked = deliveryRequest.delivery_completed_flag ;
       calcRoute();
       showProgressTracking();
 
@@ -168,11 +171,14 @@ function showProgressTracking() {
     checkbox.name = checkboxLabel.id;
     checkbox.value = checkboxLabel.id;
     checkbox.disabled = true;
+    if(checkboxLabel.id == "deliveryStart"){
+      checkbox.checked = true;
+    }
     const label = document.createElement("label");
     label.htmlFor = checkboxLabel.id;
     label.textContent = checkboxLabel.label;
     const div = document.createElement("div");
-    div.id=checkbox.id;
+    // div.id=checkbox.id;
     div.className ="circle";
 
     checkboxContainer.appendChild(div);
@@ -227,6 +233,7 @@ async function getProgressTracking() {
       deliveryRequest = doc.data();
       console.log(deliveryRequest);
       console.log(deliveryRequest.delivery_completed_flag);
+      populateCheckboxes();
       if (deliveryRequest.delivery_completed_flag == true) {
         clearInterval(intervalId);
 
@@ -240,10 +247,14 @@ async function getProgressTracking() {
 }
 
 const populateCheckboxes = () => {
-  const deliveryStart = document.getElementById('deliveryStart')
+  // const deliveryStart = document.getElementById('deliveryStart')
   const inProgress = document.getElementById('inProgress')
   const deliveryComplete = document.getElementById('deliveryComplete')
-  deliveryStart.checked = deliveryRequest.delivery_confirmation_flag;
+  console.log(deliveryStart);
+  console.log(inProgress);
+  console.log(deliveryComplete);
+
+  // deliveryStart.checked = deliveryRequest.delivery_confirmation_flag;
   inProgress.checked = deliveryRequest.delivery_inprogress_flag;
   deliveryComplete.checked = deliveryRequest.delivery_completed_flag;
 

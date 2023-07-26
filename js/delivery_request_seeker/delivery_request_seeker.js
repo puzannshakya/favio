@@ -358,35 +358,42 @@ async function saveDeliveryRequest() {
   }
   
   requestDocumentRef = firebase.firestore().collection("delivery_request_tests").doc();
-  await requestDocumentRef.set({
-    deliveryRequestId: requestDocumentRef.id,
-    seekerDocId: userDocId,
-    delivery_requested_by: user_name,
-    origin_name: originInput,
-    destination_name: destinationInput,
-    selected_courier_options: checkedVechicleRadio.value,
-    scheduled_delivery_datetime: deliveryInfo.dateTime,
-    selected_drop_off_option: deliveryInfo.dropoffOption,
-    notes: deliveryInfo.notes,
-    delivery_distance: delivery_distance,
-    delivery_estimated_time: delivery_estimated_time,
-    delivery_total_fee : delivery_total_fee,
-    delivery_picked_up_flag: false,
-    delivery_completed_flag:false,
-    delivery_confirmation_flag:false,
-    delivery_inprogress_flag:false,
-    delivery_completed_image_confirmation_flag:false,
-    delivery_completed_confirmation_flag: false,
-    scheduled_delivery_flag :  scheduled_delivery_flag,
-    created_at: new Date().toISOString(),
-    seeker_img: img, 
-    basePrice:price.basePrice,
-    minimumFare:minimumFare,
-    perKm:price.distanceMultiplier,
-    perMin:price.timeMultiplier,
-    bookingFee:bookingFee,
-    delivery_total_fee:price.totalPrice
-  });
+  try {
+    await requestDocumentRef.set({
+      deliveryRequestId: requestDocumentRef.id,
+      seekerDocId: userDocId,
+      delivery_requested_by: user_name,
+      origin_name: originInput,
+      destination_name: destinationInput,
+      selected_courier_options: checkedVechicleRadio.value,
+      scheduled_delivery_datetime: deliveryInfo.dateTime,
+      selected_drop_off_option: deliveryInfo.dropoffOption,
+      notes: deliveryInfo.notes,
+      delivery_distance: delivery_distance,
+      delivery_estimated_time: delivery_estimated_time,
+      delivery_total_fee : delivery_total_fee,
+      delivery_picked_up_flag: false,
+      delivery_completed_flag:false,
+      delivery_confirmation_flag:false,
+      delivery_inprogress_flag:false,
+      delivery_completed_image_confirmation_flag:false,
+      delivery_completed_confirmation_flag: false,
+      scheduled_delivery_flag :  scheduled_delivery_flag,
+      created_at: new Date().toISOString(),
+      seeker_img: img, 
+      basePrice:price.basePrice,
+      minimumFare:minimumFare,
+      perKm:price.distanceMultiplier,
+      perMin:price.timeMultiplier,
+      bookingFee:bookingFee,
+      delivery_total_fee:price.totalPrice
+    });
+  }
+  catch(err) {
+    console.log('Error:', err);
+    toggleLoader();
+    return;
+  }
 
 
   // Make a request to the Google Maps Geocoding API for Origin
@@ -410,10 +417,12 @@ async function saveDeliveryRequest() {
 
       } else {
         console.log('Geocoding API request failed.');
+        toggleLoader();
       }
     })
     .catch(error => {
       console.log('Error:', error);
+      toggleLoader();
     });
 
   // Make a request to the Google Maps Geocoding API for Origin
@@ -443,11 +452,13 @@ async function saveDeliveryRequest() {
 
       } else {
         console.log('Geocoding API request failed.');
+        toggleLoader();
       }
      
     })
     .catch(error => {
       console.log('Error:', error);
+      toggleLoader();
     });
     
 }
