@@ -139,6 +139,10 @@ body {
   }
 }
 
-.output{
-  
+#loadimgbtn label{
+  width: 90px; 
+  height: 90px; 
+  background-color: #dedbdb;
+  border-radius: 50%;
 }
+

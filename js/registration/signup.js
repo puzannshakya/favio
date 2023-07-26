@@ -107,9 +107,8 @@ function navigateToNextPage() {
 
 
 
-
-
-
+var loadImgBtn = document.getElementById('loadimgbtn');
+var imageOutput = document.getElementById('output');
 
   
 var loadFile = function(event) {
@@ -117,8 +116,8 @@ var loadFile = function(event) {
   var image = document.getElementById('output');
 
   // Initialize Firebase Storage
-  var storageRef = firebase.storage().ref();
-  var imageName = 'example.jpg'; // Set the desired image name in the storage.
+  var storageRef = firebase.storage().ref("profile/");
+  var imageName = `${Date.now()}.jpg`; // Set the desired image name in the storage.
 
   // Upload the file to Firebase Storage.
   var uploadTask = storageRef.child(imageName).put(file);
@@ -141,6 +140,9 @@ var loadFile = function(event) {
         // Display the uploaded image on the page.
         image.src = downloadURL;
         downloadUrl =downloadURL;
+
+        imageOutput.style.display = "block";
+        loadImgBtn.style.display = "none";
       }).catch(function(error) {
         // Handle any errors while getting the download URL.
         console.error('Error getting download URL:', error);

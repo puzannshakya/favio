@@ -36,9 +36,11 @@
                 <div class="signup-flex-form">
                     <h2>Create Account</h2>
 
-                    <p><input type="file" accept="image/*" name="image" id="file" onchange="loadFile(event)" style="display: none;"></p>
-                    <p><label for="file" style="cursor: pointer;">Upload Image</label></p>
-                    <p><img id="output" style="width: 100px;"/></p>
+                    <div class="loadimg">
+                        <p><input type="file" accept="image/*" name="image" id="file" onchange="loadFile(event)" style="display: none;"></p>
+                        <p id="loadimgbtn"><label for="file" style="cursor: pointer;">Upload Image</label></p>
+                        <p><img id="output" style="width: 100px;"/></p>
+                    </div>
 
                     <form id="signup" method="POST">
 
