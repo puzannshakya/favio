@@ -52,6 +52,71 @@
 /* ================================ */
 
 
+/* ============= Dialog ============= */
+#modal {
+    border-radius: var(--border-radius);
+    padding-right: 4%;
+    padding-left: 4%;
+}
+
+.dialogContent {
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: center;
+	align-items: center;
+}
+
+.dialogContent .dialog-head {
+	font-size: var(--typography-size-subtitle);
+	font-weight: bold;
+	flex-basis: 100%;
+	text-align: center;
+}
+
+.dialog-img {
+	flex-basis: 100%;
+    height: 100% !important;
+    margin-bottom: 2rem;
+}
 
 
+/* BUTTON============= */
+button.dialogConfirmNow {
+    border-radius: var(--border-radius);
+    font-weight: bold;
+    padding: 1rem;
+	margin-bottom: 1rem;
+    background-color: var(--color-secondary);
+    border: 1px solid var(--color-secondary);
+    color: var(--color-contrast-dark);
+	width: calc(50% - .5rem);
+}
+
+button.dialogClose {
+	border-radius: var(--border-radius);
+    font-weight: bold;
+    padding: 1rem;
+	margin-bottom: 1rem;
+    background-color: var(--color-contrast-white);
+    border: 1px solid var(--color-secondary);
+    color: var(--color-contrast-dark);
+	width: calc(50% - .5rem);
+}
+
+button.dialogClose + button.dialogConfirmNow {
+	margin-left: 1rem;
+}
+
+
+#confirmCompletedImage {
+    border-radius: var(--border-radius);
+    font-weight: bold;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background-color: var(--color-secondary);
+    border: 1px solid var(--color-secondary);
+    color: var(--color-contrast-dark);
+    width: calc(50% - .5rem);
+    margin-top: 1rem;
+  }
 

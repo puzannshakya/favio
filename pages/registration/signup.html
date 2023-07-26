@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="manifest" href="../../app.webmanifest">
     <title>Favio</title>
-    
+
     <link rel="stylesheet" href="./../../css/normalize.css">
 
     <link rel="stylesheet" href="./../../css/style.css">
@@ -18,57 +19,69 @@
 
     <script src="./../../js/template/navigation.js" defer></script>
 </head>
+
 <body>
 
     <!DOCTYPE html>
-<html>
-<head>
-    <title>Sign Up Form</title>
-</head>
-<body class="sign-up">
-    <div class="signup-wrapper">
-        <div class="signup-banner"></div>
-        <div class="singup-form">
-            <div class="signup-flex-form">
-                <h2>Create Account</h2>
-                <form id="signup" method="POST">
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" required>
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required>
-                    <label for="phone">Phone:</label>
-                    <input type="tel" id="phone" name="phone" required>
-                    <label for="dob">Date of Birth:</label>
-                    <input type="date" id="dob" name="dob" required>
-                    <label for="password">Password:</label>
-                    <input type="password" id="password" name="password" required>
-                    <label for="confirm-password">Confirm Password:</label>
-                    <input type="password" id="confirm-password" name="confirm-password" required>
-                    <label for="driver">Are you a Rider?</label>
-                    <div class="rider-radio">
-                        <input type="radio" id="driver-yes" name="driver" value="yes" required>
-                        <label for="driver-yes">Yes</label>
-                        <input type="radio" id="driver-no" name="driver" value="no" required>
-                        <label for="driver-no">No</label>
-                    </div>
-                    <input type="submit" value="Sign Up" >
-                </form>
+    <html>
+
+    <head>
+        <title>Sign Up Form</title>
+    </head>
+
+    <body class="sign-up">
+        <div class="signup-wrapper">
+            <div class="signup-banner"></div>
+            <div class="singup-form">
+                <div class="signup-flex-form">
+                    <h2>Create Account</h2>
+
+                    <p><input type="file" accept="image/*" name="image" id="file" onchange="loadFile(event)" style="display: none;"></p>
+                    <p><label for="file" style="cursor: pointer;">Upload Image</label></p>
+                    <p><img id="output" style="width: 100px;"/></p>
+
+                    <form id="signup" method="POST">
+
+
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" required>
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                        <label for="phone">Phone:</label>
+                        <input type="tel" id="phone" name="phone" required>
+                        <label for="dob">Date of Birth:</label>
+                        <input type="date" id="dob" name="dob" required>
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" required>
+                        <label for="confirm-password">Confirm Password:</label>
+                        <input type="password" id="confirm-password" name="confirm-password" required>
+                        <label for="driver">Are you a Rider?</label>
+                        <div class="rider-radio">
+                            <input type="radio" id="driver-yes" name="driver" value="yes" required>
+                            <label for="driver-yes">Yes</label>
+                            <input type="radio" id="driver-no" name="driver" value="no" required>
+                            <label for="driver-no">No</label>
+                        </div>
+                        <input type="submit" value="Sign Up">
+                    </form>
+                </div>
+                <p>By clicking Sign Up, you agree to our <a href="#">Terms and Conditions</a> and <a href="#">Privacy
+                        Statement</a>.</p>
+                <p>Delivering a sustainable future one ride at a time.</p>
             </div>
-            <p>By clicking Sign Up, you agree to our <a href="#">Terms and Conditions</a> and <a href="#">Privacy Statement</a>.</p>
-            <p>Delivering a sustainable future one ride at a time.</p>
         </div>
-    </div>
 
 
-</body>
+    </body>
 
     <!-- firebase CDN -->
-<script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-app.js"></script> 
-<script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-firestore.js"></script>  
+    <script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-storage.js"></script>
 
-<!-- firebase files -->
-<script src="./../../js/firebase-config.js"></script>
-<script src="../../js/registration/signup.js"></script>
-</html>
+    <!-- firebase files -->
+    <script src="./../../js/firebase-config.js"></script>
+    <script src="../../js/registration/signup.js"></script>
 
+    </html>
