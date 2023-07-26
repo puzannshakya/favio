@@ -1,5 +1,6 @@
 const db = firebase.firestore();
 console.log(db);
+var downloadUrl="";
 
 const signupForm = document.getElementById('signup');
 signupForm.addEventListener('submit', handleSignup);
@@ -84,7 +85,7 @@ async function createUserWithEmailAndPassword(email, password) {
     return firebase.auth().createUserWithEmailAndPassword(email, password);
 }
 
-async function createUserDocument(name, email, phone, dob, isDriverValue, uid) {
+async function createUserDocument(name, email, phone, dob, isDriverValue, uid,downloadUrl) {
     const docRef = firebase.firestore().collection("users_tests").doc(uid);
     await docRef.set({
         uid: uid,
@@ -93,47 +94,10 @@ async function createUserDocument(name, email, phone, dob, isDriverValue, uid) {
         phone: phone,
         dob: dob,
         isDriver: isDriverValue,
-        userDocId: docRef.id
+        userDocId: docRef.id,
+        img: downloadUrl
     });
-    if (imageFile) {
-        const filename = 'profile/' + Date.now() + '.png';
-        // Convert the image to a Blob
-        const blob = new Blob([imageFile], { type: imageFile.type });
-    
-        // Upload the Blob to Firebase Storage
-        const storageRef = firebase.storage().ref(filename);
-        const uploadTask = storageRef.put(blob);
-    
-        uploadTask.on(
-          'state_changed',
-          (snapshot) => {
-            // Handle upload progress if needed
-            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log('Upload progress:', progress.toFixed(2) + '%');
-          },
-          (error) => {
-            console.log('Error:', error);
-          },
-          () => {
-            // Upload complete, get the download URL
-            uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-              console.log('File available at:', downloadURL);
-    
-              // Update the user document with the image download URL
-              docRef.update({
-                img: downloadURL,
-              })
-              .then(() => {
-                console.log('Download URL stored');
-              })
-              .catch((error) => {
-                console.log('Error storing download URL:', error);
-              });
-            });
-          }
-        );
-      }
-    
+
     return docRef.id;
 }
 
@@ -149,47 +113,38 @@ function navigateToNextPage() {
 
   
 var loadFile = function(event) {
-    var image = document.getElementById('output');
-    image.src = URL.createObjectURL(event.target.files[0]);
-    const file = event.target.files[0];
-    const filename = 'profile/' + Date.now() + '.png';
-  
-    // Convert the image to a Blob
-    const blob = new Blob([file], { type: file.type });
+  var file = event.target.files[0];
+  var image = document.getElementById('output');
 
-    // Upload the Blob to Firebase Storage
-    const storageRef = firebase.storage().ref(filename);
-    const uploadTask = storageRef.put(blob);
+  // Initialize Firebase Storage
+  var storageRef = firebase.storage().ref();
+  var imageName = 'example.jpg'; // Set the desired image name in the storage.
 
-    // uploadTask.on(
-    //   'state_changed',
-    //   (snapshot) => {
-    //     // Handle upload progress if needed
-    //     const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-    //     console.log('Upload progress:', progress.toFixed(2) + '%');
-    //   },
-    //   (error) => {
-    //     console.log('Error:', error);
-    //   },
-    //   () => {
-    //     // Upload complete, get the download URL
-    //     uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-    //       console.log('File available at:', downloadURL);
-  
-    //       // Store the download URL in Firebase Firestore
-    //       const db = firebase.firestore();
-    //       const uid = "replace_with_your_user_id"; // Replace this with the actual user ID
-    //       db.collection('users_tests').doc(uid).update({
-    //         img: downloadURL,
-    //       })
-    //       .then(() => {
-    //         console.log('Completed Image Src');
-    //         console.log('Download URL stored');
-    //       })
-    //       .catch((error) => {
-    //         console.log('Error storing download URL:', error);
-    //       });
-    //     });
-    //   }
-    // );
-  }
+  // Upload the file to Firebase Storage.
+  var uploadTask = storageRef.child(imageName).put(file);
+
+  // Monitor the upload progress.
+  uploadTask.on('state_changed',
+    function(snapshot) {
+      // You can track the upload progress here.
+      console.log('uploading')
+    },
+    function(error) {
+      // Handle any errors during the upload.
+      console.error('Error uploading image:', error);
+    },
+    function() {
+      // Upload complete. Get the download URL of the image and save it to Firestore.
+    var downloadURL=  uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+        // Save the downloadURL to Firestore.
+
+        // Display the uploaded image on the page.
+        image.src = downloadURL;
+        downloadUrl =downloadURL;
+      }).catch(function(error) {
+        // Handle any errors while getting the download URL.
+        console.error('Error getting download URL:', error);
+      });
+    }
+  );
+};

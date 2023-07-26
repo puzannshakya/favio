@@ -260,7 +260,7 @@ function createDialogElement(imageUrl) {
   const dialogContent = document.createElement("div");
   dialogContent.setAttribute("class", "dialogContent");
   dialogContent.innerHTML = `
-    <p class="dialog-head">Sent a request</p>
+    <p class="dialog-head">Your Package is here</p>
     <img class="dialog-img" style="width: 50px; height: 50px;" src="${imageUrl}">
     <button class="dialogClose">Confirm Later</button>
     <button class="dialogConfirmNow">Confirm Now</button>
