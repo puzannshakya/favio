@@ -1,0 +1,50 @@
+.myCheck {
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+  }
+  
+  .mdl-checkbox {
+    display: inline-block;
+    width: 100px;
+    text-align: center;
+    padding: 10px;
+    position: relative;
+  }
+  
+  .mdl-checkbox:after,
+  .mdl-checkbox:before {
+    height: 1px;
+    background-color: grey;
+    content: "";
+    top: 16px;
+    position: absolute;
+    right: 0;
+    left: 0;
+  }
+  
+  .mdl-checkbox:before {
+    right: calc(50% + 6px);
+  }
+  
+  .mdl-checkbox:after {
+    left: calc(50% + 6px);
+  }
+  
+  .mdl-checkbox:first-of-type:before {
+    display: none;
+  }
+  
+  .mdl-checkbox:last-of-type:after {
+    display: none;
+  }
+  
+  input {
+    width: 14px;
+    height: 14px;
+    border-width: 1px;
+    display: block;
+    margin: auto;
+    position: relative;
+  }
+  
