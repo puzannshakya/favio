@@ -4,7 +4,7 @@ let deliveryRequest;
 var bookingFee = 2;
 var minimumFare = 5;
 var intervalId;
-var progressTrackingCount =0;
+var progressTrackingCount = 0;
 let delivery_completed_image_confirmation_flag = false;
 
 
@@ -31,19 +31,19 @@ async function getDeliveryDoc() {
       calcRoute();
       showProgressTracking();
 
-      if(!deliveryRequest.delivery_completed_image_confirmation_flag){
-      setIntervalForProgressTracking();
+      if (!deliveryRequest.delivery_completed_image_confirmation_flag) {
+        setIntervalForProgressTracking();
       }
 
-      if(deliveryRequest.delivery_completed_flag ){
-        completedImage.src=`${deliveryRequest.delivery_completed_image_url}`;
-        completedImage.style.display="block";
-        if(!deliveryRequest.delivery_completed_image_confirmation_flag){
-          confirmCompletedImage.style.display="block";
+      if (deliveryRequest.delivery_completed_flag) {
+        completedImage.src = `${deliveryRequest.delivery_completed_image_url}`;
+        completedImage.style.display = "block";
+        if (!deliveryRequest.delivery_completed_image_confirmation_flag) {
+          confirmCompletedImage.style.display = "block";
           // cancelCompletedImage.style.display="block";
         }
       }
-      
+
     });
 }
 
@@ -116,29 +116,23 @@ function calcRoute() {
       estimatedDistance.innerHTML = deliveryRequest.delivery_distance;
       estimatedTime.innerHTML = deliveryRequest.delivery_estimated_time;
       estimatedTotal.innerHTML = deliveryRequest.delivery_total_fee;
-
-      const price = calculatePayment(request.travelMode, deliveryRequest.delivery_distance, deliveryRequest.delivery_estimated_time);
-
       if (price.totalPrice < 10) {
-        price.totalPrice = price.totalPrice + minimumFare;
-        delivery_total_fee = price.totalPrice;
-        feeSummary.innerHTML = `<h4>Fee Summary</h4>
-              
-              <ul class="FavioPriceUl"> <li> Base Price       ${price.basePrice} </li>
-                                              <li>Minimum Fare       ${minimumFare}</li>
-                                              <li>+ per Km            ${price.distanceMultiplier}</li>
-                                              <li>+ per min           ${price.timeMultiplier}</li>
-                                              <li> Booking Fee        ${bookingFee}</li> 
+        feeSummary.innerHTML = `<h4>Fee Summary</h4>             
+              <ul class="FavioPriceUl"> <li> Base Price       ${deliveryRequest.basePrice} </li>
+                                              <li>Minimum Fare       ${deliveryRequest.minimumFare}</li>
+                                              <li>+ per Km            ${deliveryRequest.perKm}</li>
+                                              <li>+ per min           ${deliveryRequest.perMin}</li>
+                                              <li> Booking Fee        ${deliveryRequest.bookingFee}</li> 
                                               </ul>`
       }
       else {
         delivery_total_fee = price.totalPrice;
         feeSummary.innerHTML = `<h2>Fee Summary</h2>
               
-              <ul class="FavioPriceUl"> <li> Base Price       ${price.basePrice} </li>
-                                              <li>+ per Km            ${price.distanceMultiplier}</li>
-                                              <li>+ per min           ${price.timeMultiplier}</li>
-                                              <li> Booking Fee        ${bookingFee}</li> 
+              <ul class="FavioPriceUl"> <li> Base Price       ${deliveryRequest.basePrice} </li>
+                                              <li>+ per Km            ${deliveryRequest.perKm}</li>
+                                              <li>+ per min           ${deliveryRequest.perMin}</li>
+                                              <li> Booking Fee        ${deliveryRequest.bookingFee}</li> 
                                               </ul>`
 
       }
@@ -172,7 +166,7 @@ function showProgressTracking() {
     checkbox.id = checkboxLabel.id;
     checkbox.name = checkboxLabel.id;
     checkbox.value = checkboxLabel.id;
-    checkbox.disabled = true; 
+    checkbox.disabled = true;
     const label = document.createElement("label");
     label.htmlFor = checkboxLabel.id;
     label.textContent = checkboxLabel.label;
@@ -188,78 +182,25 @@ function showProgressTracking() {
   populateCheckboxes();
 
 }
-  // const docRef = firebase
-  //   .firestore()
-  //   .collection("delivery_request_tests")
-  //   .doc('RP90LL6vPwzgKjzanVu7')
+// const docRef = firebase
+//   .firestore()
+//   .collection("delivery_request_tests")
+//   .doc('RP90LL6vPwzgKjzanVu7')
 
 
-  // docRef.get().then((doc) => {
-  //   if (doc.exists) {
-  //     const delivery_progress = doc.data().delivery_progress;
-  //     populateCheckboxes(delivery_progress);
-  //   } else {
-  //     console.log("Document not found");
-  //   }
-  // })
-  //   .catch((error) => {
-  //     console.log("Error retrieving document:", error);
-  //   });
+// docRef.get().then((doc) => {
+//   if (doc.exists) {
+//     const delivery_progress = doc.data().delivery_progress;
+//     populateCheckboxes(delivery_progress);
+//   } else {
+//     console.log("Document not found");
+//   }
+// })
+//   .catch((error) => {
+//     console.log("Error retrieving document:", error);
+//   });
 
 
-
-function calculatePayment(travelMode, distance, time) {
-  let distanceMultiplier, timeMultiplier, basePrice;
-
-  switch (travelMode) {
-    case "DRIVING":
-      distanceMultiplier = 0.50;
-      timeMultiplier = 0.10;
-      basePrice = 5;
-      break;
-    case "TRANSIT":
-      distanceMultiplier = 0.20;
-      timeMultiplier = 0.08;
-      basePrice = 4;
-      break;
-    case "BICYCLING":
-      distanceMultiplier = 0.25;
-      timeMultiplier = 0.05;
-      basePrice = 2;
-      break;
-    default:
-      console.log("error");
-      return null; // Or any other suitable error handling mechanism
-  }
-
-  const distancePrice = calculateDistancePrice(distance, distanceMultiplier);
-  const timePrice = calculateTimePrice(time, timeMultiplier);
-  const totalPrice = calculateTotalPrice(distancePrice, timePrice, basePrice, this.bookingFee);
-
-  return {
-    distanceMultiplier: distanceMultiplier,
-    timeMultiplier: timeMultiplier,
-    distancePrice: distancePrice,
-    timePrice: timePrice,
-    totalPrice: totalPrice,
-    basePrice: basePrice
-  };
-
-
-}
-function calculateDistancePrice(distance, distanceMultiplier) {
-  const distanceFloat = parseFloat(distance);
-  return distanceMultiplier * distanceFloat;
-}
-
-function calculateTimePrice(time, timeMultiplier) {
-  const timeFloat = parseFloat(time);
-  return timeMultiplier * timeFloat;
-}
-
-function calculateTotalPrice(distancePrice, timePrice, basePrice, bookingFee) {
-  return basePrice + distancePrice + timePrice + bookingFee;
-}
 
 
 function setIntervalForProgressTracking() {
@@ -281,7 +222,7 @@ async function getProgressTracking() {
       console.log(deliveryRequest.delivery_completed_flag);
       if (deliveryRequest.delivery_completed_flag == true) {
         clearInterval(intervalId);
-        
+
         let dialogElement = processDeliveryRequest(deliveryRequestId);
         showDialog(dialogElement);
 
@@ -295,9 +236,9 @@ const populateCheckboxes = () => {
   const deliveryStart = document.getElementById('deliveryStart')
   const inProgress = document.getElementById('inProgress')
   const deliveryComplete = document.getElementById('deliveryComplete')
-  deliveryStart.checked = deliveryRequest.delivery_confirmation_flag ;
-  inProgress.checked = deliveryRequest.delivery_inprogress_flag ;
-  deliveryComplete.checked = deliveryRequest.delivery_completed_flag  ;
+  deliveryStart.checked = deliveryRequest.delivery_confirmation_flag;
+  inProgress.checked = deliveryRequest.delivery_inprogress_flag;
+  deliveryComplete.checked = deliveryRequest.delivery_completed_flag;
 
 };
 
@@ -305,7 +246,7 @@ const populateCheckboxes = () => {
 
 function processDeliveryRequest(deliveryRequestId) {
   console.log("Processing Delivery Request:", deliveryRequestId);
-  const imageUrl = deliveryRequest.delivery_completed_image_url; 
+  const imageUrl = deliveryRequest.delivery_completed_image_url;
   const dialogElement = createDialogElement(imageUrl);
   showDialog(dialogElement);
   return dialogElement;
@@ -325,9 +266,9 @@ function createDialogElement(imageUrl) {
     <button class="dialogConfirmNow">Confirm Now</button>
   `;
   dialog.appendChild(dialogContent);
-  completedImage.src=`${imageUrl}`;
-  completedImage.style.display="block";
- 
+  completedImage.src = `${imageUrl}`;
+  completedImage.style.display = "block";
+
 
   return dialog;
 }
@@ -338,58 +279,58 @@ function showDialog(dialogElement) {
     dialogElement.tagName === 'DIALOG' &&
     !dialogElement.hasAttribute('open')
   ) {
-  document.body.appendChild(dialogElement);
-  dialogElement.showModal();
+    document.body.appendChild(dialogElement);
+    dialogElement.showModal();
 
-  const closeModal = dialogElement.querySelector(".dialogClose");
-  closeModal.addEventListener("click", function (event) {
-    dialogElement.close();
-    dialogElement.remove();
-    confirmCompletedImage.style.display="block";
-    // cancelCompletedImage.style.display="block";
-    // setIntervalForProgressTracking();
-  });
+    const closeModal = dialogElement.querySelector(".dialogClose");
+    closeModal.addEventListener("click", function (event) {
+      dialogElement.close();
+      dialogElement.remove();
+      confirmCompletedImage.style.display = "block";
+      // cancelCompletedImage.style.display="block";
+      // setIntervalForProgressTracking();
+    });
 
-  const confirmNowModal = dialogElement.querySelector(".dialogConfirmNow");
-  confirmNowModal.addEventListener("click", function (event) {
-    console.log(deliveryRequestId);
-    firebase.firestore().collection('delivery_request_tests').doc(deliveryRequestId).update({
-      delivery_completed_image_confirmation_flag:true
-    })
+    const confirmNowModal = dialogElement.querySelector(".dialogConfirmNow");
+    confirmNowModal.addEventListener("click", function (event) {
+      console.log(deliveryRequestId);
+      firebase.firestore().collection('delivery_request_tests').doc(deliveryRequestId).update({
+        delivery_completed_image_confirmation_flag: true
+      })
+        .then((docRef) => {
+          console.log('delivery_completed_image_confirmation_flag Updated ');
+        })
+        .catch((error) => {
+          console.log('Error updating ');
+        });
+      dialogElement.close();
+      dialogElement.remove();
+    });
+
+    // Close dialog when clicking outside
+    dialogElement.addEventListener("click", function (event) {
+      if (event.target === dialogElement) {
+        dialogElement.close();
+        dialogElement.remove();
+        confirmCompletedImage.style.display = "block";
+        // cancelCompletedImage.style.display="block";
+      }
+    });
+  } else {
+    console.error('Invalid dialogElement provided or dialog is already open');
+  }
+}
+
+function confirmDeliveryImage() {
+  firebase.firestore().collection('delivery_request_tests').doc(deliveryRequestId).update({
+    delivery_completed_image_confirmation_flag: true
+  })
     .then((docRef) => {
+      clearInterval(intervalId);
+      confirmCompletedImage.style.display = "none";
       console.log('delivery_completed_image_confirmation_flag Updated ');
     })
     .catch((error) => {
       console.log('Error updating ');
     });
-    dialogElement.close();
-    dialogElement.remove();
-  });
-
-  // Close dialog when clicking outside
-  dialogElement.addEventListener("click", function (event) {
-    if (event.target === dialogElement) {
-      dialogElement.close();
-      dialogElement.remove();
-      confirmCompletedImage.style.display="block";
-      // cancelCompletedImage.style.display="block";
-    }
-  });
-} else {
-  console.error('Invalid dialogElement provided or dialog is already open');
-}
-}
-
-function confirmDeliveryImage(){
-  firebase.firestore().collection('delivery_request_tests').doc(deliveryRequestId).update({
-    delivery_completed_image_confirmation_flag:true
-  })
-  .then((docRef) => {
-    clearInterval(intervalId);
-    confirmCompletedImage.style.display="none";
-    console.log('delivery_completed_image_confirmation_flag Updated ');
-  })
-  .catch((error) => {
-    console.log('Error updating ');
-  });
 }
