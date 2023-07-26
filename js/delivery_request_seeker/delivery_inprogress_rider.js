@@ -488,8 +488,8 @@ function startCamera() {
       .getUserMedia({ video: true })
       .then((stream) => {
         video.srcObject = stream;
-        startBtn.disabled = false;
-        stopBtn.disabled = false;
+        // startBtn.disabled = false;
+        // stopBtn.disabled = false;
       })
       .catch((error) => {
         console.error("Error starting camera:", error);
@@ -530,7 +530,7 @@ async function getProgressTracking() {
           // alert("completed");
           submitButtonDeliveryCompleteRider.style.backgroundColor = "#07B875";
        }else{
-      submitButtonDeliveryCompleteRider.style.backgroundColor = "#F5BF20";
+      submitButtonDeliveryCompleteRider.style.backgroundColor = "#07B875";
         }
        
       }
@@ -541,17 +541,28 @@ async function getProgressTracking() {
 
 
 function deliveryCompletedFinal(){
-  firebase.firestore().collection('delivery_request_tests').doc(deliveryRequestId).update({
-    delivery_completed_rider_flag :true
-  })
-  .then((docRef) => {
-    console.log('delivery_completed_rider_flag  Updated ');
-    submitButtonDeliveryCompleteRider.style.backgroundColor = "#07B875";
+  console.log(submitButtonDeliveryCompleteRider.style.backgroundColor);
+  // if(submitButtonDeliveryCompleteRider.style.backgroundColor == 'rgb(7, 184, 117)'){
+  //   // window.location.href = './../../pages/delivery_request_seeker/delivery_request_rider.html';
+  // }
+  if(document.getElementById('deliveryComplete').checked && submitButtonDeliveryCompleteRider.style.backgroundColor == 'rgb(7, 184, 117)'){
+    firebase.firestore().collection('delivery_request_tests').doc(deliveryRequestId).update({
+      delivery_completed_rider_flag :true
+    })
+    .then((docRef) => {
+      console.log('delivery_completed_rider_flag  Updated ');
+      submitButtonDeliveryCompleteRider.style.backgroundColor = "#07B875";
+      console.log(submitButtonDeliveryCompleteRider.style.backgroundColor);
+      window.location.href = './../../pages/delivery_request_seeker/delivery_request_rider.html';
+  
+    })
+    .catch((error) => {
+      console.log('Error updating ');
+    });
+  }
 
-  })
-  .catch((error) => {
-    console.log('Error updating ');
-  });
+ 
+  
 }
 
 
