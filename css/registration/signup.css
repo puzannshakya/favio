@@ -54,7 +54,9 @@ body {
 
 /* HERO =================================== */
 .signup-banner {
-  /* need to change the image */
+  background-image: url(../../assets/images/signin-img.png);
+  background-position: center;
+  background-size: cover;
   background-color: var(--color-primary);
   width: 50vw;
 }
@@ -127,7 +129,6 @@ body {
 
 .sign-up .singup-form p a {
   text-decoration: underline;
-  color: var(--color-primary);
 }
 
 
