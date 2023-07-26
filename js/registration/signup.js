@@ -46,7 +46,7 @@ async function handleSignup(e) {
         console.log(`isDriver:${isDriver}`);
         console.log(`isDriverFlag:${isDriverFlag}`);
 
-        const userDocId = await createUserDocument(name, email, phone, dob, isDriverFlag, userCredential.user.uid, file);
+        const userDocId = await createUserDocument(name, email, phone, dob, isDriverFlag, userCredential.user.uid, downloadUrl);
 
         console.log(userDocId);
 
