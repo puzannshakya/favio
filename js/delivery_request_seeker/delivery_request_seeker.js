@@ -636,6 +636,16 @@ function storeDateTimeAndDropoffOption() {
 }
 
 
+const scheduleCheckbox = document.getElementById("scheduleCheckbox");
+const scheduledDeliveryDatetime = document.getElementById("scheduled_delivery_datetime");
+
+scheduleCheckbox.addEventListener("change", function () {
+  if (this.checked) {
+      scheduledDeliveryDatetime.style.display = 'block';
+  } else {
+      scheduledDeliveryDatetime.style.display = 'none';
+  }
+});
 
 
 
