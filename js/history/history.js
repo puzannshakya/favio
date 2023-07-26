@@ -244,12 +244,14 @@ function showDialog(dialogElement, clickedData, userDocId) {
 
 function showHistoryAll() {
   historyArray = [];
+  showActiveLink("all")
   getDeliveryRequestData();
 }
 
 
 function showHistoryCompleted() {
   historyArrayCompleted = [];
+  showActiveLink("completed")
   console.log("Completed");
   getDeliveryRequestDataCompleted();
 }
@@ -376,6 +378,26 @@ function colorHistory() {
       // Set default color for other status values
       historyBox.style.backgroundColor = '#F66256';
     }
+  }
+}
+
+
+function showActiveLink(request_type) {
+  switch (request_type) {
+    case "all":
+      document.getElementById("historyAllSpan").classList.add("active-link");
+      document.getElementById("historyCompletedSpan").classList.remove("active-link");
+;
+      break;
+
+
+
+    case "completed":
+      document.getElementById("historyAllSpan").classList.remove("active-link");
+      document.getElementById("historyCompletedSpan").classList.add("active-link");
+      break;
+
+   
   }
 }
 

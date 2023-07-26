@@ -25,7 +25,7 @@ login_payment.addEventListener('submit', async (e) => {
             expiry_date,
             cvc
         });
-        alert("User information updated successfully!");
+        // alert("User information updated successfully!");
 
         navigateToNextPage(isDriver);
         

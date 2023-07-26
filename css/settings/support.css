@@ -1,3 +1,7 @@
+.favio_AboutUsArrow {
+  margin: 1rem 0 0 4%;
+}
+
 .favio_supportMain{
     display: flex;
     flex-flow: column nowrap;

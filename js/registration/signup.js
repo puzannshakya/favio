@@ -1,12 +1,12 @@
 const db = firebase.firestore();
 console.log(db);
+var downloadUrl="";
 
 const signupForm = document.getElementById('signup');
 signupForm.addEventListener('submit', handleSignup);
 
 async function handleSignup(e) {
     e.preventDefault();
-
     const name = document.getElementById('name').value;
     const email = document.getElementById('email').value;
     const phone = document.getElementById('phone').value;
@@ -46,7 +46,7 @@ async function handleSignup(e) {
         console.log(`isDriver:${isDriver}`);
         console.log(`isDriverFlag:${isDriverFlag}`);
 
-        const userDocId = await createUserDocument(name, email, phone, dob, isDriverFlag, userCredential.user.uid);
+        const userDocId = await createUserDocument(name, email, phone, dob, isDriverFlag, userCredential.user.uid, downloadUrl);
 
         console.log(userDocId);
 
@@ -55,7 +55,7 @@ async function handleSignup(e) {
 
         navigateToNextPage();
 
-        alert("Your account has been created!");
+        // alert("Your account has been created!");
     } catch (error) {
         const errorCode = error.code;
         const errorMessage = error.message;
@@ -85,7 +85,7 @@ async function createUserWithEmailAndPassword(email, password) {
     return firebase.auth().createUserWithEmailAndPassword(email, password);
 }
 
-async function createUserDocument(name, email, phone, dob, isDriverValue, uid) {
+async function createUserDocument(name, email, phone, dob, isDriverValue, uid,downloadUrl) {
     const docRef = firebase.firestore().collection("users_tests").doc(uid);
     await docRef.set({
         uid: uid,
@@ -94,11 +94,59 @@ async function createUserDocument(name, email, phone, dob, isDriverValue, uid) {
         phone: phone,
         dob: dob,
         isDriver: isDriverValue,
-        userDocId: docRef.id
+        userDocId: docRef.id,
+        img: downloadUrl
     });
+
     return docRef.id;
 }
 
 function navigateToNextPage() {
     window.location.href = './../../pages/registration/select-vehicle-driver.html';
 }
+
+
+
+var loadImgBtn = document.getElementById('loadimgbtn');
+var imageOutput = document.getElementById('output');
+
+  
+var loadFile = function(event) {
+  var file = event.target.files[0];
+  var image = document.getElementById('output');
+
+  // Initialize Firebase Storage
+  var storageRef = firebase.storage().ref("profile/");
+  var imageName = `${Date.now()}.jpg`; // Set the desired image name in the storage.
+
+  // Upload the file to Firebase Storage.
+  var uploadTask = storageRef.child(imageName).put(file);
+
+  // Monitor the upload progress.
+  uploadTask.on('state_changed',
+    function(snapshot) {
+      // You can track the upload progress here.
+      console.log('uploading')
+    },
+    function(error) {
+      // Handle any errors during the upload.
+      console.error('Error uploading image:', error);
+    },
+    function() {
+      // Upload complete. Get the download URL of the image and save it to Firestore.
+    var downloadURL=  uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+        // Save the downloadURL to Firestore.
+
+        // Display the uploaded image on the page.
+        image.src = downloadURL;
+        downloadUrl =downloadURL;
+
+        imageOutput.style.display = "block";
+        loadImgBtn.style.display = "none";
+      }).catch(function(error) {
+        // Handle any errors while getting the download URL.
+        console.error('Error getting download URL:', error);
+      });
+    }
+  );
+};

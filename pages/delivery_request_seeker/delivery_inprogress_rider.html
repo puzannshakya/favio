@@ -31,7 +31,7 @@
             <ul>
                 <li>
                     <a href="./../delivery_request_seeker/delivery_request_rider.html">
-                        <span class="visually-hidden-text">Home</span>
+                        <span class=" active visually-hidden-text">Home</span>
                     </a>
                 </li>
 
@@ -115,15 +115,15 @@
 
                 </div>
                 <div id="delivery-info">
-                    <p> <strong>Distance: </strong> <span id="estimatedDistance">asdd<span> </p>
-                    <p> <strong>Estimated Time: </strong> <span id="estimatedTime">asdd<span> </p>
+                    <p> <strong>Distance: </strong> <span id="estimatedDistance"><span> </p>
+                    <p> <strong>Estimated Time: </strong> <span id="estimatedTime"><span> </p>
                     <p> <strong>Total: $</strong> <span id="estimatedTotal"><span> </p>
 
                 </div>
 
                 <div class="button-confirmation">
 
-                    <button class="submit" id="submitButton-complete" onclick="saveDeliveryRequest();">
+                    <button class="submit" id="submitButtonDeliveryCompleteRider" onclick="deliveryCompletedFinal(); disabled">
                         Complete
                     </button>
 

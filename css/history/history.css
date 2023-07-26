@@ -13,6 +13,13 @@ body {
     background-color: #eeeeee;
 }
 
+.favio_AboutUsArrow {
+    margin: 1rem 0 0 4%;
+  }
+
+.top-links {
+    margin: 1rem 0 0 4%;
+}
 
 .top-links ul {
     display: flex;
@@ -302,4 +309,8 @@ button.dialogClose {
 
 button.dialogOpen + button.dialogClose {
 	margin-left: 1rem;
+}
+
+.active-link{
+    border-bottom: 2px solid black; 
 }
