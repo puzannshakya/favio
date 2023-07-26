@@ -116,7 +116,7 @@ function calcRoute() {
       estimatedDistance.innerHTML = deliveryRequest.delivery_distance;
       estimatedTime.innerHTML = deliveryRequest.delivery_estimated_time;
       estimatedTotal.innerHTML = deliveryRequest.delivery_total_fee;
-      if (price.totalPrice < 10) {
+      if (deliveryRequest.totalPrice < 10) {
         feeSummary.innerHTML = `<h4>Fee Summary</h4>             
               <ul class="FavioPriceUl"> <li> Base Price       ${deliveryRequest.basePrice} </li>
                                               <li>Minimum Fare       ${deliveryRequest.minimumFare}</li>
@@ -126,7 +126,7 @@ function calcRoute() {
                                               </ul>`
       }
       else {
-        delivery_total_fee = price.totalPrice;
+        delivery_total_fee = deliveryRequest.totalPrice;
         feeSummary.innerHTML = `<h2>Fee Summary</h2>
               
               <ul class="FavioPriceUl"> <li> Base Price       ${deliveryRequest.basePrice} </li>
@@ -153,7 +153,7 @@ function calcRoute() {
 function showProgressTracking() {
   document.getElementById("progressTracking").innerHTML = "";
 
-  const checkboxContainer = document.createElement("div");
+  const mainDiv = document.createElement("div");
   const checkboxLabels = [
     { id: "deliveryStart", label: "Delivery Start", checked:"true" },
     { id: "inProgress", label: "In Progress" },
@@ -161,6 +161,7 @@ function showProgressTracking() {
   ];
 
   checkboxLabels.forEach((checkboxLabel) => {
+    const checkboxContainer = document.createElement("div");
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.id = checkboxLabel.id;
@@ -170,15 +171,21 @@ function showProgressTracking() {
     const label = document.createElement("label");
     label.htmlFor = checkboxLabel.id;
     label.textContent = checkboxLabel.label;
+    const div = document.createElement("div");
+    div.id=checkbox.id;
+    div.className ="circle";
 
+    checkboxContainer.appendChild(div);
     checkboxContainer.appendChild(checkbox);
     checkboxContainer.appendChild(label);
     checkboxContainer.appendChild(document.createElement("br"));
+    mainDiv.appendChild(checkboxContainer);
+    mainDiv.className="favio_trackingDiv"
   });
 
 
   const container = document.getElementById("progressTracking");
-  container.appendChild(checkboxContainer);
+  container.appendChild(mainDiv);
   populateCheckboxes();
 
 }
