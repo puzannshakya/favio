@@ -155,7 +155,7 @@ function showProgressTracking() {
 
   const checkboxContainer = document.createElement("div");
   const checkboxLabels = [
-    { id: "deliveryStart", label: "Delivery Start" },
+    { id: "deliveryStart", label: "Delivery Start", checked:"true" },
     { id: "inProgress", label: "In Progress" },
     { id: "deliveryComplete", label: "Delivery Complete" },
   ];
