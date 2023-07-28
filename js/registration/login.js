@@ -34,3 +34,19 @@ signup.addEventListener('click', async(e) => {
     e.preventDefault();
     window.location.href = "./../../pages/registration/signup.html";
 });
+
+window.addEventListener('load', async () => {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker
+        .register('./../../sw.js')
+        .then(function (reg) {
+          console.log(`Service Worker Registered`);
+        })
+        .catch(function (error) {
+          console.log(`Service Worker Error (${error})`);
+        });
+    } else {
+      console.error("This browser doesn't support Service Worker");
+    }
+  });
+  

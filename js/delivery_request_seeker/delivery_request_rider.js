@@ -2,6 +2,8 @@ let userDocId = sessionStorage.getItem("userDocId");
 let isDriverFlag = sessionStorage.getItem("isDriver");
 let isDriver = false;
 let intervalIdAutoFetch;
+let user_name;
+let rider_img = '';
 
 if (isDriverFlag === "yes") {
   isDriver = true;
@@ -27,8 +29,28 @@ if (isDriverFlag === "yes") {
 // query data
 var db = firebase.firestore();
 
-if (userDocId == null) {
-  userDocId = "7CAw8QAmzYgBou8dgYqKCzUTqaC2";
+// if (userDocId == null) {
+//   userDocId = "7CAw8QAmzYgBou8dgYqKCzUTqaC2";
+// }
+
+getUserData();
+
+async function getUserData() {
+  //delete this after testing
+
+  console.log(userDocId);
+  let docData = await firebase.firestore().collection("users_tests").doc(userDocId).get();
+  if (docData.exists) {
+    user_name = docData.data().user_name;
+    console.log(user_name);
+    rider_img = docData.data().img;
+
+  }
+  else {
+    console.log("No Such document");
+  }
+
+
 }
 
 let data;
@@ -406,6 +428,7 @@ async function updateDeliveryPickedUp(deliveryRequestId, user_name, userDocId) {
         delivery_picked_up_by: user_name,
         riderDocId: userDocId,
         delivery_completed_flag: false,
+        rider_img: rider_img,
       });
     // alert("Delivery request updated successfully!");
   } catch (error) {
