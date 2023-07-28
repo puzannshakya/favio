@@ -169,8 +169,8 @@ function dialogData(data) {
   const dialogContent = document.createElement("div");
   dialogContent.setAttribute('class', "dialogContent");
   dialogContent.innerHTML = `
-        <p>${data.delivery_picked_up_by}</p>
-        <img class="dialog-img" style="width:50px; height:50px;" src="./../../img/bike.svg">
+        <p>${data.delivery_picked_up_by == null ? "Not Picked" : data.delivery_picked_up_by}</p>
+        <img class="profile-pic"  src="${data.delivery_picked_up_by == null ? "./../../img/bike.svg" : data.rider_img}">
         <p class="dialog-date">${requestDt.getDate()} ${requestDt.toLocaleString('default', { month: 'long' })} ${requestDt.getFullYear()}</p>
         <p class="dialog-time">${requestDt.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</p>
         <p class="dialog-title">Pick-up Location: </p>

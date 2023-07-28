@@ -380,7 +380,8 @@ async function saveDeliveryRequest() {
       delivery_completed_confirmation_flag: false,
       scheduled_delivery_flag :  scheduled_delivery_flag,
       created_at: new Date().toISOString(),
-      seeker_img: img, 
+      seeker_img: img,
+      rider_img: '',
       basePrice:price.basePrice,
       minimumFare:minimumFare,
       perKm:price.distanceMultiplier,
@@ -559,7 +560,7 @@ let requestDt = new Date(data.created_at);
 const dialogContent = document.createElement("div"); 
 dialogContent.setAttribute('class', "dialogContent"); 
 dialogContent.innerHTML = `
-    <img class="profile-pic"  src="${img}">
+    <img class="profile-pic"  src="${data.rider_img}">
     <p>Your Favio rider is : ${data.delivery_picked_up_by}</p>
     
     `;

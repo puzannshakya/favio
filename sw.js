@@ -7,9 +7,10 @@
 
 
 'use strict';
+console.log("pwa");
 
 const cacheName = 'pwa-offline-v1';
-const contentToCache = ['./img/favio-offline.png'];
+const contentToCache = ['./pages/offline.html'];
 
 self.addEventListener('fetch', function( event ) {
     //console.log(`Fetching ${event.request.url}`);  
@@ -25,7 +26,7 @@ self.addEventListener('fetch', function( event ) {
             return originalResponse;
           }catch(error){
                   let cache = await caches.open(cacheName);
-                  let response = await cache.match('./img/favio-offline.png');
+                  let response = await cache.match('./pages/offline.html');
 
                   return response;
           }
