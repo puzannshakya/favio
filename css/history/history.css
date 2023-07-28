@@ -314,3 +314,9 @@ button.dialogOpen + button.dialogClose {
 .active-link{
     border-bottom: 2px solid black; 
 }
+
+.profile-pic{
+	height: 100px;
+	width: 100px;
+	border-radius: 50%;
+}
