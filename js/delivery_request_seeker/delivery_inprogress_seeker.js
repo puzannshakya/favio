@@ -116,7 +116,7 @@ function calcRoute() {
       estimatedDistance.innerHTML = deliveryRequest.delivery_distance;
       estimatedTime.innerHTML = deliveryRequest.delivery_estimated_time;
       estimatedTotal.innerHTML = deliveryRequest.delivery_total_fee;
-      if (deliveryRequest.totalPrice < 10) {
+      if (deliveryRequest.totalPrice < 6) {
         feeSummary.innerHTML = `<h4>Fee Summary</h4>             
               <ul class="FavioPriceUl"> <li> Base Price       ${deliveryRequest.basePrice} </li>
                                               <li>Minimum Fare       ${deliveryRequest.minimumFare}</li>
