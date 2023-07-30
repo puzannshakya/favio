@@ -4,13 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Favio</title>
-    <link rel="manifest" href="./../app.webmanifest">
+    <link rel="manifest" href="./app.webmanifest">
 
-    <link rel="stylesheet" href="./../css/normalize.css">
+    <link rel="stylesheet" href="./css/normalize.css">
 
-    <link rel="stylesheet" href="./../css/style.css">
+    <link rel="stylesheet" href="./css/style.css">
+   
+    <link rel="stylesheet" href="./css/templates/header.css">
+
+    <link rel="stylesheet" href="./css/templates/gridlayout.css">
+    <link rel="stylesheet" href="./css/offline.css">
+
 </head>
 <body>
-    <h1>Your are offine. Please check your internet connection.</h1>
+    <header>
+        <div class="logo" onclick="navigate_back_home()">
+                <img src="./../../img/Favio.png" alt="Favio">
+        </div>
+
+        <nav class="menu-main">
+            <ul>
+                <li>
+                    <a href="./index.html">
+                        <span class="active visually-hidden-text">Home</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="./pages/history/history.html">
+                        <span class="visually-hidden-text">History</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="./pages/about_us/about_us.html">
+                        <span class="visually-hidden-text">About Us</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="./pages/settings/settings.html">
+                        <span class="visually-hidden-text">Settings</span>
+                    </a>
+                </li>
+
+                <button class="hamburger visually-hidden-hamburger">
+                    <span class="fas fa-bars"></span>
+                </button>
+            </ul>
+        </nav>
+    </header>
+    <h3>You are offline. Please check your internet connection.</h1>
 </body>
 </html>
