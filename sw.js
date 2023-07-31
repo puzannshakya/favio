@@ -1,4 +1,4 @@
-const cacheName = "v1";
+const cacheName = "v3";
 const urlsToCache = ["offline.html"];
 // NEVER cache service worker itself ( i.e. don't include sw.js in above array)
 // MAKE SURE THERE IS NO TYPO in the File names otherwise the cache.addAll fails in install
