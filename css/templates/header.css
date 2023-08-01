@@ -56,7 +56,7 @@ nav.menu-mobile {
     display: grid;
     align-items: center;
 
-    transform: translateX(100%);
+     transform: translateX(100%); 
     transition: all 1s ease-in-out;
 }
 
