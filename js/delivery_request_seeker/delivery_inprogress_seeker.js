@@ -6,6 +6,7 @@ var minimumFare = 5;
 var intervalId;
 var progressTrackingCount = 0;
 let delivery_completed_image_confirmation_flag = false;
+let confirmation_dialog_shown_flag = false;
 
 
 if (userDocId == null) {
@@ -234,11 +235,18 @@ async function getProgressTracking() {
       console.log(deliveryRequest);
       console.log(deliveryRequest.delivery_completed_flag);
       populateCheckboxes();
-      if (deliveryRequest.delivery_completed_flag == true) {
-        clearInterval(intervalId);
-
+      console.log(`confirmation_dialog_shown_flag : ${confirmation_dialog_shown_flag}`);
+      if (confirmation_dialog_shown_flag == false && deliveryRequest.delivery_completed_image_confirmation_flag == false && deliveryRequest.delivery_completed_flag == true) {
+       
+        confirmation_dialog_shown_flag = true;
         let dialogElement = processDeliveryRequest(deliveryRequestId);
         showDialog(dialogElement);
+
+      }
+      if (deliveryRequest.delivery_completed_image_confirmation_flag == true  && deliveryRequest.delivery_completed_flag == true && deliveryRequest.delivery_completed_rider_flag == true) {
+        clearInterval(intervalId);
+
+        window.location.href = "./../../pages/delivery_request_seeker/delivery_request_seeker.html";   
 
       }
       showProgressTracking();
@@ -250,9 +258,9 @@ const populateCheckboxes = () => {
   // const deliveryStart = document.getElementById('deliveryStart')
   const inProgress = document.getElementById('inProgress')
   const deliveryComplete = document.getElementById('deliveryComplete')
-  console.log(deliveryStart);
-  console.log(inProgress);
-  console.log(deliveryComplete);
+  // console.log(deliveryStart);
+  // console.log(inProgress);
+  // console.log(deliveryComplete);
 
   // deliveryStart.checked = deliveryRequest.delivery_confirmation_flag;
   inProgress.checked = deliveryRequest.delivery_inprogress_flag;
@@ -344,7 +352,7 @@ function confirmDeliveryImage() {
     delivery_completed_image_confirmation_flag: true
   })
     .then((docRef) => {
-      clearInterval(intervalId);
+      // clearInterval(intervalId);
       confirmCompletedImage.style.display = "none";
       console.log('delivery_completed_image_confirmation_flag Updated ');
     })

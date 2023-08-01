@@ -377,7 +377,7 @@ async function saveDeliveryRequest() {
       delivery_confirmation_flag:false,
       delivery_inprogress_flag:false,
       delivery_completed_image_confirmation_flag:false,
-      delivery_completed_confirmation_flag: false,
+      delivery_completed_rider_flag : false,
       scheduled_delivery_flag :  scheduled_delivery_flag,
       created_at: new Date().toISOString(),
       seeker_img: img,
