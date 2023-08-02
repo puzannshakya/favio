@@ -7,7 +7,8 @@
     flex-flow: column nowrap;
     justify-content: space-between;
     align-items: center;
-    gap:2rem;
+    gap:3rem;
+    margin: 3rem 2% 3rem 2%;
 }
 
 .favio_supportItems{
@@ -19,6 +20,17 @@
     width:auto;
 }
 
+.favio_supportItems div {
+  margin: 2rem 0 2rem 0;
+}
+
+.favio_supportItems h3 + p {
+  margin: 0;
+}
+
+.favio_supportItems div > span {
+  border-radius: var(--border-radius);
+}
 .favio_supportDiv{
    max-width:50vw;
 }
@@ -26,11 +38,12 @@
 .button {
     background-color: #F5BF20;
     color: black;
-    padding: 10px 20px;
+    padding: 1rem;
     border: none;
-    border-radius: 5px;
+    border-radius: var(--border-radius);
     cursor: pointer;
-    width:50vw;
+    min-width: 50%;
+    max-width:480px;
   }
 
   .favio_supportItems span{
@@ -42,5 +55,8 @@
     .favio_supportItems div p{
         display: none;
         
+    }
+    h3 {
+      font-size: var(--typography-size-hero);
     }
   }
