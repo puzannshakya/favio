@@ -26,10 +26,11 @@ async function getDeliveryDoc() {
       console.log(deliveryRequest);
       from.value = deliveryRequest.origin_name;
       to.value = deliveryRequest.destination_name;
-      document.getElementById('deliveryStart').checked = deliveryRequest.delivery_picked_up_flag;
-      document.getElementById('inProgress').checked = deliveryRequest.delivery_inprogress_flag;
-      document.getElementById('deliveryComplete').checked = deliveryRequest.delivery_completed_flag ;
+      // document.getElementById('deliveryStart').checked = deliveryRequest.delivery_picked_up_flag;
+      // document.getElementById('inProgress').checked = deliveryRequest.delivery_inprogress_flag;
+      // document.getElementById('deliveryComplete').checked = deliveryRequest.delivery_completed_flag ;
       calcRoute();
+      progressTrackingChangeListener();
       if(!deliveryRequest.delivery_completed_image_confirmation_flag){
         setIntervalForProgressTracking();
         }else{
@@ -194,13 +195,121 @@ progressTracking.addEventListener('change', () => {
   }
  
    
-       if(inProgress){
-        if(deliveryComplete){
+      //  if(inProgress){
+      //   if(deliveryComplete){
+      //     openDialog(); 
+      //   }
+      //  }
+
+       if(inProgress && deliveryComplete){
           openDialog(); 
-        }
        }
         
 });
+
+
+function progressTrackingChangeListener(){
+  const allItems = document.querySelectorAll(".pt ul li span");
+  console.log(deliveryRequestId);
+  const docRef = firebase.firestore().collection("delivery_request_tests").doc(deliveryRequestId);
+  let deliveryStart = true;
+  let inProgress = deliveryRequest.delivery_inprogress_flag;
+  let deliveryComplete = deliveryRequest.delivery_completed_flag;
+
+  console.log(deliveryRequest.delivery_inprogress_flag);
+
+  allItems.forEach(item => {
+    if(item.innerText == "In Progress" && deliveryRequest.delivery_inprogress_flag){
+      item.classList.add("active");
+    }
+
+    if(item.innerText == "Delivery Complete" && deliveryRequest.delivery_completed_flag){
+      item.classList.add("active");
+    }
+
+})
+
+  allItems.forEach(item => {
+    if(item.innerText != "Delivery Start"){
+      item.addEventListener("click", function(e){
+        console.log(e.target);
+        e.target.classList.toggle("active")
+        console.log(e.target.classList.value);
+        let delivery_progress = {
+          deliveryStart: deliveryStart,
+          inProgress: inProgress,
+          deliveryComplete: deliveryComplete
+      };
+      console.log(delivery_progress);
+
+      if(e.target.innerText == "In Progress"){
+        if( e.target.classList.value == "active"){
+          inProgress = true;
+        }else{
+          inProgress = false;
+        }
+      }else if (e.target.innerText == "Delivery Complete"){
+        if( e.target.classList.value == "active"){
+          deliveryComplete = true;
+        }else{
+          deliveryComplete = false;
+        }
+      }
+
+        
+
+       
+
+        delivery_progress = {
+          deliveryStart: deliveryStart,
+          inProgress: inProgress,
+          deliveryComplete: deliveryComplete
+      };
+
+       
+      console.log(delivery_progress);
+      if(deliveryComplete)
+      {
+        docRef.update({
+          delivery_progress: delivery_progress,
+          delivery_inprogress_flag:inProgress
+      })
+           .then(() => {
+             console.log("Delivery progress updated successfully.");
+          })
+          .catch((error) => {
+             console.log("Error updating delivery progress: " + error);
+        });
+      }else{
+        docRef.update({
+          delivery_progress: delivery_progress,
+          delivery_completed_flag:deliveryComplete,
+          delivery_inprogress_flag:inProgress
+      })
+           .then(() => {
+            console.log("Delivery progress updated successfully.");
+          })
+          .catch((error) => {
+             console.log("Error updating delivery progress: " + error);
+        });
+      }
+      
+       
+      
+           if(inProgress && deliveryComplete){
+              openDialog(); 
+           }
+
+
+
+    })
+    }
+      
+  })
+
+  
+
+}
 
 
 // Set delivery_completed_flag to false when the page is reloaded
