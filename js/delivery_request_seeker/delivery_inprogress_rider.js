@@ -37,7 +37,7 @@ async function getDeliveryDoc() {
           if(deliveryRequest.delivery_completed_rider_flag ){
             submitButtonDeliveryCompleteRider.style.backgroundColor = "#07B875";
           }else{
-            submitButtonDeliveryCompleteRider.style.backgroundColor = "#F5BF20";
+            submitButtonDeliveryCompleteRider.style.backgroundColor = "#07B875";
           }
           
         }
@@ -594,7 +594,30 @@ function deliveryCompletedFinal(){
   // if(submitButtonDeliveryCompleteRider.style.backgroundColor == 'rgb(7, 184, 117)'){
   //   // window.location.href = './../../pages/delivery_request_seeker/delivery_request_rider.html';
   // }
-  if(document.getElementById('deliveryComplete').checked && submitButtonDeliveryCompleteRider.style.backgroundColor == 'rgb(7, 184, 117)'){
+
+  const allItems = document.querySelectorAll(".pt ul li span");
+  const docRef = firebase.firestore().collection("delivery_request_tests").doc(deliveryRequestId);
+  let deliveryStart = true;
+  let inProgress = false ;
+  let deliveryComplete = false;
+
+  allItems.forEach(item => {
+    console.log(item);
+ 
+    if(item.innerText == "Delivery Complete" ){
+      if(item.classList.value == "active"){
+        deliveryComplete = true;
+      }
+     
+    }
+
+
+})
+
+console.log(deliveryComplete);
+
+
+  if(deliveryComplete && submitButtonDeliveryCompleteRider.style.backgroundColor == 'rgb(7, 184, 117)'){
     firebase.firestore().collection('delivery_request_tests').doc(deliveryRequestId).update({
       delivery_completed_rider_flag :true
     })
