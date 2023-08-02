@@ -195,3 +195,7 @@ button.dialogClose + button.dialogConfirmNow {
 .pt ul li span.active::before{
    background: #07B875;
 }
+
+img#completedImage{
+    max-width: 500px;
+}
