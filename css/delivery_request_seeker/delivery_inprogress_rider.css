@@ -26,24 +26,6 @@
 }
 
 
-/* ========== Button ========== */
-.submit {
-    /* margin-top: 1rem; */
-    border-radius: var(--border-radius);
-    font-weight: bold;
-    padding: 1rem;
-    background-color: var(--color-contrast-dark);
-    border: none;
-    color: white;
-    width: 100%;
-}
-
-.button-confirmation {
-    padding: 2rem;
-    background-color: white;
-    border-top: 1px solid #c4c4c4;
-}
-
 
 /* SNAP PHOTO ========================= */
 #modal {
@@ -134,4 +116,70 @@
 
 img#completedImage{
     max-width: 500px;
+}
+
+
+/* ========== Button ========== */
+
+.main-content {
+    position: relative;
+    padding-bottom: 8rem;
+}
+
+.submit {
+    /* margin-top: 1rem; */
+    border-radius: var(--border-radius);
+    font-weight: bold;
+    padding: 1rem;
+    background-color: var(--color-contrast-dark);
+    border: none;
+    color: white;
+    width: 100%;
+}
+
+.button-confirmation {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding: 2rem;
+    background-color: white;
+    border-top: 1px solid #c4c4c4;
+    border-right: 1px solid var(--color-contrast-grey);
+    background-color: var(--color-contrast-white);
+    z-index: 3;
+
+    box-shadow: 0px 0px 3px #2222221d;
+
+}
+
+
+@media screen and (min-width: 800px) {
+
+    .main-content {
+        position: relative;
+        padding-bottom: 8rem;
+    }
+
+    .submit {
+        /* margin-top: 1rem; */
+        border-radius: var(--border-radius);
+        font-weight: bold;
+        padding: 1rem;
+        background-color: var(--color-contrast-dark);
+        border: none;
+        color: white;
+        width: 100%;
+    }
+
+    .button-confirmation {
+        position: fixed;
+        bottom: 0;
+        width: 50%;
+        padding: 2rem;
+        background-color: white;
+        border-top: 1px solid #c4c4c4;
+        border-right: 1px solid var(--color-contrast-grey);
+        background-color: var(--color-contrast-white);
+        z-index: 3;
+    }
 }
