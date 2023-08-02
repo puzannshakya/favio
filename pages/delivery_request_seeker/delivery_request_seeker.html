@@ -26,14 +26,15 @@
 
 <body>
     <div class="loader">
-        <img src="./../../img/loader.gif" style="width: 100px; height:100px;"alt="">
-      </div>
+        <img src="./../../img/loader.gif" style="width: 100px; height:100px;" alt="">
+    </div>
 
 
     <header>
-        <div class="logo" >
-            <a href="./../delivery_request_seeker/delivery_request_seeker.html"><img src="./../../img/Favio.png" alt="Favio">
-                </a>
+        <div class="logo">
+            <a href="./../delivery_request_seeker/delivery_request_seeker.html"><img src="./../../img/Favio.png"
+                    alt="Favio">
+            </a>
         </div>
 
         <nav class="menu-main">
@@ -150,7 +151,9 @@
                 </div>
 
                 <div class="comments">
-                    <label for="comments"><h4>Notes</h4></label>
+                    <label for="comments">
+                        <h4>Notes</h4>
+                    </label>
 
                     <textarea name="comments" id="comments" rows="5" cols="50" style="resize: none;"
                         placeholder="Add additional instructions"></textarea>
@@ -163,19 +166,18 @@
 
                 </div>
 
-                <div class="button-confirmation">
-
-                    <button class="submit" id="submitButton-complete" onclick="saveDeliveryRequest();">
-                        Complete
-                    </button>
-
-                </div>
-
             </div>
 
             <div id="googleMap" class="map" style="width: 100%">
 
             </div>
+
+        </div>
+        <div class="button-confirmation">
+
+            <button class="submit" id="submitButton-complete" onclick="saveDeliveryRequest();">
+                Complete
+            </button>
 
         </div>
     </main>
