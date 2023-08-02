@@ -155,45 +155,60 @@ function calcRoute() {
 }
 
 function showProgressTracking() {
-  document.getElementById("progressTracking").innerHTML = "";
+  // document.getElementById("progressTracking").innerHTML = "";
 
-  const mainDiv = document.createElement("div");
-  const checkboxLabels = [
-    { id: "deliveryStart", label: "Delivery Start", checked:"true" },
-    { id: "inProgress", label: "In Progress" },
-    { id: "deliveryComplete", label: "Delivery Complete" },
-  ];
+  // const mainDiv = document.createElement("div");
+  // const checkboxLabels = [
+  //   { id: "deliveryStart", label: "Delivery Start", checked:"true" },
+  //   { id: "inProgress", label: "In Progress" },
+  //   { id: "deliveryComplete", label: "Delivery Complete" },
+  // ];
 
-  checkboxLabels.forEach((checkboxLabel) => {
-    const checkboxContainer = document.createElement("div");
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.id = checkboxLabel.id;
-    checkbox.name = checkboxLabel.id;
-    checkbox.value = checkboxLabel.id;
-    checkbox.disabled = true;
-    if(checkboxLabel.id == "deliveryStart"){
-      checkbox.checked = true;
+  // checkboxLabels.forEach((checkboxLabel) => {
+  //   const checkboxContainer = document.createElement("div");
+  //   const checkbox = document.createElement("input");
+  //   checkbox.type = "checkbox";
+  //   checkbox.id = checkboxLabel.id;
+  //   checkbox.name = checkboxLabel.id;
+  //   checkbox.value = checkboxLabel.id;
+  //   checkbox.disabled = true;
+  //   if(checkboxLabel.id == "deliveryStart"){
+  //     checkbox.checked = true;
+  //   }
+  //   const label = document.createElement("label");
+  //   label.htmlFor = checkboxLabel.id;
+  //   label.textContent = checkboxLabel.label;
+  //   const div = document.createElement("div");
+  //   // div.id=checkbox.id;
+  //   div.className ="circle";
+
+  //   checkboxContainer.appendChild(div);
+  //   checkboxContainer.appendChild(checkbox);
+  //   checkboxContainer.appendChild(label);
+  //   checkboxContainer.appendChild(document.createElement("br"));
+  //   mainDiv.appendChild(checkboxContainer);
+  //   mainDiv.className="favio_trackingDiv"
+  // });
+
+
+  // const container = document.getElementById("progressTracking");
+  // container.appendChild(mainDiv);
+  // populateCheckboxes();
+
+  const allItems = document.querySelectorAll(".pt ul li span");
+  console.log(allItems);
+
+  allItems.forEach(item => {
+    if(item.innerText == "In Progress" && deliveryRequest.delivery_inprogress_flag){
+      item.classList.add("active");
     }
-    const label = document.createElement("label");
-    label.htmlFor = checkboxLabel.id;
-    label.textContent = checkboxLabel.label;
-    const div = document.createElement("div");
-    // div.id=checkbox.id;
-    div.className ="circle";
 
-    checkboxContainer.appendChild(div);
-    checkboxContainer.appendChild(checkbox);
-    checkboxContainer.appendChild(label);
-    checkboxContainer.appendChild(document.createElement("br"));
-    mainDiv.appendChild(checkboxContainer);
-    mainDiv.className="favio_trackingDiv"
-  });
+    if(item.innerText == "Delivery Complete" && deliveryRequest.delivery_completed_flag){
+      item.classList.add("active");
+    }
 
+})
 
-  const container = document.getElementById("progressTracking");
-  container.appendChild(mainDiv);
-  populateCheckboxes();
 
 }
 // const docRef = firebase
@@ -234,7 +249,7 @@ async function getProgressTracking() {
       deliveryRequest = doc.data();
       console.log(deliveryRequest);
       console.log(deliveryRequest.delivery_completed_flag);
-      populateCheckboxes();
+      // populateCheckboxes();
       console.log(`confirmation_dialog_shown_flag : ${confirmation_dialog_shown_flag}`);
       if (confirmation_dialog_shown_flag == false && deliveryRequest.delivery_completed_image_confirmation_flag == false && deliveryRequest.delivery_completed_flag == true) {
        
@@ -254,19 +269,19 @@ async function getProgressTracking() {
     });
 }
 
-const populateCheckboxes = () => {
-  // const deliveryStart = document.getElementById('deliveryStart')
-  const inProgress = document.getElementById('inProgress')
-  const deliveryComplete = document.getElementById('deliveryComplete')
-  // console.log(deliveryStart);
-  // console.log(inProgress);
-  // console.log(deliveryComplete);
+// const populateCheckboxes = () => {
+//   // const deliveryStart = document.getElementById('deliveryStart')
+//   const inProgress = document.getElementById('inProgress')
+//   const deliveryComplete = document.getElementById('deliveryComplete')
+//   // console.log(deliveryStart);
+//   // console.log(inProgress);
+//   // console.log(deliveryComplete);
 
-  // deliveryStart.checked = deliveryRequest.delivery_confirmation_flag;
-  inProgress.checked = deliveryRequest.delivery_inprogress_flag;
-  deliveryComplete.checked = deliveryRequest.delivery_completed_flag;
+//   // deliveryStart.checked = deliveryRequest.delivery_confirmation_flag;
+//   inProgress.checked = deliveryRequest.delivery_inprogress_flag;
+//   deliveryComplete.checked = deliveryRequest.delivery_completed_flag;
 
-};
+// };
 
 
 
