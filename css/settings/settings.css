@@ -9,6 +9,10 @@
     align-items: center;
 }
 
+.favio_settingsMainDiv h1 {
+    margin-top: 3rem;
+}
+
 .favio_settingsMainDiv ul{
     width:60vw;
     padding: 0;
