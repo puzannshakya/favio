@@ -74,10 +74,6 @@
 #snap:hover {
     cursor: pointer;
 }
- 
-#completedImage {
-    max-width: 50%;
-}
 
 
 /* ================================ */
@@ -136,3 +132,6 @@
    background: #07B875;
 }
 
+img#completedImage{
+    max-width: 500px;
+}
