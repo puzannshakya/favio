@@ -120,34 +120,29 @@ function calcRoute() {
       estimatedDistance.innerHTML = deliveryRequest.delivery_distance;
       estimatedTime.innerHTML = deliveryRequest.delivery_estimated_time;
       estimatedTotal.innerHTML = deliveryRequest.delivery_total_fee;
-
-      const price = calculatePayment(request.travelMode, deliveryRequest.delivery_distance, deliveryRequest.delivery_estimated_time);
-
-      if (price.totalPrice < 10) {
-        price.totalPrice = price.totalPrice + minimumFare;
-        delivery_total_fee = price.totalPrice;
-        feeSummary.innerHTML = `<h2>Fee Summary</h2>
-              
-              <ul class="FavioPriceUl"> <li> Base Price       ${price.basePrice} </li>
-                                              <li>Minimum Fare       ${minimumFare}</li>
-                                              <li>+ per Km            ${price.distanceMultiplier}</li>
-                                              <li>+ per min           ${price.timeMultiplier}</li>
-                                              <li> Booking Fee        ${bookingFee}</li> 
+      if (deliveryRequest.totalPrice < 6) {
+        feeSummary.innerHTML = `<h4>Fee Summary</h4>             
+              <ul class="FavioPriceUl"> <li> Base Price       ${deliveryRequest.basePrice} </li>
+                                              <li>Minimum Fare       ${deliveryRequest.minimumFare}</li>
+                                              <li>+ per Km            ${deliveryRequest.perKm}</li>
+                                              <li>+ per min           ${deliveryRequest.perMin}</li>
+                                              <li> Booking Fee        ${deliveryRequest.bookingFee}</li> 
                                               </ul>`
       }
       else {
-        delivery_total_fee = price.totalPrice;
-        feeSummary.innerHTML = `<h2>Fee Summary</h2>
+        delivery_total_fee = deliveryRequest.totalPrice;
+        feeSummary.innerHTML = `<h4>Fee Summary</h4>
               
-              <ul class="FavioPriceUl"> <li> Base Price       ${price.basePrice} </li>
-                                              <li>+ per Km            ${price.distanceMultiplier}</li>
-                                              <li>+ per min           ${price.timeMultiplier}</li>
-                                              <li> Booking Fee        ${bookingFee}</li> 
+              <ul class="FavioPriceUl"> <li> Base Price       ${deliveryRequest.basePrice} </li>
+                                              <li>+ per Km            ${deliveryRequest.perKm}</li>
+                                              <li>+ per min           ${deliveryRequest.perMin}</li>
+                                              <li> Booking Fee        ${deliveryRequest.bookingFee}</li> 
                                               </ul>`
 
       }
 
       directionsDisplay.setDirections(result);
+
     } else {
       //delete route from map
       directionsDisplay.setDirections({ routes: [] });
@@ -159,61 +154,6 @@ function calcRoute() {
     }
   });
 }
-
-
-function calculatePayment(travelMode, distance, time) {
-  let distanceMultiplier, timeMultiplier, basePrice;
-
-  switch (travelMode) {
-    case "DRIVING":
-      distanceMultiplier = 0.20;
-      timeMultiplier = 0.08;
-      basePrice = 5;
-      break;
-    case "TRANSIT":
-      distanceMultiplier = 0.50;
-      timeMultiplier = 0.10;
-      basePrice = 4;
-      break;
-    case "BICYCLING":
-      distanceMultiplier = 0.25;
-      timeMultiplier = 0.05;
-      basePrice = 2;
-      break;
-    default:
-      console.log("error");
-      return null; // Or any other suitable error handling mechanism
-  }
-
-  const distancePrice = calculateDistancePrice(distance, distanceMultiplier);
-  const timePrice = calculateTimePrice(time, timeMultiplier);
-  const totalPrice = calculateTotalPrice(distancePrice, timePrice, basePrice, this.bookingFee);
-
-  return {
-    distanceMultiplier: distanceMultiplier,
-    timeMultiplier: timeMultiplier,
-    distancePrice: distancePrice,
-    timePrice: timePrice,
-    totalPrice: totalPrice,
-    basePrice: basePrice
-  };
-
-
-}
-function calculateDistancePrice(distance, distanceMultiplier) {
-  const distanceFloat = parseFloat(distance) * 1.60934;
-  return distanceMultiplier * distanceFloat;
-}
-
-function calculateTimePrice(time, timeMultiplier) {
-  const timeFloat = parseFloat(time);
-  return timeMultiplier * timeFloat;
-}
-
-function calculateTotalPrice(distancePrice, timePrice, basePrice, bookingFee) {
-  return basePrice + distancePrice + timePrice + bookingFee;
-}
-
 
 progressTracking.addEventListener('change', () => {
   console.log(deliveryRequestId);

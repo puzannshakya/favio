@@ -16,6 +16,7 @@
     <script src="https://kit.fontawesome.com/f9397e162d.js" crossorigin="anonymous"></script>
 
     <script src="./../../js/template/navigation.js" defer></script>
+
     <link rel="stylesheet" href="../../css/settings/profile.css">
 
 </head>
@@ -79,8 +80,7 @@
 
         <div class="favio_profilemainDiv">
             <h1>Account Info</h1>
-            <div class="profilePic">
-                <img src="../../img/walk.svg" alt="">
+            <div class="profilePic" id="profilePic">
             </div>
             <div class="profileSettings">
                 <form action="submit-form.php" method="POST">
@@ -114,5 +114,14 @@
         </div>
     </main>
 </body>
+<script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.21.1/firebase-firestore.js"></script>
+
+<!-- firebase files -->
+<script src="./../../js/firebase-config.js"></script>
+<script src="./../../js/settings/profile.js"></script>
+
+<!-- Google Maps -->
 
 </html>

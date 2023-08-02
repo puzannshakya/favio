@@ -187,3 +187,8 @@ nav.menu-mobile a:visited,
 input {
     border: none;
 }
+
+.totalPrice{
+    font-size: var( --typography-size-hero);
+    font-weight: bold;
+}

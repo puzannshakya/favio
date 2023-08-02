@@ -131,7 +131,7 @@ function calcRoute() {
       }
       else {
         delivery_total_fee = deliveryRequest.totalPrice;
-        feeSummary.innerHTML = `<h2>Fee Summary</h2>
+        feeSummary.innerHTML = `<h4>Fee Summary</h4>
               
               <ul class="FavioPriceUl"> <li> Base Price       ${deliveryRequest.basePrice} </li>
                                               <li>+ per Km            ${deliveryRequest.perKm}</li>
