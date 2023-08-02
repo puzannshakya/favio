@@ -269,7 +269,6 @@ function generateContent(
           "default",
           { month: "long" }
         )} ${scheduledDt.getFullYear()}`;
-        scheduledDate.style.border = "1px solid black";
         requestContainer1.appendChild(scheduledDate);
 
         const scheduledTime = document.createElement("p");
@@ -278,7 +277,6 @@ function generateContent(
           minute: "numeric",
           hour12: true,
         });
-        scheduledTime.style.border = "1px solid black";
         requestContainer1.appendChild(scheduledTime);
       }
 
