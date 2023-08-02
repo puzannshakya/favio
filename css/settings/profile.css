@@ -47,3 +47,10 @@ main img{
     border-radius: 50%;
     object-fit:contain;
 }
+
+.favio_SelectVehicle
+{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap:1rem;
+}
