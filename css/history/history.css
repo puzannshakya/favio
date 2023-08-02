@@ -58,6 +58,10 @@ ul {
     cursor: pointer;
 }
 
+.favio_historyListUl li:hover {
+    box-shadow: 0px 0px 0px 2px var(--color-contrast-dark)
+}
+
 .favio_listStyle {
     text-align: center;
     align-items: center;

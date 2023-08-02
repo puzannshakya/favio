@@ -167,6 +167,7 @@ img {
 
 h1 {
     text-align: center;
+    margin-top: 2rem;
 }
 
 .form {
@@ -177,6 +178,7 @@ h1 {
     justify-content: center;
     align-items: center;
     border-radius: 10px;
+    padding: 2%;
 }
 
 .flex-form {
@@ -224,7 +226,7 @@ a {
 
 form>div>p {
     font-size: .7rem;
-    margin: 0;
+    margin: 1rem 0 0 0;
 }
 
 form>div>p>a {
