@@ -74,10 +74,10 @@ function showHistory() {
   historyArray.forEach(history => {
     let formattedDate = getFormattedDate(history.created_at);
     let deliveryProgressRow = deliveryProgress(history.delivery_completed_flag, history.delivery_picked_up_flag);
-
+   let imgTag = `<img class="profile-pic"  src="${history.delivery_picked_up_by == null ? "./../../img/bike.svg" : history.rider_img}">`;
 
     let row = `<ul class="favio_historyListUl">
-        <li class="favio_listStyle"onclick="showdialogAll(${index})"> <p> <a href="#" >${history.delivery_picked_up_by == null ? "Not Picked" : history.delivery_picked_up_by}</a> </p> 
+        <li class="favio_listStyle"onclick="showdialogAll(${index})"> <p> <a href="#" >${imgTag}</a> </p> 
                          <p><a href="#" >${formattedDate}</a> </p>   
                          <p><a class="favio_historyFromTO" href="#" > <span class="favio_historyDistance"> From ${history.origin_name}</span> <span class="favio_historyDistance"> To ${history.destination_name}</span></a> </p>
                          <p><a href="#" id="favio_historyId" class="favio_historyStatus" >${deliveryProgressRow} </a></p>
