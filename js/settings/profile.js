@@ -1,13 +1,31 @@
   let userDocId = sessionStorage.getItem("userDocId");
+  console.log(userDocId)
 
+  getUserData();
   async function getUserData() {
+    await firebase.firestore().collection("users_tests").doc(userDocId).get().then((doc) => {
+      const userDoc = doc.data();
+      console.log(userDoc);
+      console.log(userDoc.user_name);
+      const nameInput = document.getElementById('name');
+      nameInput.value = userDoc.user_name;
+      phone.value = userDoc.phone;
+      email.value = userDoc.email;
+    
+      
+      
+    });;
+    return data.data(); // Assuming the image URL is stored in the `img` field of the document.
+  }
+
+  async function getUserDataa() {
     const data = await firebase.firestore().collection("users_tests").doc(userDocId).get();
     return data.data(); // Assuming the image URL is stored in the `img` field of the document.
   }
 
   async function addImage() {
     try {
-      const userData = await getUserData();
+      const userData = await getUserDataa();
       const imageURL = userData.img || "./../../img/bike.svg"; // Default image URL
       const img = document.createElement("img");
       img.className = "profile-pic";
