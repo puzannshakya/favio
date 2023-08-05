@@ -69,7 +69,7 @@
         </ul>
     </nav>
     <main>
-        
+
         <!-- <div class="favio_AboutUsArrow">
             add icon and add css here
             <a href="javascript:history.back()">
@@ -83,7 +83,7 @@
             <div class="profilePic" id="profilePic">
             </div>
             <div class="profileSettings">
-                <form action="submit-form.php" method="POST">
+                <form id="profileForm" method="POST">
                     <label for="name">Name:</label>
                     <input type="text" id="name" name="name" required>
 
@@ -92,22 +92,43 @@
 
                     <label for="email">Email:</label>
                     <input type="email" id="email" name="email" required>
-                    <div class="favio_SelectVehicle">
-                        <div>
-                            <input type="radio" id="vehicle" name="vehicle" value="Transit" required>
-                            <img src="../../img/bike.svg" alt="">
-                        </div>
-                        <div>
-                            <input type="radio" id="vehicle" name="vehicle" value="Bike or Scooter" required>
-                            <img src="../../img/bike.svg" alt="">
-                        </div>
-                        <div>
-                            <input type="radio" id="vehicle" name="vehicle" value="Car" required>
-                            <img src="../../img/bike.svg" alt="">
+                    <div class="container">
+
+                        <h3>Choose your vehicle using Favio</h3>
+                        <div class="favio_SelectVehicle">
+                            <div class="card">
+                                <input type="radio" id="bike" name="vehicle" value="Bike or Scooter" required>
+                                <label for="bike">
+                                    <img src="https://firebasestorage.googleapis.com/v0/b/favio-6345f.appspot.com/o/illustration%2FVehicle-Scooter.png?alt=media&token=4b3693e6-8f8b-4046-8a69-1eb87c96e42d"
+                                        alt="">
+                                    <p class="vehicle-name">Bikes or Scooters</p>
+                                    <p class="vehicle-weight-capacity">Weight: up to 2kg</p>
+                                    <p class="vehicle-size-capacity">Size: up to 20cm</p>
+                                </label>
+                            </div>
+                            <div class="card">
+                                <input type="radio" id="car" name="vehicle" value="Car" required>
+                                <label for="car">
+                                    <img src="https://firebasestorage.googleapis.com/v0/b/favio-6345f.appspot.com/o/illustration%2FVehicle-Car.png?alt=media&token=77f90ef9-f20a-4f0d-9756-e2b4a64fa087"
+                                        alt="">
+                                    <p class="vehicle-name">Car</p>
+                                    <p class="vehicle-weight-capacity">Weight: up to 30kg</p>
+                                    <p class="vehicle-size-capacity">Size: up to 150cm</p>
+                                </label>
+                            </div>
+                            <div class="card">
+                                <input type="radio" id="transit" name="vehicle" value="Transit" required>
+                                <label for="transit">
+                                    <img src="https://firebasestorage.googleapis.com/v0/b/favio-6345f.appspot.com/o/illustration%2FVehicle-Transit.png?alt=media&token=a5e5a8b1-62ce-40e3-8e26-4526ece901c7"
+                                        alt="">
+                                    <p class="vehicle-name">Transit</p>
+                                    <p class="vehicle-weight-capacity">Weight: up to 2kg</p>
+                                    <p class="vehicle-size-capacity">Size: up to 50cm</p>
+                                </label>
+                            </div>
                         </div>
                     </div>
-                    </select>
-                    <input type="submit" value="Save Changes">
+                    <input type="submit" id ="submit" value="Save Changes">
                 </form>
 
             </div>

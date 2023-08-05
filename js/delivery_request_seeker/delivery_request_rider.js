@@ -489,6 +489,7 @@ function updateRequestSectionVisibility(driverAvailability) {
     requestSection.style.display = "grid";
     googleMap.style.display = "block";
     changeRequest.style.display = "flex";
+    showRequests();
   } else {
     requestSection.style.display = "none";
     googleMap.style.display = "none";

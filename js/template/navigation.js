@@ -12,5 +12,5 @@ btnMain.addEventListener('click', () => {
 
 
 function  navigate_back_home(){
-    window.location.href = sessionStorage.getItem("firsturl");;
+    window.location.href = sessionStorage.getItem("firsturl");
 }

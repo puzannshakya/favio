@@ -2,20 +2,7 @@
   margin: 1rem 0 0 4%;
 }
 
-[type=radio] { 
-    position: absolute;
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-  [type=radio] + img {
-    cursor: pointer;
-  }
-  
-  /* CHECKED STYLES */
-  [type=radio]:checked + img {
-    outline: 2px solid #f00;
-  }
+
 main{
     display: flex;
     flex-flow: column nowrap;
@@ -40,9 +27,9 @@ main{
     
 }
 
-main img{
-    width:80px;
-    height: 80px;
+.profilePic{
+    width: 150px;
+    height: 150px;
     border: 1px solid black;
     border-radius: 50%;
     object-fit:contain;
@@ -54,3 +41,132 @@ main img{
   grid-template-columns: 1fr 1fr 1fr;
   gap:1rem;
 }
+
+[type=radio] + label {
+  cursor: pointer;
+  border: 1px solid black;
+  padding: 1rem;
+  border-radius: 16px;
+  width: 250px;
+  height: 250px;
+  text-align: center;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+}
+
+
+.container h1 {
+  margin: 3rem 2% 3rem 2%;
+}
+
+.favio_SelectVehicle {
+  padding-left: 2%;
+  padding-right: 2%;
+}
+
+/* .favio_SelectVehicle .card {
+    border: 1px solid black;
+    padding: 1rem;
+    border-radius: 16px;
+    width: 300px;
+    height: 300px;
+    text-align: center;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+} */
+
+.favio_SelectVehicle label img {
+  max-width: 50%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.vehicle-name {
+  font-weight: bold;
+}
+
+.favio_SelectVehicle div p + p {
+  margin: 0;
+}
+
+[type=radio] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+[type=radio] + label {
+    cursor: pointer;
+    border: 1px solid black;
+    padding: 1rem;
+    border-radius: 16px;
+    width: 250px;
+    height: 250px;
+    text-align: center;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+}
+
+/* CHECKED STYLES */
+/* [type=radio]:checked + .label {
+    border: 1px solid green; /* Border color for checked state */ 
+/*} */
+  input[type="radio"]:checked + label {
+    box-shadow: 0px 0px 0px 2px var(--color-contrast-dark);
+  }
+
+  /* body{
+    height: 100vh;
+  }
+  .container{
+    height: 100vh;
+  } */
+  button#select-option-driver {
+    display:block;
+    width:60vw;
+    padding:1rem;
+    margin-top: 3rem;
+    border-radius: 8px 8px 8px 8px;
+    background: white;
+    border: var(--color-contrast-grey) 1px solid;
+  }
+  .favio_SelectVehicle{
+    display: flex;
+    flex-flow: column nowrap;
+    gap:2rem;
+  }
+  
+
+
+  
+  .container{
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: space-around;
+    gap:2rem;
+
+  }
+
+  #submit{
+    display: block;
+    border:1px solid var(--color-secondary);
+    border-radius: 8;
+    height: 50px;
+    background-color:var(--color-secondary);
+    margin-bottom:1rem;
+  }
+ 
+  @media only screen and (min-width: 800px) {
+    .favio_SelectVehicle{
+        flex-flow: row ;        
+        justify-content: center;
+        gap:2rem;
+        align-items: center;
+    }
+    
+  }

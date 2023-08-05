@@ -178,8 +178,32 @@ img {
     font-size: 1.6rem;
 }
 
+#reload {
+    /* margin-top: 1rem; */
+    background-color: #07B875;
+    border: none;
+    color: #ffffff;
+    width: 100px;
+    border-radius: 14px;
+    border: 2px solid #222222;
+    padding: 1rem;
+    cursor: pointer;
+}
+
 
 </style>
+
+<script>
+function reload(){
+    const urlFirst = sessionStorage.getItem("firsturl");
+
+    if(urlFirst == null){
+        window.location.href = "./index.html";
+    }else{
+        window.location.href = urlFirst;
+    }
+}
+</script>
 <body>
     <div class="wrapper">
 
@@ -200,6 +224,7 @@ img {
 
             <h1 >YOU ARE OFFLINE</h2>
             <p >Please check your internet connection and reload the page</p>  
+            <button id="reload" onclick="reload();">Reload</button>
         </div>
 
     </div>
