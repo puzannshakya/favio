@@ -138,6 +138,9 @@ function calcRoute() {
       break;
   }
   console.log(travelMode);
+  console.log(document.getElementById("from").value);
+  console.log(document.getElementById("to").value);
+
   var request = {
     origin: document.getElementById("from").value,
     destination: document.getElementById("to").value,
